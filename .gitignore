@@ -1,0 +1,11 @@
+### gradle
+.gradle
+gradle
+build/
+gradlew
+gradlew.bat
+
+### idea
+.idea
+!**/src/main/**/out/
+!**/src/test/**/out/
