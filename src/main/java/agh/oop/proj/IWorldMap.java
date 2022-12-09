@@ -1,11 +1,11 @@
 package agh.oop.proj;
 
 public interface IWorldMap {
-    boolean canMoveTo(MapSquare square);
+    boolean canMoveTo(Vector2d position);
 
-    boolean place(Animal animal);
+    void place(IMapElement animal);
 
-    boolean isOccupied(MapSquare square);
+    boolean isOccupied(Vector2d position);
 
-    Object objectAt(MapSquare square);
+    Object objectAt(Vector2d position);
 }

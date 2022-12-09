@@ -7,18 +7,14 @@ enum SquareType {
 }
 
 public class MapSquare {
-    private final Vector2d position;
     private final SquareType type;
     private boolean grass;
+    private IMapElement object;
 
-    public MapSquare(Vector2d position, SquareType type) {
-        this.position = position;
+    public MapSquare(SquareType type) {
         this.type = type;
         this.grass = false;
-    }
-
-    public Vector2d getPosition() {
-        return position;
+        this.object = null;
     }
 
     public SquareType getType() {
@@ -37,8 +33,15 @@ public class MapSquare {
         grass = false;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(position.x(), position.y());
+    public IMapElement getObject() {
+        return object;
+    }
+
+    public void removeObject() {
+        object = null;
+    }
+
+    public void placeObject(IMapElement object) {
+        this.object = object;
     }
 }

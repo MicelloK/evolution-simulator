@@ -19,4 +19,12 @@ public record Vector2d(int x, int y) {
         }
         return false;
     }
+
+    public boolean precedes(Vector2d other) {
+        return this.x <= other.x && this.y <= other.y;
+    }
+
+    public boolean follows(Vector2d other) {
+        return this.x >= other.x && this.y >= other.y;
+    }
 }
