@@ -3,7 +3,7 @@ package agh.oop.proj;
 import java.util.Random;
 
 //mutacja zmienia gen na dowolny inny gen
-public class FullRandom implements IGenom{
+public class FullRandomGens implements IGenom{
     private final Random randomMachine = new Random();
     private final int numberOfDirection = 7;
     @Override

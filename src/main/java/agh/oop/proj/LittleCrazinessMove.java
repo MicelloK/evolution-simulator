@@ -2,7 +2,7 @@ package agh.oop.proj;
 
 import java.util.Random;
 
-public class LittleCraziness implements IMove{
+public class LittleCrazinessMove implements IMove{
 
     private Random random = new Random();
 
@@ -11,10 +11,10 @@ public class LittleCraziness implements IMove{
         updateActiveGen(animal);
         int numberdirection = animal.getGenotype()[animal.activeGenom];
         for(int i = 0;i <= numberdirection;i++){
-            animal.orientation = animal.orientation.next();
+            animal.setOrientation(animal.getOrientation().next());
         }
-        Vector2d oldPosition = animal.position;
-        animal.position = oldPosition.add(animal.orientation.toUnitVector());
+        Vector2d oldPosition = animal.getPosition();
+        animal.setPosition(oldPosition.add(animal.getOrientation().toUnitVector()));
     }
 
     public void updateActiveGen(Animal animal) {

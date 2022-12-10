@@ -11,9 +11,11 @@ public class Animal implements IMapElement {
     private final int[] genotype;
     private int life = 0;
     private int children = 0;
-    public Vector2d position;
+    private Vector2d position;
     private final IGenom mutation;
-    public MoveDirection orientation;
+    private MoveDirection orientation;
+
+    private int howManyGrassEat = 0;
 
     private final IMove movingAnimal;
     public int activeGenom = 0;
@@ -105,6 +107,7 @@ public class Animal implements IMapElement {
 
     public void increaseEnergy(int energy) {
         this.energy += energy;
+        this.howManyGrassEat++;
     }
 
     public int getEnergy() {
@@ -146,7 +149,16 @@ public class Animal implements IMapElement {
     }
 
     @Override
+    public void setPosition(Vector2d position) {
+        this.position = position;
+    }
+
+    @Override
     public MoveDirection getOrientation() {
         return this.orientation;
+    }
+
+    public void setOrientation(MoveDirection orientation) {
+        this.orientation = orientation;
     }
 }

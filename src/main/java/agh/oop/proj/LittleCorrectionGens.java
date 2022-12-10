@@ -2,7 +2,7 @@ package agh.oop.proj;
 
 import java.util.Random;
 
-public class LittleCorrection implements IGenom{
+public class LittleCorrectionGens implements IGenom{
     private final int[] correct = {-1,1};
     private final Random randomMachine = new Random();
     @Override
