@@ -1,6 +1,7 @@
 package agh.oop.proj;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 enum SquareType {
     JUNGLE, STEPPE
@@ -9,12 +10,14 @@ enum SquareType {
 public class MapSquare {
     private final SquareType type;
     private boolean grass;
-    private IMapElement object;
+    private final List<IMapElement> objects;
+    private int deathCounter;
 
     public MapSquare(SquareType type) {
         this.type = type;
         this.grass = false;
-        this.object = null;
+        this.objects = new ArrayList<>();
+        this.deathCounter = 0;
     }
 
     public SquareType getType() {
@@ -33,15 +36,23 @@ public class MapSquare {
         grass = false;
     }
 
-    public IMapElement getObject() {
-        return object;
+    public void increaseDeathCounter() {
+        deathCounter += 1;
     }
 
-    public void removeObject() {
-        object = null;
+    public int getDeathCounter() {
+        return deathCounter;
+    }
+
+    public List<IMapElement> getObjects() {
+        return objects;
+    }
+
+    public void removeObject(IMapElement object) {
+        objects.remove(object);
     }
 
     public void placeObject(IMapElement object) {
-        this.object = object;
+        objects.add(object);
     }
 }

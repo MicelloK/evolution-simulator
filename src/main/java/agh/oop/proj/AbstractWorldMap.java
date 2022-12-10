@@ -1,15 +1,20 @@
 package agh.oop.proj;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
     private final Map<Vector2d, MapSquare> elements;
+    private int animalsNumber;
+    private int grassNumber;
     private final Vector2d lowerLeft;
     private final Vector2d upperRight;
 
     protected AbstractWorldMap(int width, int height) {
         elements = new HashMap<>();
+        animalsNumber = 0;
+        grassNumber = 0;
         lowerLeft = new Vector2d(0, 0);
         upperRight = new Vector2d(width, height);
         initMap(width, height);
@@ -27,11 +32,9 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
 
     @Override
-    public boolean positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+    public boolean positionChanged(Vector2d oldPosition, Vector2d newPosition, IMapElement object) {
         if (canMoveTo(newPosition)) {
-            IMapElement object = objectAt(oldPosition);
-
-            elements.get(oldPosition).removeObject();
+            elements.get(oldPosition).removeObject(object);
             elements.get(newPosition).placeObject(object);
             return true;
         }
@@ -40,25 +43,63 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return !isOccupied(position) && lowerLeft.follows(position) && upperRight.precedes(position);
+        return lowerLeft.follows(position) && upperRight.precedes(position);
     }
 
     @Override
-    public void place(IMapElement object) {
+    public boolean place(IMapElement object) {
         Vector2d position = object.getPosition();
-        MapSquare square = elements.get(position);
-        square.placeObject(object);
+        elements.get(position).placeObject(object);
+        animalsNumber += 1;
+        return true; //?
+    }
+
+    public boolean deleteObject(IMapElement object) {
+        Vector2d position = object.getPosition();
+        if (elements.get(position).getObjects().contains(object)) {
+            elements.get(position).removeObject(object);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean isOccupied(Vector2d position) {
         MapSquare square = elements.get(position);
-        return square.getObject() != null;
+        return !square.getObjects().isEmpty();
     }
 
     @Override
-    public IMapElement objectAt(Vector2d position) {
+    public List<IMapElement> objectsAt(Vector2d position) {
         MapSquare square = elements.get(position);
-        return square.getObject();
+        return square.getObjects();
+    }
+
+    public boolean addGrass(Vector2d position) {
+        MapSquare square = elements.get(position);
+        if (!square.didGrassGrow()) {
+            square.growGrass();
+            grassNumber += 1;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteGrass(Vector2d position) {
+        MapSquare square = elements.get(position);
+        if (square.didGrassGrow()) {
+            square.eatGrass();
+            grassNumber -= 1;
+            return true;
+        }
+        return false;
+    }
+
+    public int getAnimalsNumber() {
+        return animalsNumber;
+    }
+
+    public int getGrassNumber() {
+        return grassNumber;
     }
 }
