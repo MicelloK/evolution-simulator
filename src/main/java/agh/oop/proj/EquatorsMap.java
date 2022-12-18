@@ -5,8 +5,8 @@ import java.util.*;
 
 public class EquatorsMap extends AbstractWorldMap {
     private final List<Vector2d> preferredPositions = new LinkedList<>();
-    private final List<Vector2d> emptyPreferred = new LinkedList<>();
-    private final List<Vector2d> emptyNotPreferred = new LinkedList<>();
+    private final List<Vector2d> emptyPreferred;
+    private final List<Vector2d> emptyNotPreferred;
     private final int mapSize;
 
     protected EquatorsMap(int width, int height) {
@@ -17,6 +17,8 @@ public class EquatorsMap extends AbstractWorldMap {
 
         initMap(width, height);
         preferredPositions.sort((o1, o2) -> Float.compare(Math.abs(o1.y() - midY), Math.abs(o2.y() - midY)));
+        emptyPreferred = getPreferred();
+        emptyNotPreferred = getNotPreferred();
     }
 
     private void initMap(int width, int height) {
