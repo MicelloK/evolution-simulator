@@ -2,26 +2,17 @@ package agh.oop.proj;
 
 import java.util.ArrayList;
 import java.util.List;
-
-enum SquareType {
-    JUNGLE, STEPPE
-}
+import java.util.Objects;
 
 public class MapSquare {
-    private final SquareType type;
     private boolean grass;
     private final List<IMapElement> objects;
     private int deathCounter;
 
-    public MapSquare(SquareType type) {
-        this.type = type;
+    public MapSquare() {
         this.grass = false;
         this.objects = new ArrayList<>();
         this.deathCounter = 0;
-    }
-
-    public SquareType getType() {
-        return type;
     }
 
     public boolean didGrassGrow() {
@@ -36,7 +27,7 @@ public class MapSquare {
         grass = false;
     }
 
-    public void increaseDeathCounter() {
+    private void increaseDeathCounter() {
         deathCounter += 1;
     }
 
@@ -54,5 +45,10 @@ public class MapSquare {
 
     public void placeObject(IMapElement object) {
         objects.add(object);
+    }
+
+    public void animalDie(IMapElement animal) {
+        removeObject(animal);
+        increaseDeathCounter();
     }
 }

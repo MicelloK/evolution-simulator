@@ -1,5 +1,7 @@
 package agh.oop.proj;
 
+import java.util.Objects;
+
 public record Vector2d(int x, int y) {
     public String toString() {
         return "(" + x + "," + y + ")";
@@ -26,5 +28,10 @@ public record Vector2d(int x, int y) {
 
     public boolean follows(Vector2d other) {
         return this.x >= other.x && this.y >= other.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.x, this.y);
     }
 }
