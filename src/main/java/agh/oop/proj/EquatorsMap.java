@@ -1,11 +1,8 @@
 package agh.oop.proj;
 
-import java.util.*;
-
-
 public class EquatorsMap extends AbstractWorldMap {
-    protected EquatorsMap(int width, int height) {
-        super(width, height);
+    protected EquatorsMap(int width, int height, IMoveAllowed movement) {
+        super(width, height, movement);
 
         float midY = (height - 1) / (float) 2;
 

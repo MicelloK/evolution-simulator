@@ -3,8 +3,8 @@ package agh.oop.proj;
 import java.util.*;
 
 public class CorpsesMap extends AbstractWorldMap {
-    protected CorpsesMap(int width, int height) {
-        super(width, height);
+    protected CorpsesMap(int width, int height, IMoveAllowed movement) {
+        super(width, height, movement);
 
         emptyPreferred = getPreferred();
         emptyNotPreferred = getNotPreferred();

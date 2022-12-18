@@ -8,18 +8,24 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     private int grassNumber;
     private final Vector2d lowerLeft;
     private final Vector2d upperRight;
+    private final IMoveAllowed movementDetails;
+    private final IMove movingAnimal;
+    private final int energyNeededToReproduction;
     protected final List<Vector2d> preferredPositions = new LinkedList<>();
     protected List<Vector2d> emptyPreferred;
     protected List<Vector2d> emptyNotPreferred;
     protected final int mapSize;
 
-    protected AbstractWorldMap(int width, int height) {
+    protected AbstractWorldMap(int width, int height, IMoveAllowed movement, IMove animalMove, int reproductionEnergy) {
         elements = new HashMap<>();
         lowerLeft = new Vector2d(0, 0);
         upperRight = new Vector2d(width, height);
         mapSize = width * height;
         animalsNumber = 0;
         grassNumber = 0;
+        movementDetails = movement;
+        movingAnimal = animalMove;
+        energyNeededToReproduction = reproductionEnergy;
 
         initMap(width, height);
     }
@@ -82,9 +88,21 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         return false;
     }
 
-    @Override // to bedzie zmieinione
+    @Override
     public boolean canMoveTo(Vector2d position) {
-        return lowerLeft.follows(position) && upperRight.precedes(position);
+        return movementDetails.canMoveTo(position, lowerLeft, upperRight);
+    }
+
+    public Vector2d newPosition(Vector2d position) {
+        return movementDetails.newPosition(position, lowerLeft, upperRight);
+    }
+
+    public int moveEnergyLost(Vector2d position) {
+        return movementDetails.lotsEnergy(position, lowerLeft, upperRight, energyNeededToReproduction);
+    }
+
+    public void movingAnimal(Animal animal) {
+        movingAnimal.moving(animal);
     }
 
     @Override
