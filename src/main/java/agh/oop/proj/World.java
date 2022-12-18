@@ -2,6 +2,6 @@ package agh.oop.proj;
 
 public class World {
     public static void main(String[] args) {
-        System.out.println("hello world");
+        EquatorsMap map = new EquatorsMap(3, 3);
     }
 }

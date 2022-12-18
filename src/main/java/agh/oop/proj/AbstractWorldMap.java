@@ -4,19 +4,17 @@ import java.util.*;
 
 abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObserver {
     protected final Map<Vector2d, MapSquare> elements;
-    protected final int grassPerDay;
     private int animalsNumber;
     private int grassNumber;
     private final Vector2d lowerLeft;
     private final Vector2d upperRight;
 
-    protected AbstractWorldMap(int width, int height, int grassPerDay) {
+    protected AbstractWorldMap(int width, int height) {
         elements = new HashMap<>();
+        lowerLeft = new Vector2d(0, 0);
         upperRight = new Vector2d(width, height);
         animalsNumber = 0;
         grassNumber = 0;
-        lowerLeft = new Vector2d(0, 0);
-        this.grassPerDay = grassPerDay;
     }
 
     @Override
@@ -40,7 +38,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         return false;
     }
 
-    @Override
+    @Override // to bedzie zmieinione
     public boolean canMoveTo(Vector2d position) {
         return lowerLeft.follows(position) && upperRight.precedes(position);
     }
@@ -78,17 +76,17 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         return false;
     }
 
-    private void deleteGrass(Vector2d position) {
-        elements.get(position).eatGrass();
-        grassNumber -= 1;
-    }
-
     public int getAnimalsNumber() {
         return animalsNumber;
     }
 
     public int getGrassNumber() {
         return grassNumber;
+    }
+
+    private void deleteGrass(Vector2d position) {
+        elements.get(position).eatGrass();
+        grassNumber -= 1;
     }
 
     private boolean isGrass(Vector2d position) {
