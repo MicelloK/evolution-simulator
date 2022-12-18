@@ -8,13 +8,31 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     private int grassNumber;
     private final Vector2d lowerLeft;
     private final Vector2d upperRight;
+    protected final List<Vector2d> preferredPositions = new LinkedList<>();
+    protected List<Vector2d> emptyPreferred;
+    protected List<Vector2d> emptyNotPreferred;
+    protected final int mapSize;
 
     protected AbstractWorldMap(int width, int height) {
         elements = new HashMap<>();
         lowerLeft = new Vector2d(0, 0);
         upperRight = new Vector2d(width, height);
+        mapSize = width * height;
         animalsNumber = 0;
         grassNumber = 0;
+
+        initMap(width, height);
+    }
+
+    private void initMap(int width, int height) {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                Vector2d position = new Vector2d(i, j);
+                MapSquare square = new MapSquare();
+                elements.put(position, square);
+                preferredPositions.add(position);
+            }
+        }
     }
 
     @Override
@@ -25,6 +43,32 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
             return true;
         }
         return false;
+    }
+
+    protected List<Vector2d> getPreferred() {
+        return preferredPositions.subList(0, (int) Math.round(0.2 * mapSize));
+    }
+
+    protected List<Vector2d> getNotPreferred() {
+        return preferredPositions.subList((int) Math.round(0.2 * mapSize), preferredPositions.size());
+    }
+
+    protected boolean isEmptySquares() {
+        return !emptyPreferred.isEmpty() || !emptyNotPreferred.isEmpty();
+    }
+
+    protected Vector2d drawPosition() {
+        Random random = new Random();
+        int preference = random.nextInt() % 10;
+        Vector2d position;
+
+        if (preference < 2 && !emptyPreferred.isEmpty()) {
+            position = emptyPreferred.get(random.nextInt(emptyPreferred.size()));
+        }
+        else {
+            position = emptyNotPreferred.get(random.nextInt(emptyNotPreferred.size()));
+        }
+        return position;
     }
 
     @Override
@@ -66,14 +110,12 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         return square.getObjects();
     }
 
-    public boolean addGrass(Vector2d position) {
+    private void addGrass(Vector2d position) {
         MapSquare square = elements.get(position);
         if (!square.didGrassGrow()) {
             square.growGrass();
             grassNumber += 1;
-            return true;
         }
-        return false;
     }
 
     public int getAnimalsNumber() {
@@ -99,5 +141,21 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
             return true;
         }
         return false;
+    }
+
+    public void growGrass(int grassPerDay) {
+        for (int i = 0; i < grassPerDay; i++) {
+            if (isEmptySquares()) {
+                Vector2d position = drawPosition();
+                addGrass(position);
+
+                if (emptyPreferred.contains(position)) {
+                    emptyPreferred.remove(position);
+                }
+                else {
+                    emptyNotPreferred.remove(position);
+                }
+            }
+        }
     }
 }
