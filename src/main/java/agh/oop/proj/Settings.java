@@ -1,7 +1,5 @@
 package agh.oop.proj;
 
-import javax.naming.InitialContext;
-import java.io.FileNotFoundException;
 
 public class Settings {
     private final int mapWidth;
@@ -18,7 +16,7 @@ public class Settings {
     private final int genLength;
 
     private AbstractWorldMap map;
-    private IMoveAllowed moveDetails;
+    private IMoveAllowed movementDetails;
     private IMove animalMoving;
     private IGenom mutationVariant;
 
@@ -37,12 +35,12 @@ public class Settings {
         genLength = Integer.parseInt(config[11]);
 
         switch (config[12]) {
-            case "equators" -> map = new EquatorsMap(mapWidth, mapHeight, this);
-            case "corpses" -> map = new CorpsesMap(mapWidth, mapHeight, this);
+            case "equators" -> map = new EquatorsMap(this);
+            case "corpses" -> map = new CorpsesMap(this);
         }
         switch (config[13]) {
-            case "earth" -> moveDetails = new EarthMoveAllowed();
-            case "portal" -> moveDetails = new PortalMoveAllowed();
+            case "earth" -> movementDetails = new EarthMoveAllowed();
+            case "portal" -> movementDetails = new PortalMoveAllowed();
         }
         switch (config[14]) {
             case "predestination" -> animalMoving = new FullPredestinationMove();
@@ -107,8 +105,8 @@ public class Settings {
         return map;
     }
 
-    public IMoveAllowed getMoveDetails() {
-        return moveDetails;
+    public IMoveAllowed getMovementDetails() {
+        return movementDetails;
     }
 
     public IMove getAnimalMoving() {
