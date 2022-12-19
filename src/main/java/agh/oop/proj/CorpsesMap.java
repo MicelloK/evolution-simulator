@@ -1,10 +1,8 @@
 package agh.oop.proj;
 
-import java.util.*;
-
 public class CorpsesMap extends AbstractWorldMap {
-    protected CorpsesMap(Settings settings) {
-        super(settings);
+    protected CorpsesMap(int width, int height, IMoveAllowed movementDetails, int reproductionEnergy) {
+        super(width, height, movementDetails, reproductionEnergy);
 
         emptyPreferred = getPreferred();
         emptyNotPreferred = getNotPreferred();

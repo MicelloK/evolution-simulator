@@ -15,12 +15,12 @@ public class Settings {
     private final int maximalMutationNumber;
     private final int genLength;
 
-    private AbstractWorldMap map;
-    private IMoveAllowed movementDetails;
-    private IMove animalMoving;
-    private IGenom mutationVariant;
+    private final AbstractWorldMap map;
+    private final IMoveAllowed movementDetails;
+    private final IMove animalMoving;
+    private final IGenom mutationVariant;
 
-    public Settings(String[] config) {
+    public Settings(String[] config) throws Exception {
         mapWidth = Integer.parseInt(config[0]);
         mapHeight = Integer.parseInt(config[1]);
         startGrassQuantity = Integer.parseInt(config[2]);
@@ -34,23 +34,26 @@ public class Settings {
         maximalMutationNumber = Integer.parseInt(config[10]);
         genLength = Integer.parseInt(config[11]);
 
-        switch (config[12]) {
-            case "equators" -> map = new EquatorsMap(this);
-            case "corpses" -> map = new CorpsesMap(this);
-        }
         switch (config[13]) {
             case "earth" -> movementDetails = new EarthMoveAllowed();
             case "portal" -> movementDetails = new PortalMoveAllowed();
+            default -> throw new Exception();
         }
         switch (config[14]) {
             case "predestination" -> animalMoving = new FullPredestinationMove();
             case "craziness" -> animalMoving = new LittleCrazinessMove();
+            default -> throw new Exception();
         }
         switch (config[15]) {
             case "correction" -> mutationVariant = new LittleCorrectionGens();
             case "random" -> mutationVariant = new FullRandomGens();
+            default -> throw new Exception();
         }
-
+        switch (config[12]) {
+            case "equators" -> map = new EquatorsMap(mapWidth, mapHeight, movementDetails, reproductionEnergy);
+            case "corpses" -> map = new CorpsesMap(mapWidth, mapHeight, movementDetails, reproductionEnergy);
+            default -> throw new Exception();
+        }
     }
 
     public int getMapWidth() {
