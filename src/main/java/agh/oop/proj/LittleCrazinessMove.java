@@ -9,7 +9,7 @@ public class LittleCrazinessMove implements IMove{
     @Override
     public void moving(Animal animal) {
         updateActiveGen(animal);
-        changerposition(animal);
+        animal.changerposition();
     }
 
     public void updateActiveGen(Animal animal) {
@@ -19,15 +19,5 @@ public class LittleCrazinessMove implements IMove{
         }else{
             animal.setActiveGenom((animal.getActiveGenom() + 1) % animal.getGenotype().length);
         }
-    }
-
-    private void changerposition(Animal animal) {
-        int numberdirection = animal.getGenotype()[animal.getActiveGenom()];
-        for(int i = 0;i <= numberdirection;i++){
-            animal.setOrientation(animal.getOrientation().next());
-        }
-        Vector2d oldPosition = animal.getPosition();
-        animal.setPosition(oldPosition.add(animal.getOrientation().toUnitVector()));
-        animal.positionChanged(oldPosition,animal.getPosition());
     }
 }
