@@ -9,10 +9,10 @@ public class LittleCorrectionGens implements IGenome {
     @Override
     public int[] genomeMutation(int[] genotype) {
         int N = genotype.length;
-        int howMany = randomMachine.nextInt(N + 1); // losuje ile zmieniam
+        int howMany = randomMachine.nextInt(N + 1);
         for (int i = 0; i < howMany; i++) {
-            int whichGenome = randomMachine.nextInt(N); // losuje który zmieniam
-            genotype[whichGenome] = genotype[whichGenome] + correct[randomMachine.nextInt(correct.length)]; // zmieniam wylsowany
+            int whichGenome = randomMachine.nextInt(N);
+            genotype[whichGenome] = genotype[whichGenome] + correct[randomMachine.nextInt(correct.length)];
         }
         return genotype;
     }

@@ -16,7 +16,6 @@ public class Animal implements IMapElement {
     private final Genome genotype;
     private final Settings settings;
 
-    // zwierzak powstający bez podania orientacji i bez rozmnarzania
     public Animal(Vector2d position, Settings settings, int createdDay) {
         this.map = settings.getMap();
         this.position = position;
@@ -29,7 +28,6 @@ public class Animal implements IMapElement {
         map.place(this);
     }
 
-    // rozmnażanie
     public Animal(Animal parentTwo, Animal parentOne, Settings settings, int createdDay) {
         this.settings = settings;
         this.createdDay = createdDay;
@@ -40,10 +38,9 @@ public class Animal implements IMapElement {
         this.genotype = new Genome(parentOne, parentTwo, settings);
         map.place(this);
 
-        //usunięcie energii rodzicą
         parentOne.loseEnergy(settings.getReproductionEnergy());
         parentTwo.loseEnergy(settings.getReproductionEnergy());
-        //dodanie dzieci
+
         parentTwo.newChildren();
         parentOne.newChildren();
         this.energy = settings.getReproductionEnergy() * 2;

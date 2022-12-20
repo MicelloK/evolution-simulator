@@ -22,19 +22,17 @@ public class Genome {
 
         Animal dominant = parentTwo;
         Animal lessDominant = parentOne;
-        // wybranie które ma więcej energi
+
         if (parentOne.getEnergy() > parentTwo.getEnergy()) {
             dominant = parentOne;
             lessDominant = parentTwo;
         }
 
-        // znalezienie ilość genów jednego rodzica i drugiego rodzica
         int cut = dominant.getEnergy() / (dominant.getEnergy() + lessDominant.getEnergy()) * dominant.getGenotype().length;
 
-        // dwie połówki genów
         int[] firstPiece, secondPiece;
-        int n = dominant.getGenotype().length;//długość genotypu
-        // wybieramy i łączymy genomy
+        int n = dominant.getGenotype().length;
+
         if (whichSide == 0) {
             firstPiece = Arrays.copyOfRange(dominant.getGenotype(), 0, cut);
             secondPiece = Arrays.copyOfRange(lessDominant.getGenotype(), cut, n);
@@ -43,7 +41,6 @@ public class Genome {
             secondPiece = Arrays.copyOfRange(lessDominant.getGenotype(), 0, n - cut);
         }
 
-        // połączenie i mutacja
         int[] res = Arrays.copyOf(secondPiece, n);
         System.arraycopy(firstPiece, 0, res, secondPiece.length, firstPiece.length);
         settings.getMutationVariant().genomeMutation(res);

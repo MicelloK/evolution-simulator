@@ -12,7 +12,6 @@ public class LittleCrazinessMove implements IMove {
     }
 
     public void updateActiveGen(Animal animal) {
-        // w 20% przypadków aktywujemy losowy gen
         if (random.nextInt(100) >= 80) {
             animal.setActiveGenome(random.nextInt(animal.getGenotype().length));
         } else {
