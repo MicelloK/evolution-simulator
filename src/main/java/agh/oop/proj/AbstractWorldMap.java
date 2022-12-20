@@ -3,28 +3,29 @@ package agh.oop.proj;
 import java.util.*;
 
 abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObserver {
-
-    private final Settings settings;
     protected final Map<Vector2d, MapSquare> elements;
     private int animalsNumber;
     private int grassNumber;
-    private int mapSize;
+    private final int mapSize;
     private final Vector2d lowerLeft;
     private final Vector2d upperRight;
+    private final IMoveAllowed movementDetails;
+    private final int reproductionEnergy;
     protected final List<Vector2d> preferredPositions = new LinkedList<>();
     protected List<Vector2d> emptyPreferred;
     protected List<Vector2d> emptyNotPreferred;
 
-    protected AbstractWorldMap(Settings simulationSettings) {
-        settings = simulationSettings;
+    protected AbstractWorldMap(int width, int height, IMoveAllowed movementDetails, int reproductionEnergy) {
         elements = new HashMap<>();
-        mapSize = settings.getMapWidth() * settings.getMapHeight();
+        this.movementDetails = movementDetails;
+        this.reproductionEnergy = reproductionEnergy;
+        mapSize = width * height;
         lowerLeft = new Vector2d(0, 0);
-        upperRight = new Vector2d(settings.getMapWidth(), settings.getMapHeight());
+        upperRight = new Vector2d(width, height);
         animalsNumber = 0;
         grassNumber = 0;
 
-        initMap(settings.getMapWidth(), settings.getMapHeight());
+        initMap(width, height);
     }
 
     private void initMap(int width, int height) {
@@ -87,15 +88,15 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return settings.getMovementDetails().canMoveTo(position, lowerLeft, upperRight);
+        return movementDetails.canMoveTo(position, lowerLeft, upperRight);
     }
 
     public Vector2d newPosition(Vector2d position) {
-        return settings.getMovementDetails().newPosition(position, lowerLeft, upperRight);
+        return movementDetails.newPosition(position, lowerLeft, upperRight);
     }
 
     public int moveEnergyLost(Vector2d position) {
-        return settings.getMovementDetails().lotsEnergy(position, lowerLeft, upperRight, settings.getReproductionEnergy());
+        return movementDetails.lotsEnergy(position, lowerLeft, upperRight, reproductionEnergy);
     }
 
     @Override
