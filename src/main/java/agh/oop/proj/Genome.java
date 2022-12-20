@@ -3,28 +3,21 @@ package agh.oop.proj;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Genom{
-    private final int[] animalGenotyp;
-
+public class Genome {
+    private final int[] animalGenotype;
     Random random = new Random();
+    private int activeGenome;
 
-    private int activeGenom;
-
-    private final Settings settings;
-    // Constructors
-    public Genom(Settings settings) {
-        this.settings = settings;
-        int genomLength = settings.getGenLength();
-        this.animalGenotyp = new int[genomLength];
-        for (int i = 0; i < genomLength; i++) {
-            animalGenotyp[i] = random.nextInt(7) + 1;
+    public Genome(Settings settings) {
+        int genomeLength = settings.getGenLength();
+        this.animalGenotype = new int[genomeLength];
+        for (int i = 0; i < genomeLength; i++) {
+            animalGenotype[i] = random.nextInt(7) + 1;
         }
-        this.activeGenom = random.nextInt(genomLength);
+        this.activeGenome = random.nextInt(genomeLength);
     }
 
-    public Genom(Animal parentOne, Animal parentTwo, Settings settings) {
-        this.settings = settings;
-        int bornEnergy = settings.getReproductionEnergy();
+    public Genome(Animal parentOne, Animal parentTwo, Settings settings) {
         int whichSide = (random.nextInt() % 2); //0 - left, 1 - right
 
         Animal dominant = parentTwo;
@@ -36,7 +29,7 @@ public class Genom{
         }
 
         // znalezienie ilość genów jednego rodzica i drugiego rodzica
-        int cut = dominant.getEnergy()/ (dominant.getEnergy() + lessDominant.getEnergy()) * dominant.getGenotype().length;
+        int cut = dominant.getEnergy() / (dominant.getEnergy() + lessDominant.getEnergy()) * dominant.getGenotype().length;
 
         // dwie połówki genów
         int[] firstPiece, secondPiece;
@@ -53,25 +46,24 @@ public class Genom{
         // połączenie i mutacja
         int[] res = Arrays.copyOf(secondPiece, n);
         System.arraycopy(firstPiece, 0, res, secondPiece.length, firstPiece.length);
-        settings.getMutationVariant().genomMutation(res);
-        this.animalGenotyp = res;
+        settings.getMutationVariant().genomeMutation(res);
+        this.animalGenotype = res;
     }
 
-    // Getters
-    public int[] getAnimalGenotyp() {
-        return this.animalGenotyp;
+    public int[] getAnimalGenotype() {
+        return this.animalGenotype;
     }
 
-    public int getActiveGenomAnimal(){
-        return this.activeGenom;
+    public int getActiveGenomeAnimal() {
+        return this.activeGenome;
     }
 
-    public int setActiveGenom(int activeGenom){
-        return this.activeGenom = activeGenom;
+    public void setActiveGenome(int activeGenome) {
+        this.activeGenome = activeGenome;
     }
-    // toString
+
     @Override
     public String toString() {
-        return Arrays.toString(this.animalGenotyp);
+        return Arrays.toString(this.animalGenotype);
     }
 }

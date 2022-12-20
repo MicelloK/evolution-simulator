@@ -1,5 +1,7 @@
 package agh.oop.proj;
 
+import java.util.Random;
+
 public enum MoveDirection {
     NORTH,
     SOUTH,
@@ -8,12 +10,10 @@ public enum MoveDirection {
     NORTH_EAST,
     SOUTH_EAST,
     SOUTH_WEST,
-    NORTH_WEST,
-    GRASS;
+    NORTH_WEST;
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return switch (this) {
             case NORTH -> "N";
             case SOUTH -> "S";
@@ -23,12 +23,10 @@ public enum MoveDirection {
             case SOUTH_EAST -> "SE";
             case SOUTH_WEST -> "SW";
             case NORTH_WEST -> "NW";
-            case GRASS -> "Grass";
         };
     }
 
-    public MoveDirection next()
-    {
+    public MoveDirection next() {
         return switch (this) {
             case NORTH -> NORTH_EAST;
             case NORTH_EAST -> EAST;
@@ -38,27 +36,10 @@ public enum MoveDirection {
             case SOUTH_WEST -> WEST;
             case WEST -> NORTH_WEST;
             case NORTH_WEST -> NORTH;
-            default -> GRASS;
         };
     }
 
-    public MoveDirection previous()
-    {
-        return switch (this) {
-            case NORTH -> NORTH_WEST;
-            case NORTH_WEST -> WEST;
-            case WEST -> SOUTH_WEST;
-            case SOUTH_WEST -> SOUTH;
-            case SOUTH -> SOUTH_EAST;
-            case SOUTH_EAST -> EAST;
-            case EAST -> NORTH_EAST;
-            case NORTH_EAST -> NORTH;
-            default -> GRASS;
-        };
-    }
-
-    public Vector2d toUnitVector()
-    {
+    public Vector2d toUnitVector() {
         return switch (this) {
             case NORTH -> new Vector2d(0, 1);
             case SOUTH -> new Vector2d(0, -1);
@@ -68,8 +49,12 @@ public enum MoveDirection {
             case SOUTH_EAST -> new Vector2d(1, -1);
             case SOUTH_WEST -> new Vector2d(-1, -1);
             case NORTH_WEST -> new Vector2d(-1, 1);
-            default -> null;
         };
     }
 
+    public static MoveDirection randomDirection() {
+        Random random = new Random();
+        MoveDirection[] directions = values();
+        return directions[random.nextInt(directions.length)];
+    }
 }

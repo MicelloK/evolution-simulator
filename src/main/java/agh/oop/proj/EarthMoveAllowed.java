@@ -1,13 +1,12 @@
 package agh.oop.proj;
 
-public class EarthMoveAllowed implements IMoveAllowed{
+public class EarthMoveAllowed implements IMoveAllowed {
     @Override
     public Vector2d newPosition(Vector2d position, Vector2d lowerLeft, Vector2d upperRight) {
         Vector2d newPosition = position;
         if (onRightSide(position, lowerLeft, upperRight)) {
             newPosition = new Vector2d(lowerLeft.x(), position.y());
-        }
-        else if (onLeftSide(position, lowerLeft, upperRight)) {
+        } else if (onLeftSide(position, lowerLeft, upperRight)) {
             newPosition = new Vector2d(upperRight.x(), position.y());
         }
         return newPosition;
@@ -30,5 +29,4 @@ public class EarthMoveAllowed implements IMoveAllowed{
     private boolean onLeftSide(Vector2d position, Vector2d lowerLeft, Vector2d upperRight) {
         return canMoveTo(position, lowerLeft, upperRight) && position.x() < lowerLeft.x();
     }
-
 }
