@@ -6,25 +6,25 @@ import java.util.Random;
 public class Genom{
     private final int[] animalGenotyp;
 
-    private final IWorldMap map;
     Random random = new Random();
 
     private int activeGenom;
 
+    private final Settings settings;
     // Constructors
-    public Genom(int genomLength,IWorldMap map) {
+    public Genom(Settings settings) {
+        this.settings = settings;
+        int genomLength = settings.getGenLength();
         this.animalGenotyp = new int[genomLength];
         for (int i = 0; i < genomLength; i++) {
             animalGenotyp[i] = random.nextInt(7) + 1;
         }
         this.activeGenom = random.nextInt(genomLength);
-        map.genomMutation(animalGenotyp);
-        this.map = map;
     }
 
-    public Genom(Animal parentOne, Animal parentTwo, int bornEenergy, IWorldMap map) {
-        this.map = map;
-
+    public Genom(Animal parentOne, Animal parentTwo, Settings settings) {
+        this.settings = settings;
+        int bornEnergy = settings.getReproductionEnergy();
         int whichSide = (random.nextInt() % 2); //0 - left, 1 - right
 
         Animal dominant = parentTwo;
@@ -53,7 +53,7 @@ public class Genom{
         // połączenie i mutacja
         int[] res = Arrays.copyOf(secondPiece, n);
         System.arraycopy(firstPiece, 0, res, secondPiece.length, firstPiece.length);
-        map.genomMutation(res);
+        settings.getMutationVariant().genomMutation(res);
         this.animalGenotyp = res;
     }
 

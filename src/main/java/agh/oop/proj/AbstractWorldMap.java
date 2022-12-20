@@ -3,6 +3,7 @@ package agh.oop.proj;
 import java.util.*;
 
 abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObserver {
+
     private final Settings settings;
     protected final Map<Vector2d, MapSquare> elements;
     private int animalsNumber;
