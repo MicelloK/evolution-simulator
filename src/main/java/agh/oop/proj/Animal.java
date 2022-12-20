@@ -49,7 +49,6 @@ public class Animal implements IMapElement {
     public void move() {
         this.life++;
         settings.getAnimalMoving().moving(this);
-        this.changerPosition();
 
         if (isDead()) {
             observer.animalDies(this);
