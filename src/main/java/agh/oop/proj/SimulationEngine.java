@@ -1,7 +1,6 @@
 package agh.oop.proj;
 
 import java.util.Random;
-import java.util.Vector;
 
 public class SimulationEngine {
     private final Settings settings;
@@ -86,8 +85,7 @@ public class SimulationEngine {
             Animal firstAnimal = findAlfaAnimal(square);
             Animal secondAnimal = findSecondAlfaAnimal(square);
             if (firstAnimal != null && secondAnimal != null) {
-                // TU BEDA ZMIENIONE ARGUMENTY
-                new Animal(map, firstAnimal, secondAnimal, settings.getMutationVariant(), settings.getReproductionEnergy(), settings.getAnimalMoving());
+                new Animal(firstAnimal, secondAnimal, settings);
             }
         }
     }
@@ -117,7 +115,7 @@ public class SimulationEngine {
     private void initSimulation() {
         for (int i = 0; i < settings.getStartAnimalsQuantity(); i++) {
             // MOZLIWA ZMIANA ARGUMENTOW
-            new Animal(settings, drawPosition());
+            new Animal(drawPosition(), settings);
         }
         map.growGrass(settings.getStartGrassQuantity());
     }
