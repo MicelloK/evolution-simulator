@@ -24,8 +24,8 @@ public class Animal implements IMapElement {
     private final Settings settings;
 
     // zwierzak powstający bez podania orientacji i bez rozmnarzania
-    public Animal(Vector2d position, AbstractWorldMap map, Settings settings) {
-        this.map = map;
+    public Animal(Vector2d position, Settings settings) {
+        this.map = settings.getMap();
         this.position = position;
         this.settings = settings;
         map.place(this);
@@ -35,10 +35,10 @@ public class Animal implements IMapElement {
     }
 
     // rozmnażanie
-    public Animal(Animal parentTwo, Animal parentOne, AbstractWorldMap map, Settings settings) {
+    public Animal(Animal parentTwo, Animal parentOne, Settings settings) {
         this.settings = settings;
         this.orientation = orientations[random.nextInt(orientations.length - 1)];
-        this.map = map;
+        this.map = settings.getMap();
         this.position = parentOne.getPosition();
         this.genotyp = new Genom(parentOne,parentTwo,settings);
         map.place(this);
