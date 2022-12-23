@@ -1,6 +1,5 @@
 package agh.oop.proj;
 
-
 public class Settings {
     private final int mapWidth;
     private final int mapHeight;
@@ -16,9 +15,8 @@ public class Settings {
     private final int genLength;
 
     private final AbstractWorldMap map;
-    private final IMoveAllowed movementDetails;
     private final IMove animalMoving;
-    private final IGenom mutationVariant;
+    private final IGenome mutationVariant;
 
     public Settings(String[] config) throws Exception {
         mapWidth = Integer.parseInt(config[0]);
@@ -34,22 +32,23 @@ public class Settings {
         maximalMutationNumber = Integer.parseInt(config[10]);
         genLength = Integer.parseInt(config[11]);
 
-        switch (config[13]) {
-            case "earth" -> movementDetails = new EarthMoveAllowed();
-            case "portal" -> movementDetails = new PortalMoveAllowed();
-            default -> throw new Exception();
-        }
-        switch (config[14]) {
+        switch (config[12]) {
             case "predestination" -> animalMoving = new FullPredestinationMove();
             case "craziness" -> animalMoving = new LittleCrazinessMove();
             default -> throw new Exception();
         }
-        switch (config[15]) {
+        switch (config[13]) {
             case "correction" -> mutationVariant = new LittleCorrectionGens();
             case "random" -> mutationVariant = new FullRandomGens();
             default -> throw new Exception();
         }
-        switch (config[12]) {
+        IMoveAllowed movementDetails;
+        switch (config[14]) {
+            case "earth" -> movementDetails = new EarthMoveAllowed();
+            case "portal" -> movementDetails = new PortalMoveAllowed();
+            default -> throw new Exception();
+        }
+        switch (config[15]) {
             case "equators" -> map = new EquatorsMap(mapWidth, mapHeight, movementDetails, reproductionEnergy);
             case "corpses" -> map = new CorpsesMap(mapWidth, mapHeight, movementDetails, reproductionEnergy);
             default -> throw new Exception();
@@ -108,15 +107,11 @@ public class Settings {
         return map;
     }
 
-    public IMoveAllowed getMovementDetails() {
-        return movementDetails;
-    }
-
     public IMove getAnimalMoving() {
         return animalMoving;
     }
 
-    public IGenom getMutationVariant() {
+    public IGenome getMutationVariant() {
         return mutationVariant;
     }
 }

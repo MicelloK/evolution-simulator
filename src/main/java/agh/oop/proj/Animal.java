@@ -1,14 +1,9 @@
 package agh.oop.proj;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 public class Animal implements IMapElement {
-
-    private final List<IElementChangeObserver> observers= new LinkedList<>();
-
-    private MoveDirection[] orientations;
+    private final IElementChangeObserver observer;
     private final AbstractWorldMap map;
     private int energy;
     private int life = 0;
@@ -16,56 +11,59 @@ public class Animal implements IMapElement {
     private Vector2d position;
     private MoveDirection orientation;
     private int howManyGrassEat = 0;
-    private int deathDay = 0;
+    private final int createdDay;
     private final Random random = new Random();
-
-    private final Genom genotyp;
-
+    private final Genome genotype;
     private final Settings settings;
 
-    // zwierzak powstający bez podania orientacji i bez rozmnarzania
-    public Animal(Vector2d position, Settings settings) {
+    public Animal(Vector2d position, Settings settings, int createdDay) {
         this.map = settings.getMap();
         this.position = position;
         this.settings = settings;
-        map.place(this);
-        this.genotyp = new Genom(settings);
-        this.orientation = orientations[random.nextInt(orientations.length-1)];
+        this.createdDay = createdDay;
+        this.observer = map;
+        this.genotype = new Genome(settings);
+        this.orientation = MoveDirection.randomDirection();
         this.energy = settings.getStartAnimalEnergy();
+        map.place(this);
     }
 
-    // rozmnażanie
-    public Animal(Animal parentTwo, Animal parentOne, Settings settings) {
+    public Animal(Animal parentTwo, Animal parentOne, Settings settings, int createdDay) {
         this.settings = settings;
-        this.orientation = orientations[random.nextInt(orientations.length - 1)];
+        this.createdDay = createdDay;
+        this.orientation = MoveDirection.randomDirection();
         this.map = settings.getMap();
+        this.observer = map;
         this.position = parentOne.getPosition();
-        this.genotyp = new Genom(parentOne,parentTwo,settings);
+        this.genotype = new Genome(parentOne, parentTwo, settings);
         map.place(this);
-        //usunięcie energii rodzicą
+
         parentOne.loseEnergy(settings.getReproductionEnergy());
         parentTwo.loseEnergy(settings.getReproductionEnergy());
-        //dodanie dzieci
+
         parentTwo.newChildren();
         parentOne.newChildren();
         this.energy = settings.getReproductionEnergy() * 2;
     }
 
-    public void move(MoveDirection direction) {
+    public void move() {
         this.life++;
         settings.getAnimalMoving().moving(this);
-        this.changerposition();
+
+        if (isDead()) {
+            observer.animalDies(this);
+        }
     }
 
-    public void changerposition() {
-        int numberdirection = this.getGenotype()[this.getActiveGenom()];
-        for(int i = 0;i <= numberdirection;i++){
+    public void changerPosition() {
+        int numberDirection = this.getGenotype()[this.getActiveGenome()];
+        for (int i = 0; i <= numberDirection; i++) {
             this.setOrientation(this.getOrientation().next());
         }
         Vector2d oldPosition = this.getPosition();
-        Vector2d newpos = map.newPosition(oldPosition.add(this.getOrientation().toUnitVector()));
-        this.loseEnergy(map.moveEnergyLost(newpos));
-        this.setPosition(newpos);
+        Vector2d newPosition = map.newPosition(oldPosition.add(this.getOrientation().toUnitVector()));
+        this.loseEnergy(map.moveEnergyLost(newPosition));
+        this.setPosition(newPosition);
     }
 
     public void loseEnergy(int energy) {
@@ -74,7 +72,7 @@ public class Animal implements IMapElement {
 
     public void increaseEnergy() {
         this.energy += settings.getEatingGrassEnergy();
-        this.setHowManyEatGrass();
+        this.increaseHowManyEatGrass();
     }
 
     public int getEnergy() {
@@ -85,6 +83,13 @@ public class Animal implements IMapElement {
         return this.life;
     }
 
+    public int getDeathDay() {
+        if (isDead()) {
+            return createdDay + life;
+        }
+        return -1;
+    }
+
     public int getChildren() {
         return this.children;
     }
@@ -93,34 +98,26 @@ public class Animal implements IMapElement {
         this.children++;
     }
 
-    public int[] getGenotype(){
-        return this.genotyp.getAnimalGenotyp();
+    public int[] getGenotype() {
+        return this.genotype.getAnimalGenotype();
     }
 
-    public int getActiveGenom(){
-        return this.genotyp.getActiveGenomAnimal();
+    public int getActiveGenome() {
+        return this.genotype.getActiveGenomeAnimal();
     }
 
 
-
-    public void setActiveGenom(int cuurgen){
-        this.genotyp.setActiveGenom(cuurgen);
+    public void setActiveGenome(int currGen) {
+        this.genotype.setActiveGenome(currGen);
     }
-
 
     @Override
     public boolean isAnimal() {
         return true;
     }
 
-    public boolean isDead(int day) {
-        if (energy <= 0) {
-            this.deathDay = this.life;
-            for(IElementChangeObserver observer: observers)
-                observer.animalDie(this);
-            return true;
-        }
-        return false;
+    public boolean isDead() {
+        return energy <= 0;
     }
 
     @Override
@@ -128,12 +125,9 @@ public class Animal implements IMapElement {
         return this.position;
     }
 
-
     public void setPosition(Vector2d position) {
-
-        this.positionChanged(this.getPosition(),position);
+        this.positionChanged(this.getPosition(), position);
         this.position = position;
-
     }
 
     @Override
@@ -145,23 +139,15 @@ public class Animal implements IMapElement {
         this.orientation = orientation;
     }
 
-    public void addObserver(IElementChangeObserver observer)
-    {
-        this.observers.add(observer);
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        observer.positionChanged(oldPosition, newPosition, this);
     }
 
-
-    public void positionChanged(Vector2d oldPosition, Vector2d newPosition)
-    {
-        for(IElementChangeObserver observer: observers)
-            observer.positionChanged(oldPosition, newPosition,this);
+    public void increaseHowManyEatGrass() {
+        this.howManyGrassEat += 1;
     }
 
-    public void removeObserver(IElementChangeObserver observer) {
-        observers.remove(observer);
-    }
-
-    public void setHowManyEatGrass(){
-        this.howManyGrassEat+=1;
+    public int getHowManyGrassEat() {
+        return howManyGrassEat;
     }
 }

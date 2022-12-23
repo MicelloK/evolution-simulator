@@ -1,9 +1,9 @@
 package agh.oop.proj;
 
-public class FullPredestinationMove implements IMove{
+public class FullPredestinationMove implements IMove {
     @Override
     public void moving(Animal animal) {
-        animal.setActiveGenom((animal.getActiveGenom() + 1) % animal.getGenotype().length);
-        animal.changerposition();
+        animal.setActiveGenome((animal.getActiveGenome() + 1) % animal.getGenotype().length);
+        animal.changerPosition();
     }
 }

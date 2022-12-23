@@ -33,11 +33,9 @@ public class SimulationEngine {
                 }
                 if (currentAnimal.getEnergy() > alfaAnimal.getEnergy()) {
                     alfaAnimal = currentAnimal;
-                }
-                else if (currentAnimal.getLife() > alfaAnimal.getLife()) {
+                } else if (currentAnimal.getLife() > alfaAnimal.getLife()) {
                     alfaAnimal = currentAnimal;
-                }
-                else if (currentAnimal.getChildren() > alfaAnimal.getChildren()) {
+                } else if (currentAnimal.getChildren() > alfaAnimal.getChildren()) {
                     alfaAnimal = currentAnimal;
                 }
             }
@@ -45,8 +43,32 @@ public class SimulationEngine {
         return alfaAnimal;
     }
 
-    private Animal findSecondAlfaAnimal(MapSquare square) {
-        Animal alfa = findAlfaAnimal(square);
+    private Animal findAlfaFullAnimal(MapSquare square) {
+        Animal alfaAnimal = null;
+        for (IMapElement element : square.getObjects()) {
+            if (element.isAnimal()) {
+                Animal currentAnimal = (Animal) element;
+                if (currentAnimal.getEnergy() < settings.getAnimalFullEnergy()) {
+                    continue;
+                }
+                if (alfaAnimal == null) {
+                    alfaAnimal = currentAnimal;
+                }
+
+                if (currentAnimal.getEnergy() > alfaAnimal.getEnergy()) {
+                    alfaAnimal = currentAnimal;
+                } else if (currentAnimal.getLife() > alfaAnimal.getLife()) {
+                    alfaAnimal = currentAnimal;
+                } else if (currentAnimal.getChildren() > alfaAnimal.getChildren()) {
+                    alfaAnimal = currentAnimal;
+                }
+            }
+        }
+        return alfaAnimal;
+    }
+
+    private Animal findSecondAlfaFullAnimal(MapSquare square) {
+        Animal alfa = findAlfaFullAnimal(square);
         Animal secondAlfaAnimal = null;
         for (IMapElement element : square.getObjects()) {
             if (element.isAnimal()) {
@@ -54,14 +76,13 @@ public class SimulationEngine {
                 if (secondAlfaAnimal == null) {
                     secondAlfaAnimal = currentAnimal;
                 }
-                if (!secondAlfaAnimal.equals(alfa)) {
+
+                if (!currentAnimal.equals(alfa) && currentAnimal.getEnergy() >= settings.getAnimalFullEnergy()) {
                     if (currentAnimal.getEnergy() > secondAlfaAnimal.getEnergy()) {
                         secondAlfaAnimal = currentAnimal;
-                    }
-                    else if (currentAnimal.getLife() > secondAlfaAnimal.getLife()) {
+                    } else if (currentAnimal.getLife() > secondAlfaAnimal.getLife()) {
                         secondAlfaAnimal = currentAnimal;
-                    }
-                    else if (currentAnimal.getChildren() > secondAlfaAnimal.getChildren()) {
+                    } else if (currentAnimal.getChildren() > secondAlfaAnimal.getChildren()) {
                         secondAlfaAnimal = currentAnimal;
                     }
                 }
@@ -74,7 +95,7 @@ public class SimulationEngine {
         for (MapSquare square : map.elements.values()) {
             Animal alfaAnimal = findAlfaAnimal(square);
             if (alfaAnimal != null) {
-                alfaAnimal.increaseEnergy(settings.getEatingGrassEnergy());
+                alfaAnimal.increaseEnergy();
                 map.eatGrass(alfaAnimal.getPosition());
             }
         }
@@ -82,10 +103,10 @@ public class SimulationEngine {
 
     private void animalsReproduction() {
         for (MapSquare square : map.elements.values()) {
-            Animal firstAnimal = findAlfaAnimal(square);
-            Animal secondAnimal = findSecondAlfaAnimal(square);
+            Animal firstAnimal = findAlfaFullAnimal(square);
+            Animal secondAnimal = findSecondAlfaFullAnimal(square);
             if (firstAnimal != null && secondAnimal != null) {
-                new Animal(firstAnimal, secondAnimal, settings);
+                new Animal(firstAnimal, secondAnimal, settings, currentDay);
             }
         }
     }
@@ -114,8 +135,7 @@ public class SimulationEngine {
 
     private void initSimulation() {
         for (int i = 0; i < settings.getStartAnimalsQuantity(); i++) {
-            // MOZLIWA ZMIANA ARGUMENTOW
-            new Animal(drawPosition(), settings);
+            new Animal(drawPosition(), settings, currentDay);
         }
         map.growGrass(settings.getStartGrassQuantity());
     }

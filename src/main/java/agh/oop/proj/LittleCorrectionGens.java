@@ -2,16 +2,17 @@ package agh.oop.proj;
 
 import java.util.Random;
 
-public class LittleCorrectionGens implements IGenom{
-    private final int[] correct = {-1,1};
+public class LittleCorrectionGens implements IGenome {
+    private final int[] correct = {-1, 1};
     private final Random randomMachine = new Random();
+
     @Override
-    public int[] genomMutation(int[] genotype) {
+    public int[] genomeMutation(int[] genotype) {
         int N = genotype.length;
-        int howmany = randomMachine.nextInt(N+1);//losuje ile zmieniam
-        for(int i = 0; i < howmany;i++){
-            int whichGenom = randomMachine.nextInt(N);//losuje który zmieniam
-            genotype[whichGenom] =  genotype[whichGenom] + correct[randomMachine.nextInt(correct.length)];//zmieniam wylsowany
+        int howMany = randomMachine.nextInt(N + 1);
+        for (int i = 0; i < howMany; i++) {
+            int whichGenome = randomMachine.nextInt(N);
+            genotype[whichGenome] = genotype[whichGenome] + correct[randomMachine.nextInt(correct.length)];
         }
         return genotype;
     }

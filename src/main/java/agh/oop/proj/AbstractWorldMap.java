@@ -68,15 +68,14 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
 
         if (preference < 2 && !emptyPreferred.isEmpty()) {
             position = emptyPreferred.get(random.nextInt(emptyPreferred.size()));
-        }
-        else {
+        } else {
             position = emptyNotPreferred.get(random.nextInt(emptyNotPreferred.size()));
         }
         return position;
     }
 
     @Override
-    public boolean animalDie(IMapElement animal) {
+    public boolean animalDies(IMapElement animal) {
         Vector2d position = animal.getPosition();
         if (elements.get(position).getObjects().contains(animal)) {
             MapSquare square = elements.get(position);
@@ -110,18 +109,6 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         return false;
     }
 
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        MapSquare square = elements.get(position);
-        return !square.getObjects().isEmpty();
-    }
-
-    @Override
-    public List<IMapElement> objectsAt(Vector2d position) {
-        MapSquare square = elements.get(position);
-        return square.getObjects();
-    }
-
     private void addGrass(Vector2d position) {
         MapSquare square = elements.get(position);
         if (!square.didGrassGrow()) {
@@ -147,12 +134,10 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         return elements.get(position).didGrassGrow();
     }
 
-    public boolean eatGrass(Vector2d position) {
+    public void eatGrass(Vector2d position) {
         if (isGrass(position)) {
             deleteGrass(position);
-            return true;
         }
-        return false;
     }
 
     public void growGrass(int grassPerDay) {
@@ -163,8 +148,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
 
                 if (emptyPreferred.contains(position)) {
                     emptyPreferred.remove(position);
-                }
-                else {
+                } else {
                     emptyNotPreferred.remove(position);
                 }
             }

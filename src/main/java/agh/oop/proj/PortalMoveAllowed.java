@@ -32,8 +32,7 @@ public class PortalMoveAllowed implements IMoveAllowed {
     public int lotsEnergy(Vector2d position, Vector2d lowerLeft, Vector2d upperRight, int energyNeededForReproduction) {
         if (onEdge(position, lowerLeft, upperRight)) {
             return 1 + energyNeededForReproduction;
-        }
-        else {
+        } else {
             return 1;
         }
     }
