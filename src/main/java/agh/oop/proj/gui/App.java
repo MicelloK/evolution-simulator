@@ -3,6 +3,8 @@ package agh.oop.proj.gui;
 import agh.oop.proj.AbstractWorldMap;
 import agh.oop.proj.Settings;
 import agh.oop.proj.SimulationEngine;
+import agh.oop.proj.Vector2d;
+import com.sun.source.doctree.EntityTree;
 import javafx.application.Application;
 
 import javafx.application.Platform;
@@ -30,7 +32,7 @@ public class App extends Application {
     private GridPane gridPane;
 
     private Settings parameters;
-    private final Button startButton = new Button("START");
+    private final Button startButton = new Button("Create Simulation");
     private final Button exitButton = new Button("EXIT");
     private final Button buttonStartStopRight = new Button("START/STOP Right Map");
     private final Button buttonStartStopLeft = new Button("START/STOP Left Map");
@@ -142,7 +144,7 @@ public class App extends Application {
         confirm.setAlignment(Pos.TOP_CENTER);
         border.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        getParametr.setOnAction(actionEvent ->{
+        getParametr.setOnAction(action ->{
             borderNew();
             String[] textFieldValues = new String[16];
             textFieldValues[0] =mapWidth.getText();
@@ -161,8 +163,7 @@ public class App extends Application {
             textFieldValues[14] = (String) animalMoving.getValue();
             textFieldValues[15] = (String) mutationVariant.getValue();
             textFieldValues[12] = (String) mapVariant.getValue();
-
-            border.setCenter(startButton);
+            System.out.println(textFieldValues[12]);
             try {
                 parameters = new Settings(textFieldValues);
             } catch (Exception e) {
@@ -174,12 +175,32 @@ public class App extends Application {
     }
 
     public void startApp(){
-        Thread engineThread = new Thread((Runnable) engine);
-        startButton.setStyle("-fx-background-color: #d79097; ");
+        startButton.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84)");
         border.setCenter(startButton);
-        startButton.setOnAction(action ->{
-            borderNew();
-            updateRightMap();
+        startButton.setOnAction(actionEvent ->{
+            gridPane = new GridPane();
+            for (int i = 0; i < parameters.getMapWidth();i++){
+                this.gridPane.getColumnConstraints().add(new ColumnConstraints(1200/ (3 *parameters.getMapWidth() )));
+            }
+            for (int i = 0; i < parameters.getMapHeight(); i++){
+                this.gridPane.getRowConstraints().add(new RowConstraints(1000/ (3 * parameters.getMapHeight()) ));
+            }
+            gridPane.getChildren().clear();
+            gridPane.setGridLinesVisible(true);
+            gridPane.setPadding(new Insets(10, 10, 10, 10));
+            for (int row = 0; row <= parameters.getMapHeight(); row++) {
+                for (int col = 0; col <= parameters.getMapWidth(); col++) {
+                    StackPane grass = new StackPane();
+                    if(row % 2 == 0) {
+                        grass.setStyle("-fx-background-color: #00b27a");
+                    }else{
+                        grass.setStyle("-fx-background-color: #acb200");
+                    }
+                    gridPane.add(grass, row,col);
+                }
+            }
+            gridPane.setAlignment(Pos.CENTER);
+            border.setCenter(gridPane);
         });
     }
 

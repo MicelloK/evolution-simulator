@@ -24,18 +24,20 @@ public class CreativeMap {
         for (int i = 0; i < engine.getSettings().getMapHeight(); i++){
             this.gridPane.getRowConstraints().add(new RowConstraints(1000/ (3 * engine.getSettings().getMapHeight()) ));
         }
-        updateMap();
+        this.gridPane.setGridLinesVisible(true);
     }
 
     public GridPane getGridPane(){ return this.gridPane;}
 
     private void updateMap(){
+        gridPane.getChildren().clear();
         gridPane.setGridLinesVisible(true);
         coloringMap();
     }
 
     private void coloringMap(){
         Settings sett = engine.getSettings();
+        AbstractWorldMap map = sett.getMap();
 
         for(int i = 0; i <= sett.getMapHeight(); i++ ) {
             for (int j = 0; j <= sett.getMapWidth(); j++) {
