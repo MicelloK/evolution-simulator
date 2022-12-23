@@ -3,6 +3,8 @@ package agh.oop.proj;
 import java.util.Random;
 
 public class SimulationEngine {
+
+
     private final Settings settings;
     private final AbstractWorldMap map;
     private int currentDay;
@@ -131,6 +133,9 @@ public class SimulationEngine {
         }
     }
 
+    public Settings getSettings() {
+        return settings;
+    }
     public int getCurrentDay() {
         return currentDay;
     }

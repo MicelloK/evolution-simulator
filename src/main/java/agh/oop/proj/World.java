@@ -1,7 +1,11 @@
 package agh.oop.proj;
 
+import agh.oop.proj.gui.App;
+import javafx.application.Application;
+
 public class World {
     public static void main(String[] args) {
-        System.out.println("Hi world");
+
+        Application.launch(App.class, args);
     }
 }

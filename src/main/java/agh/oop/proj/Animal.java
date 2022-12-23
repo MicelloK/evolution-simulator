@@ -51,7 +51,7 @@ public class Animal implements IMapElement {
         this.energy = settings.getReproductionEnergy() * 2;
     }
 
-    public void move(MoveDirection direction) {
+    public void move() {
         this.life++;
         settings.getAnimalMoving().moving(this);
         this.changerposition();
@@ -72,7 +72,7 @@ public class Animal implements IMapElement {
         this.energy -= energy;
     }
 
-    public void increaseEnergy() {
+    public void increaseEnergy(int eatingGrassEnergy) {
         this.energy += settings.getEatingGrassEnergy();
         this.setHowManyEatGrass();
     }
@@ -113,7 +113,7 @@ public class Animal implements IMapElement {
         return true;
     }
 
-    public boolean isDead(int day) {
+    public boolean isDead() {
         if (energy <= 0) {
             this.deathDay = this.life;
             for(IElementChangeObserver observer: observers)
