@@ -5,11 +5,13 @@ import java.util.List;
 
 public class MapSquare {
     private boolean grass;
+    private boolean isPreferred;
     private final List<IMapElement> objects;
     private int deathCounter;
 
     public MapSquare() {
         this.grass = false;
+        this.isPreferred = false;
         this.objects = new ArrayList<>();
         this.deathCounter = 0;
     }
@@ -49,5 +51,17 @@ public class MapSquare {
     public void animalDie(IMapElement animal) {
         removeObject(animal);
         increaseDeathCounter();
+    }
+
+    public boolean isPreferred() {
+        return isPreferred;
+    }
+
+    public void makeNotPreferred() {
+        isPreferred = false;
+    }
+
+    public void makePreferred() {
+        isPreferred = true;
     }
 }

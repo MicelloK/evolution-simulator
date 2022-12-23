@@ -41,7 +41,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
 
     @Override
     public boolean positionChanged(Vector2d oldPosition, Vector2d newPosition, IMapElement object) {
-        if (canMoveTo(newPosition)) {
+        if (elements.containsKey(oldPosition) && elements.containsKey(newPosition)) {
             elements.get(oldPosition).removeObject(object);
             elements.get(newPosition).placeObject(object);
             return true;
@@ -49,12 +49,16 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         return false;
     }
 
+    public Map<Vector2d, MapSquare> getElements() {
+        return elements;
+    }
+
     protected List<Vector2d> getPreferred() {
-        return preferredPositions.subList(0, (int) Math.round(0.2 * mapSize));
+        return new LinkedList<>(preferredPositions.subList(0, (int) Math.round(0.2 * mapSize)));
     }
 
     protected List<Vector2d> getNotPreferred() {
-        return preferredPositions.subList((int) Math.round(0.2 * mapSize), preferredPositions.size());
+        return new LinkedList<>(preferredPositions.subList((int) Math.round(0.2 * mapSize), preferredPositions.size()));
     }
 
     protected boolean isEmptySquares() {
@@ -63,13 +67,27 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
 
     protected Vector2d drawPosition() {
         Random random = new Random();
-        int preference = random.nextInt() % 10;
         Vector2d position;
 
-        if (preference < 2 && !emptyPreferred.isEmpty()) {
-            position = emptyPreferred.get(random.nextInt(emptyPreferred.size()));
-        } else {
+        if (emptyPreferred.isEmpty()) {
             position = emptyNotPreferred.get(random.nextInt(emptyNotPreferred.size()));
+            emptyNotPreferred.remove(position);
+            return position;
+        }
+        if (emptyNotPreferred.isEmpty()) {
+            position = emptyPreferred.get(random.nextInt(emptyPreferred.size()));
+            emptyPreferred.remove(position);
+            return position;
+        }
+
+        int preference = random.nextInt(10);
+        if (preference < 2) {
+            position = emptyPreferred.get(random.nextInt(emptyPreferred.size()));
+            emptyPreferred.remove(position);
+        }
+        else  {
+            position = emptyNotPreferred.get(random.nextInt(emptyNotPreferred.size()));
+            emptyNotPreferred.remove(position);
         }
         return position;
     }
@@ -90,8 +108,12 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         return movementDetails.canMoveTo(position, lowerLeft, upperRight);
     }
 
-    public Vector2d newPosition(Vector2d position) {
-        return movementDetails.newPosition(position, lowerLeft, upperRight);
+    public boolean inMap(Vector2d position) {
+        return position.precedes(upperRight) && position.follows(lowerLeft);
+    }
+
+    public Vector2d newPosition(Vector2d oldPosition, Vector2d newPosition) {
+        return movementDetails.newPosition(oldPosition, newPosition, lowerLeft, upperRight);
     }
 
     public int moveEnergyLost(Vector2d position) {
@@ -101,7 +123,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     @Override
     public boolean place(IMapElement object) {
         Vector2d position = object.getPosition();
-        if (canMoveTo(position)) {
+        if (inMap(position)) {
             elements.get(position).placeObject(object);
             animalsNumber += 1;
             return true;
@@ -111,10 +133,8 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
 
     private void addGrass(Vector2d position) {
         MapSquare square = elements.get(position);
-        if (!square.didGrassGrow()) {
-            square.growGrass();
-            grassNumber += 1;
-        }
+        square.growGrass();
+        grassNumber += 1;
     }
 
     public int getAnimalsNumber() {
@@ -137,6 +157,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     public void eatGrass(Vector2d position) {
         if (isGrass(position)) {
             deleteGrass(position);
+
         }
     }
 
@@ -145,13 +166,11 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
             if (isEmptySquares()) {
                 Vector2d position = drawPosition();
                 addGrass(position);
-
-                if (emptyPreferred.contains(position)) {
-                    emptyPreferred.remove(position);
-                } else {
-                    emptyNotPreferred.remove(position);
-                }
             }
         }
     }
+
+//    public String toString() {
+//        return new MapVisualiser(this).draw(lowerLeft, upperRight);
+//    }
 }
