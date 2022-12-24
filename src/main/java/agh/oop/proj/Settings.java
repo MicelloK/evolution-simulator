@@ -35,23 +35,23 @@ public class Settings {
         switch (config[12]) {
             case "predestination" -> animalMoving = new FullPredestinationMove();
             case "craziness" -> animalMoving = new LittleCrazinessMove();
-            default -> throw new Exception("dupq1");
+            default -> throw new Exception("wrong animalMoving configuration");
         }
         switch (config[13]) {
             case "correction" -> mutationVariant = new LittleCorrectionGens();
             case "random" -> mutationVariant = new FullRandomGens();
-            default -> throw new Exception("dupa2");
+            default -> throw new Exception("wrong mutationVariant configuration");
         }
         IMoveAllowed movementDetails = null;
         switch (config[14]) {
             case "earth" -> movementDetails = new EarthMoveAllowed();
             case "portal" -> movementDetails = new PortalMoveAllowed();
-            default -> throw new Exception("dupa3");
+            default -> throw new Exception("wrong movementDetails configuration");
         }
         switch (config[15]) {
             case "equators" -> map = new EquatorsMap(mapWidth, mapHeight, movementDetails, reproductionEnergy);
             case "corpses" -> map = new CorpsesMap(mapWidth, mapHeight, movementDetails, reproductionEnergy);
-            default -> throw new Exception("dupa4");
+            default -> throw new Exception("wrong map configuration");
         }
     }
 

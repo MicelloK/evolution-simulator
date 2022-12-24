@@ -170,7 +170,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         }
     }
 
-//    public String toString() {
-//        return new MapVisualiser(this).draw(lowerLeft, upperRight);
-//    }
+    public String toString() {
+        return new MapVisualiser(this).draw(lowerLeft, upperRight);
+    }
 }

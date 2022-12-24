@@ -14,57 +14,36 @@ public class MapVisualiser {
 
     public String draw(Vector2d lowerLeft, Vector2d upperRight) {
         StringBuilder builder = new StringBuilder();
-        for (int i = upperRight.y() + 1; i >= lowerLeft.y() - 1; i--) {
-            if (i == upperRight.y() + 1) {
-                builder.append(drawHeader(lowerLeft, upperRight));
-            }
+
+        builder.append(" y\\x ");
+        for (int i = lowerLeft.x(); i < upperRight.x(); i++) {
+            builder.append(String.format("%2d", i));
+        }
+        builder.append(System.lineSeparator());
+
+        for (int i = lowerLeft.y(); i < upperRight.y(); i++) {
             builder.append(String.format("%3d: ", i));
-            for (int j = lowerLeft.x(); j <= upperRight.x() + 1; j++) {
-                if (i < lowerLeft.y() || i > upperRight.y()) {
-                    builder.append(drawFrame(j <= upperRight.x()));
+            for (int j = lowerLeft.x(); j < upperRight.x(); j++) {
+                Vector2d vec = new Vector2d(j, i);
+                MapSquare square = map.elements.get(vec);
+                if (square == null) {
+                    System.out.println("square null");
                 } else {
                     builder.append(CELL_SEGMENT);
-                    if (j <= upperRight.x()) {
-                        builder.append(drawObject(new Vector2d(j, i)));
+                    if (!square.getObjects().isEmpty()) {
+                        builder.append(square.getObjects().size());
+                    } else if (square.didGrassGrow()) {
+                        builder.append(GRASS_CELL);
+                    } else if (map.getPreferred().contains(vec)) {
+                        builder.append(PREFERRED_CELL);
+                    } else {
+                        builder.append(EMPTY_CELL);
                     }
                 }
             }
+            builder.append(CELL_SEGMENT);
             builder.append(System.lineSeparator());
         }
         return builder.toString();
-    }
-
-    private String drawFrame(boolean innerSegment) {
-        if (innerSegment) {
-            return FRAME_SEGMENT + FRAME_SEGMENT;
-        } else {
-            return FRAME_SEGMENT;
-        }
-    }
-
-    private String drawHeader(Vector2d lowerLeft, Vector2d upperRight) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(" y\\x ");
-        for (int j = lowerLeft.x(); j < upperRight.x() + 1; j++) {
-            builder.append(String.format("%2d", j));
-        }
-        builder.append(System.lineSeparator());
-        return builder.toString();
-    }
-
-    private String drawObject(Vector2d currentPosition) {
-        String result;
-        MapSquare square = map.getElements().get(currentPosition);
-        if (!square.getObjects().isEmpty()) {
-            result = String.valueOf(square.getObjects().size());
-        }
-        else if (square.didGrassGrow()) {
-            result = GRASS_CELL;
-        } else if (map.getPreferred().contains(currentPosition)) {
-            result = PREFERRED_CELL;
-        } else {
-            result = EMPTY_CELL;
-        }
-        return result;
     }
 }

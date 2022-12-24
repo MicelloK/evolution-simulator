@@ -150,14 +150,25 @@ public class SimulationEngine {
 
     public void run() {
         initSimulation();
+        System.out.println(settings.getMap().toString());
+        System.out.println("start simulation:");
         while (isSimulationNotOver()) {
-//            System.out.println(settings.getMap().toString());
             currentDay += 1;
             moveAnimals();
 //            eatGrass();
-//            animalsReproduction();
+            animalsReproduction();
             growGrass();
             System.out.println(currentDay);
+            System.out.println(settings.getMap().toString());
+
+            //-------------------
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            //--------------------
+
         }
     }
 
