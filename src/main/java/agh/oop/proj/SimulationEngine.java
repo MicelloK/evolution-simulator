@@ -1,11 +1,14 @@
 package agh.oop.proj;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 public class SimulationEngine {
     private final Settings settings;
     private final AbstractWorldMap map;
     private int currentDay;
+    private final List<Animal> animals = new LinkedList<>();
 
     public SimulationEngine(Settings settings) {
         this.settings = settings;
@@ -14,12 +17,16 @@ public class SimulationEngine {
     }
 
     private void moveAnimals() {
+        List<Animal> animals = new LinkedList<>();
         for (MapSquare square : map.elements.values()) {
             for (IMapElement element : square.getObjects()) {
                 if (element.isAnimal()) {
-                    ((Animal) element).move();
+                    animals.add(((Animal) element));
                 }
             }
+        }
+        for (Animal animal : animals) {
+            animal.move();
         }
     }
 
@@ -128,26 +135,40 @@ public class SimulationEngine {
 
     private Vector2d drawPosition() {
         Random random = new Random();
-        int x = random.nextInt() % settings.getMapWidth();
-        int y = random.nextInt() % settings.getMapHeight();
+        int x = random.nextInt(settings.getMapWidth());
+        int y = random.nextInt(settings.getMapHeight());
         return new Vector2d(x, y);
     }
 
     private void initSimulation() {
         for (int i = 0; i < settings.getStartAnimalsQuantity(); i++) {
-            new Animal(drawPosition(), settings, currentDay);
+            Animal animal = new Animal(drawPosition(), settings, currentDay);
+            animals.add(animal);
         }
         map.growGrass(settings.getStartGrassQuantity());
     }
 
     public void run() {
         initSimulation();
+        System.out.println(settings.getMap().toString());
+        System.out.println("start simulation:");
         while (isSimulationNotOver()) {
             currentDay += 1;
             moveAnimals();
-            eatGrass();
+//            eatGrass();
             animalsReproduction();
             growGrass();
+            System.out.println(currentDay);
+            System.out.println(settings.getMap().toString());
+
+            //-------------------
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            //--------------------
+
         }
     }
 

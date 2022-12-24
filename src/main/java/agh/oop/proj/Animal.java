@@ -12,7 +12,6 @@ public class Animal implements IMapElement {
     private MoveDirection orientation;
     private int howManyGrassEat = 0;
     private final int createdDay;
-    private final Random random = new Random();
     private final Genome genotype;
     private final Settings settings;
 
@@ -58,10 +57,10 @@ public class Animal implements IMapElement {
     public void changerPosition() {
         int numberDirection = this.getGenotype()[this.getActiveGenome()];
         for (int i = 0; i <= numberDirection; i++) {
-            this.setOrientation(this.getOrientation().next());
+            orientation = orientation.next();
         }
-        Vector2d oldPosition = this.getPosition();
-        Vector2d newPosition = map.newPosition(oldPosition.add(this.getOrientation().toUnitVector()));
+        Vector2d oldPosition = this.position;
+        Vector2d newPosition = map.newPosition(oldPosition, oldPosition.add(getOrientation().toUnitVector()));
         this.loseEnergy(map.moveEnergyLost(newPosition));
         this.setPosition(newPosition);
     }
@@ -106,7 +105,6 @@ public class Animal implements IMapElement {
         return this.genotype.getActiveGenomeAnimal();
     }
 
-
     public void setActiveGenome(int currGen) {
         this.genotype.setActiveGenome(currGen);
     }
@@ -125,9 +123,9 @@ public class Animal implements IMapElement {
         return this.position;
     }
 
-    public void setPosition(Vector2d position) {
-        this.positionChanged(this.getPosition(), position);
-        this.position = position;
+    public void setPosition(Vector2d newPosition) {
+        this.positionChanged(this.getPosition(), newPosition);
+        this.position = newPosition;
     }
 
     @Override

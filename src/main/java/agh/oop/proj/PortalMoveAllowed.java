@@ -4,12 +4,11 @@ import java.util.Random;
 
 public class PortalMoveAllowed implements IMoveAllowed {
     @Override
-    public Vector2d newPosition(Vector2d position, Vector2d lowerLeft, Vector2d upperRight) {
-        Vector2d newPosition = position;
-        if (onEdge(position, lowerLeft, upperRight)) {
-            newPosition = drawNewPosition(upperRight);
+    public Vector2d newPosition(Vector2d oldPosition, Vector2d newPosition, Vector2d lowerLeft, Vector2d upperRight) {
+        if (onEdge(oldPosition, lowerLeft, upperRight)) {
+            return drawNewPosition(upperRight);
         }
-        return newPosition;
+        return oldPosition;
     }
 
     private Vector2d drawNewPosition(Vector2d upperRight) {
