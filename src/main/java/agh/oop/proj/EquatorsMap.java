@@ -10,4 +10,14 @@ public class EquatorsMap extends AbstractWorldMap {
         emptyPreferred = getPreferred();
         emptyNotPreferred = getNotPreferred();
     }
+
+    @Override
+    void updatePreferredPositions() {
+
+    }
+
+    @Override
+    void updateEmptyPositions() {
+
+    }
 }

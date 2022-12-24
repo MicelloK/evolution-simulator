@@ -44,6 +44,15 @@ public class MapVisualiser {
             builder.append(CELL_SEGMENT);
             builder.append(System.lineSeparator());
         }
+
+        //-------------------
+        try {
+            Thread.sleep(800);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        //--------------------
+
         return builder.toString();
     }
 }

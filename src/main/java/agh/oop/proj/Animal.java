@@ -1,7 +1,5 @@
 package agh.oop.proj;
 
-import java.util.Random;
-
 public class Animal implements IMapElement {
     private final IElementChangeObserver observer;
     private final AbstractWorldMap map;
