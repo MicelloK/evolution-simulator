@@ -6,15 +6,15 @@ public class CorpsesMap extends AbstractWorldMap {
 
         emptyPreferred = getPreferred();
         emptyNotPreferred = getNotPreferred();
-        updatePreferredPosition();
+        updatePreferredPositions(); // zamiast tego shuffle
     }
 
-    private void updatePreferredPosition() {
+    protected void updatePreferredPositions() {
         preferredPositions.sort((o1, o2) -> Integer.compare(elements.get(o1).getDeathCounter(), elements.get(o2).getDeathCounter()));
         updateEmptyPositions();
     }
 
-    private void updateEmptyPositions() {
+    protected void updateEmptyPositions() {
         for (Vector2d position : getPreferred()) {
             if (emptyNotPreferred.contains(position)) {
                 emptyNotPreferred.remove(position);

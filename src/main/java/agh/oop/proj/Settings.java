@@ -42,7 +42,7 @@ public class Settings {
             case "random" -> mutationVariant = new FullRandomGens();
             default -> throw new Exception("wrong mutationVariant configuration");
         }
-        IMoveAllowed movementDetails = null;
+        IMoveAllowed movementDetails;
         switch (config[14]) {
             case "earth" -> movementDetails = new EarthMoveAllowed();
             case "portal" -> movementDetails = new PortalMoveAllowed();

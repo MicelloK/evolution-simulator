@@ -49,15 +49,17 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         return false;
     }
 
-    public Map<Vector2d, MapSquare> getElements() {
-        return elements;
-    }
+    abstract void updatePreferredPositions();
+
+    abstract void updateEmptyPositions();
 
     protected List<Vector2d> getPreferred() {
+        updatePreferredPositions();
         return new LinkedList<>(preferredPositions.subList(0, (int) Math.round(0.2 * mapSize)));
     }
 
     protected List<Vector2d> getNotPreferred() {
+        updatePreferredPositions();
         return new LinkedList<>(preferredPositions.subList((int) Math.round(0.2 * mapSize), preferredPositions.size()));
     }
 
@@ -80,8 +82,8 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
             return position;
         }
 
-        int preference = random.nextInt(10);
-        if (preference < 2) {
+        int preference = random.nextInt(100);
+        if (preference >= 20) {
             position = emptyPreferred.get(random.nextInt(emptyPreferred.size()));
             emptyPreferred.remove(position);
         }
@@ -148,6 +150,13 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     private void deleteGrass(Vector2d position) {
         elements.get(position).eatGrass();
         grassNumber -= 1;
+
+        if (getPreferred().contains(position)) {
+            emptyPreferred.add(position);
+        }
+        else {
+            emptyNotPreferred.add(position);
+        }
     }
 
     private boolean isGrass(Vector2d position) {
@@ -157,7 +166,6 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     public void eatGrass(Vector2d position) {
         if (isGrass(position)) {
             deleteGrass(position);
-
         }
     }
 

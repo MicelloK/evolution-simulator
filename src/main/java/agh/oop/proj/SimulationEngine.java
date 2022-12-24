@@ -75,6 +75,8 @@ public class SimulationEngine {
     }
 
     private Animal findSecondAlfaFullAnimal(MapSquare square) {
+        if (square.getObjects().size() < 2) return null;
+
         Animal alfa = findAlfaFullAnimal(square);
         Animal secondAlfaAnimal = null;
         for (IMapElement element : square.getObjects()) {
@@ -155,20 +157,11 @@ public class SimulationEngine {
         while (isSimulationNotOver()) {
             currentDay += 1;
             moveAnimals();
-//            eatGrass();
+            eatGrass();
             animalsReproduction();
             growGrass();
-            System.out.println(currentDay);
-            System.out.println(settings.getMap().toString());
 
-            //-------------------
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            //--------------------
-
+            System.out.println(settings.getMap().toString()); // visualization
         }
     }
 
