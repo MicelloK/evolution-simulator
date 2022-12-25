@@ -69,7 +69,7 @@ public class Animal implements IMapElement {
 
     public void increaseEnergy() {
         this.energy += settings.getEatingGrassEnergy();
-        this.increaseHowManyEatGrass();
+        howManyGrassEat += 1;
     }
 
     public int getEnergy() {
@@ -139,9 +139,6 @@ public class Animal implements IMapElement {
         observer.positionChanged(oldPosition, newPosition, this);
     }
 
-    public void increaseHowManyEatGrass() {
-        this.howManyGrassEat += 1;
-    }
 
     public int getHowManyGrassEat() {
         return howManyGrassEat;
