@@ -6,7 +6,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     protected final Map<Vector2d, MapSquare> elements;
     private int animalsNumber;
     private int grassNumber;
-    private final int mapSize;
+    protected final int mapSize;
     private final Vector2d lowerLeft;
     private final Vector2d upperRight;
     private final IMoveAllowed movementDetails;
@@ -51,15 +51,12 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
 
     abstract void updatePreferredPositions();
 
-    abstract void updateEmptyPositions();
 
     protected List<Vector2d> getPreferred() {
-        updatePreferredPositions();
         return new LinkedList<>(preferredPositions.subList(0, (int) Math.round(0.2 * mapSize)));
     }
 
     protected List<Vector2d> getNotPreferred() {
-        updatePreferredPositions();
         return new LinkedList<>(preferredPositions.subList((int) Math.round(0.2 * mapSize), preferredPositions.size()));
     }
 

@@ -5,17 +5,18 @@ import java.util.Random;
 public class PortalMoveAllowed implements IMoveAllowed {
     @Override
     public Vector2d newPosition(Vector2d oldPosition, Vector2d newPosition, Vector2d lowerLeft, Vector2d upperRight) {
-        if (onEdge(oldPosition, lowerLeft, upperRight)) {
+        if (onEdge(newPosition, lowerLeft, upperRight)) {
             return drawNewPosition(upperRight);
         }
-        return oldPosition;
+        return newPosition;
     }
 
     private Vector2d drawNewPosition(Vector2d upperRight) {
-        int x = upperRight.x();
-        int y = upperRight.y();
         Random random = new Random();
-        return new Vector2d(random.nextInt(x), random.nextInt(y));
+        int x = random.nextInt(upperRight.x());
+        int y = random.nextInt(upperRight.y());
+
+        return new Vector2d(x, y);
     }
 
     @Override

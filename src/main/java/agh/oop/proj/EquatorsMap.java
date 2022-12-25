@@ -15,9 +15,4 @@ public class EquatorsMap extends AbstractWorldMap {
     void updatePreferredPositions() {
 
     }
-
-    @Override
-    void updateEmptyPositions() {
-
-    }
 }

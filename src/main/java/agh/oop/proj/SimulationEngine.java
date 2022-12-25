@@ -103,7 +103,7 @@ public class SimulationEngine {
     private void eatGrass() {
         for (MapSquare square : map.elements.values()) {
             Animal alfaAnimal = findAlfaAnimal(square);
-            if (alfaAnimal != null) {
+            if (square.didGrassGrow() && alfaAnimal != null) {
                 alfaAnimal.increaseEnergy();
                 map.eatGrass(alfaAnimal.getPosition());
             }
@@ -156,6 +156,7 @@ public class SimulationEngine {
         System.out.println("start simulation:");
         while (isSimulationNotOver()) {
             currentDay += 1;
+            settings.getMap().updatePreferredPositions();
             moveAnimals();
             eatGrass();
             animalsReproduction();
