@@ -5,15 +5,20 @@ import java.util.List;
 import java.util.Random;
 
 public class SimulationEngine {
+
+
     private final Settings settings;
     private final AbstractWorldMap map;
     private int currentDay;
     private final List<Animal> animals = new LinkedList<>();
 
+    private boolean active = false;
+
     public SimulationEngine(Settings settings) {
         this.settings = settings;
         map = settings.getMap();
         currentDay = 0;
+        this.active = true;
     }
 
     private void moveAnimals() {
@@ -142,7 +147,7 @@ public class SimulationEngine {
         return new Vector2d(x, y);
     }
 
-    private void initSimulation() {
+    public void initSimulation() {
         for (int i = 0; i < settings.getStartAnimalsQuantity(); i++) {
             Animal animal = new Animal(drawPosition(), settings, currentDay);
             animals.add(animal);
@@ -166,7 +171,14 @@ public class SimulationEngine {
         }
     }
 
+    public Settings getSettings() {
+        return settings;
+    }
     public int getCurrentDay() {
         return currentDay;
+    }
+
+    public void changeStatus(){
+        this.active = !this.active;
     }
 }

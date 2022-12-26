@@ -15,6 +15,10 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     protected List<Vector2d> emptyPreferred;
     protected List<Vector2d> emptyNotPreferred;
 
+    protected ArrayList<IMapElement> animalsList = new ArrayList<>();
+
+    protected ArrayList<IMapElement> grassList = new ArrayList<>();
+
     protected AbstractWorldMap(int width, int height, IMoveAllowed movementDetails, int reproductionEnergy) {
         elements = new HashMap<>();
         this.movementDetails = movementDetails;
@@ -97,6 +101,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         if (elements.get(position).getObjects().contains(animal)) {
             MapSquare square = elements.get(position);
             square.animalDie(animal);
+            animalsList.remove(animal);
             return true;
         }
         return false;
@@ -125,6 +130,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         if (inMap(position)) {
             elements.get(position).placeObject(object);
             animalsNumber += 1;
+            animalsList.add(object);
             return true;
         }
         return false;

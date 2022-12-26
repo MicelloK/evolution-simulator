@@ -131,6 +131,11 @@ public class Animal implements IMapElement {
         return this.orientation;
     }
 
+    @Override
+    public int getImage() {
+        return random.nextInt(5) +1;
+    }
+
     public void setOrientation(MoveDirection orientation) {
         this.orientation = orientation;
     }

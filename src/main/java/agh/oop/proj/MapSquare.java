@@ -5,7 +5,7 @@ import java.util.List;
 
 public class MapSquare {
     private boolean grass;
-    private final List<IMapElement> objects;
+    private final ArrayList<IMapElement> objects;
     private int deathCounter;
 
     public MapSquare() {

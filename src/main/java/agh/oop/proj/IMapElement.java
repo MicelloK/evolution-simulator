@@ -7,4 +7,6 @@ public interface IMapElement {
     Vector2d getPosition();
 
     MoveDirection getOrientation();
+
+    int getImage();
 }
