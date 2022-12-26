@@ -7,8 +7,6 @@ import java.util.Random;
 public class Animal implements IMapElement {
 
     private final List<IElementChangeObserver> observers= new LinkedList<>();
-
-    private MoveDirection[] orientations;
     private final AbstractWorldMap map;
     private int energy;
     private int life = 0;
@@ -30,14 +28,14 @@ public class Animal implements IMapElement {
         this.settings = settings;
         map.place(this);
         this.genotyp = new Genom(settings);
-        this.orientation = orientations[random.nextInt(orientations.length-1)];
+        this.orientation = MoveDirection.getRandomOrientation();
         this.energy = settings.getStartAnimalEnergy();
     }
 
     // rozmnażanie
     public Animal(Animal parentTwo, Animal parentOne, Settings settings) {
         this.settings = settings;
-        this.orientation = orientations[random.nextInt(orientations.length - 1)];
+        this.orientation = MoveDirection.getRandomOrientation();
         this.map = settings.getMap();
         this.position = parentOne.getPosition();
         this.genotyp = new Genom(parentOne,parentTwo,settings);
@@ -139,6 +137,11 @@ public class Animal implements IMapElement {
     @Override
     public MoveDirection getOrientation() {
         return this.orientation;
+    }
+
+    @Override
+    public int getImage() {
+        return random.nextInt(5) +1;
     }
 
     public void setOrientation(MoveDirection orientation) {

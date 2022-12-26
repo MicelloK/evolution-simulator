@@ -9,10 +9,13 @@ public class SimulationEngine {
     private final AbstractWorldMap map;
     private int currentDay;
 
+    private boolean active = false;
+
     public SimulationEngine(Settings settings) {
         this.settings = settings;
         map = settings.getMap();
         currentDay = 0;
+        this.active = true;
     }
 
     private void moveAnimals() {
@@ -114,7 +117,7 @@ public class SimulationEngine {
         return new Vector2d(x, y);
     }
 
-    private void initSimulation() {
+    public void initSimulation() {
         for (int i = 0; i < settings.getStartAnimalsQuantity(); i++) {
             // MOZLIWA ZMIANA ARGUMENTOW
             new Animal(drawPosition(), settings);
@@ -138,5 +141,9 @@ public class SimulationEngine {
     }
     public int getCurrentDay() {
         return currentDay;
+    }
+
+    public void changeStatus(){
+        this.active = !this.active;
     }
 }

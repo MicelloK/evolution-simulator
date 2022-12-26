@@ -3,7 +3,7 @@ package agh.oop.proj;
 import java.util.*;
 
 abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObserver {
-    protected final Map<Vector2d, MapSquare> elements;
+    protected final HashMap<Vector2d, MapSquare> elements;
     private int animalsNumber;
     private int grassNumber;
     private final int mapSize;
@@ -14,6 +14,10 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     protected final List<Vector2d> preferredPositions = new LinkedList<>();
     protected List<Vector2d> emptyPreferred;
     protected List<Vector2d> emptyNotPreferred;
+
+    protected ArrayList<IMapElement> animalsList = new ArrayList<>();
+
+    protected ArrayList<IMapElement> grassList = new ArrayList<>();
 
     protected AbstractWorldMap(int width, int height, IMoveAllowed movementDetails, int reproductionEnergy) {
         elements = new HashMap<>();
@@ -49,11 +53,11 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         return false;
     }
 
-    protected List<Vector2d> getPreferred() {
+    public List<Vector2d> getPreferred() {
         return preferredPositions.subList(0, (int) Math.round(0.2 * mapSize));
     }
 
-    protected List<Vector2d> getNotPreferred() {
+    public List<Vector2d> getNotPreferred() {
         return preferredPositions.subList((int) Math.round(0.2 * mapSize), preferredPositions.size());
     }
 
@@ -81,6 +85,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         if (elements.get(position).getObjects().contains(animal)) {
             MapSquare square = elements.get(position);
             square.animalDie(animal);
+            animalsList.remove(animal);
             return true;
         }
         return false;
@@ -105,6 +110,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         if (canMoveTo(position)) {
             elements.get(position).placeObject(object);
             animalsNumber += 1;
+            animalsList.add(object);
             return true;
         }
         return false;

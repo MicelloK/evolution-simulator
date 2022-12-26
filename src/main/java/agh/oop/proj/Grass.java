@@ -22,6 +22,11 @@ public class Grass implements IMapElement{
     }
 
     @Override
+    public int getImage() {
+        return 0;
+    }
+
+    @Override
     public String toString() {
         return "*";
     }

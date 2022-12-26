@@ -1,28 +1,22 @@
 package agh.oop.proj.gui;
 
-import agh.oop.proj.AbstractWorldMap;
-import agh.oop.proj.Settings;
-import agh.oop.proj.SimulationEngine;
-import agh.oop.proj.Vector2d;
-import com.sun.source.doctree.EntityTree;
+import agh.oop.proj.*;
 import javafx.application.Application;
 
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class App extends Application {
@@ -32,35 +26,43 @@ public class App extends Application {
     private GridPane gridPane;
 
     private Settings parameters;
+
+    private VBox stats;
     private final Button startButton = new Button("Create Simulation");
     private final Button exitButton = new Button("EXIT");
     private final Button buttonStartStopRight = new Button("START/STOP Right Map");
     private final Button buttonStartStopLeft = new Button("START/STOP Left Map");
     private final Button buttonEndTracking = new Button("END TRACKING");
 
-
+    private Stage primaryStage;
     @Override
     public void start(Stage primaryStage) throws Exception {
+        this.primaryStage = primaryStage;
         primaryStage.getIcons().add(new Image(new FileInputStream("src/main/resources/world.jpg")));
         primaryStage.setTitle("About unusual adventures with evolution");
-        primaryStage.setScene(new Scene(border, 880,480));
+        primaryStage.alwaysOnTopProperty();
+        primaryStage.setScene(new Scene(border, 880, 460));
         primaryStage.show();
+        primaryStage.setOnCloseRequest(event -> {
+            if(engine != null && engine.getCurrentDay() != 0) {
+                engine.changeStatus();
+                engine.getSettings().getEatingGrassEnergy();
+            }
+            System.exit(0);
+        });
     }
 
-    private void initBorder(){
+    private void initBorder() {
         Label tittle = new Label("This is the world that evolving before our eyes! ");
         tittle.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 22pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         border.setTop(tittle);
         BorderPane.setAlignment(tittle, Pos.CENTER);
-        BorderPane.setMargin(tittle,new Insets(20,0,20,0));
+        BorderPane.setMargin(tittle, new Insets(20, 0, 20, 0));
     }
 
-    @Override
-    public void init() throws IOException {
-        initBorder();
-        VBox listTextFieldRight = new VBox();
-        TextField mapWidth = new TextField("15");
-        TextField mapHeight = new TextField("15");
+    private void initGetDate(){
+        TextField mapWidth = new TextField();
+        TextField mapHeight = new TextField();
         TextField startGrassQuantity = new TextField("5");
         TextField eatingGrassEnergy = new TextField("1");
         TextField startAnimalsQuantity = new TextField("15");
@@ -76,13 +78,14 @@ public class App extends Application {
         ChoiceBox animalMoving = new ChoiceBox();
         animalMoving.getItems().addAll("Predestination", "Craziness");
         ChoiceBox mutationVariant = new ChoiceBox();
-        mutationVariant.getItems().addAll("Random","Correction");
+        mutationVariant.getItems().addAll("Random", "Correction");
         ChoiceBox mapVariant = new ChoiceBox();
-        mapVariant.getItems().addAll("Equators","Corpses");
+        mapVariant.getItems().addAll("Equators", "Corpses");
 
 
         Button getParametr = new Button("CONFIRM");
         getParametr.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        VBox listTextFieldRight = new VBox();
         listTextFieldRight.getChildren().addAll(mapWidth, mapHeight, startGrassQuantity, eatingGrassEnergy, grassPerDay, startAnimalsQuantity, startAnimalsEnergy, animalFullEnergy);
         listTextFieldRight.setSpacing(10);
         VBox listTextFieldLeft = new VBox();
@@ -144,10 +147,10 @@ public class App extends Application {
         confirm.setAlignment(Pos.TOP_CENTER);
         border.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        getParametr.setOnAction(action ->{
+        getParametr.setOnAction(action -> {
             borderNew();
             String[] textFieldValues = new String[16];
-            textFieldValues[0] =mapWidth.getText();
+            textFieldValues[0] = mapWidth.getText();
             textFieldValues[1] = mapHeight.getText();
             textFieldValues[2] = startGrassQuantity.getText();
             textFieldValues[3] = eatingGrassEnergy.getText();
@@ -163,7 +166,6 @@ public class App extends Application {
             textFieldValues[14] = (String) animalMoving.getValue();
             textFieldValues[15] = (String) mutationVariant.getValue();
             textFieldValues[12] = (String) mapVariant.getValue();
-            System.out.println(textFieldValues[12]);
             try {
                 parameters = new Settings(textFieldValues);
             } catch (Exception e) {
@@ -172,77 +174,115 @@ public class App extends Application {
             engine = new SimulationEngine(parameters);
             startApp();
         });
+
     }
 
-    public void startApp(){
+    @Override
+    public void init() throws IOException {
+        initBorder();
+        initGetDate();
+    }
+
+    public void startApp() {
         startButton.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84)");
         border.setCenter(startButton);
-        startButton.setOnAction(actionEvent ->{
-            gridPane = new GridPane();
-            for (int i = 0; i < parameters.getMapWidth();i++){
-                this.gridPane.getColumnConstraints().add(new ColumnConstraints(1200/ (3 *parameters.getMapWidth() )));
-            }
-            for (int i = 0; i < parameters.getMapHeight(); i++){
-                this.gridPane.getRowConstraints().add(new RowConstraints(1000/ (3 * parameters.getMapHeight()) ));
-            }
-            gridPane.getChildren().clear();
-            gridPane.setGridLinesVisible(true);
-            gridPane.setPadding(new Insets(10, 10, 10, 10));
-            for (int row = 0; row <= parameters.getMapHeight(); row++) {
-                for (int col = 0; col <= parameters.getMapWidth(); col++) {
-                    StackPane grass = new StackPane();
-                    if(row % 2 == 0) {
-                        grass.setStyle("-fx-background-color: #00b27a");
-                    }else{
-                        grass.setStyle("-fx-background-color: #acb200");
-                    }
-                    gridPane.add(grass, row,col);
-                }
-            }
-            gridPane.setAlignment(Pos.CENTER);
-            border.setCenter(gridPane);
+        startButton.setOnAction(actionEvent -> {
+            creativeMap();
+            addButtons();
         });
     }
 
-    public void updateRightMap(){;
-        CreativeMap rightMap = new CreativeMap(engine, this);
-
-        gridPane = rightMap.getGridPane();
-        VBox right = new VBox(gridPane);
-        border.setRight(right);
-        right.setSpacing(10);
-        BorderPane.setMargin(right, new Insets(20,20,0,30));
+    public void creativeMap() {
+        gridPane = new GridPane();
+        for (int i = 0; i < parameters.getMapWidth(); i++) {
+            this.gridPane.getColumnConstraints().add(new ColumnConstraints(border.getWidth() / parameters.getMapWidth()));
+        }
+        for (int i = 0; i < parameters.getMapHeight(); i++) {
+            this.gridPane.getRowConstraints().add(new RowConstraints(border.getHeight() / parameters.getMapHeight()));
+        }
+        gridPane.getChildren().clear();
+        gridPane.setGridLinesVisible(true);
+        coloringMap();
+        drawingObjects();
+        primaryStage.setFullScreen(true);
     }
 
-    private void addButtons(){
+    private void coloringMap(){
+        List<Vector2d> mapcotain = parameters.getMap().getPreferred();
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
+        for (int row = 0; row < parameters.getMapWidth(); row++) {
+            for (int col = 0; col < parameters.getMapHeight(); col++) {
+                StackPane grass = new StackPane();
+                if (mapcotain.contains(new Vector2d(row, col))) {
+                    grass.setStyle("-fx-background-color: rgba(177,234,167,0.84)");
+                } else {
+                    grass.setStyle("-fx-background-color: #083841");
+                }
+                gridPane.add(grass, row, col);
+            }
+        }
+    }
+
+    private void addButtons() {
         HBox buttons = new HBox();
         buttons.setSpacing(300);
 
 
         HBox centerButtons = new HBox(exitButton, buttonEndTracking);
         centerButtons.setSpacing(15);
-        exitButton.setOnAction(action ->{
+        exitButton.setOnAction(action -> {
             System.exit(0);
         });
 
-        buttons.getChildren().addAll(buttonStartStopLeft,centerButtons, buttonStartStopRight);
+        buttons.getChildren().addAll(centerButtons);
         buttons.setAlignment(Pos.CENTER);
         border.setBottom(buttons);
         BorderPane.setAlignment(buttons, Pos.CENTER);
-        BorderPane.setMargin(buttons, new Insets(10,0,10,0));
-        exitButton.setStyle("-fx-background-color: #d79097; ");
-        buttonStartStopLeft.setStyle("-fx-background-color: #d79097; ");
+        BorderPane.setMargin(buttons, new Insets(10, 0, 10, 0));
+        exitButton.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        buttonStartStopLeft.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         buttonStartStopRight.setStyle("-fx-background-color: #d79097; ");
-        buttonEndTracking.setStyle("-fx-background-color: #d79097; ");
+        buttonEndTracking.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
     }
-    private void borderNew(){
+
+    private void borderNew() {
         border.setCenter(null);
         border.setRight(null);
         border.setLeft(null);
         border.setBottom(null);
-    };
+    }
 
-    public Settings getParameter(){
-        return parameters;
+    ;
+
+    private void drawingObjects() {
+        AbstractWorldMap map = parameters.getMap();
+        ImageView imageView;
+        engine.initSimulation();
+        for (int row = 0; row < parameters.getMapWidth(); row++) {
+            for (int col = 0; col < parameters.getMapHeight(); col++) {
+                List<IMapElement> mapSquer = map.objectsAt(new Vector2d(row, col));
+                for(IMapElement objects : mapSquer){
+                    switch (objects.getImage()) {
+                        case 5 -> imageView = new ImageView(new Images().Image3);
+                        case 4 -> imageView = new ImageView(new Images().Image3);
+                        case 3 -> imageView = new ImageView(new Images().Image3);
+                        case 2 -> imageView = new ImageView(new Images().Image3);
+                        case 1 -> imageView = new ImageView(new Images().Image3);
+                        case 0 -> imageView = new ImageView(new Images().grassImage);
+                        default -> throw new IllegalStateException("Unexpected value: ");
+                    }
+                    imageView.setFitWidth(800 / (2 * parameters.getMapWidth()));
+                    imageView.setFitHeight(800 / (2 * parameters.getMapHeight()));
+                    gridPane.add(imageView,row,col);
+
+                }
+
+            }
+
+
+        }
+        gridPane.setGridLinesVisible(true);
+        gridPane.setAlignment(Pos.CENTER);
+        border.setCenter(gridPane);
     }
 }

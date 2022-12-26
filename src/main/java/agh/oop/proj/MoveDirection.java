@@ -1,5 +1,7 @@
 package agh.oop.proj;
 
+import java.util.Random;
+
 public enum MoveDirection {
     NORTH,
     SOUTH,
@@ -70,6 +72,10 @@ public enum MoveDirection {
             case NORTH_WEST -> new Vector2d(-1, 1);
             default -> null;
         };
+    }
+
+    public static MoveDirection getRandomOrientation(){
+        return (MoveDirection) values()[new Random().nextInt(values().length)];
     }
 
 }
