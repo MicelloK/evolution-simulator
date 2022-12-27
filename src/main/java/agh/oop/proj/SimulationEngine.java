@@ -10,6 +10,7 @@ public class SimulationEngine {
     private final Settings settings;
     private final AbstractWorldMap map;
     private int currentDay;
+
     private final List<Animal> animals = new LinkedList<>();
 
     private boolean active = false;
@@ -180,5 +181,9 @@ public class SimulationEngine {
 
     public void changeStatus(){
         this.active = !this.active;
+    }
+
+    public List<Animal> getAnimals() {
+        return animals;
     }
 }

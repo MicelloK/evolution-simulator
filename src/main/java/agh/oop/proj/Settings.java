@@ -33,24 +33,24 @@ public class Settings {
         genLength = Integer.parseInt(config[11]);
 
         switch (config[12]) {
-            case "predestination" -> animalMoving = new FullPredestinationMove();
-            case "craziness" -> animalMoving = new LittleCrazinessMove();
+            case "Predestination" -> animalMoving = new FullPredestinationMove();
+            case "Craziness" -> animalMoving = new LittleCrazinessMove();
             default -> throw new Exception("wrong animalMoving configuration");
         }
         switch (config[13]) {
-            case "correction" -> mutationVariant = new LittleCorrectionGens();
-            case "random" -> mutationVariant = new FullRandomGens();
+            case "Correction" -> mutationVariant = new LittleCorrectionGens();
+            case "Random" -> mutationVariant = new FullRandomGens();
             default -> throw new Exception("wrong mutationVariant configuration");
         }
         IMoveAllowed movementDetails;
         switch (config[14]) {
-            case "earth" -> movementDetails = new EarthMoveAllowed();
-            case "portal" -> movementDetails = new PortalMoveAllowed();
+            case "Earth" -> movementDetails = new EarthMoveAllowed();
+            case "Portal" -> movementDetails = new PortalMoveAllowed();
             default -> throw new Exception("wrong movementDetails configuration");
         }
         switch (config[15]) {
-            case "equators" -> map = new EquatorsMap(mapWidth, mapHeight, movementDetails, reproductionEnergy);
-            case "corpses" -> map = new CorpsesMap(mapWidth, mapHeight, movementDetails, reproductionEnergy);
+            case "Equators" -> map = new EquatorsMap(mapWidth, mapHeight, movementDetails, reproductionEnergy);
+            case "Corpses" -> map = new CorpsesMap(mapWidth, mapHeight, movementDetails, reproductionEnergy);
             default -> throw new Exception("wrong map configuration");
         }
     }

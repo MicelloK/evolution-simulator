@@ -5,6 +5,8 @@ import javafx.application.Application;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 
 import javafx.scene.control.*;
@@ -17,11 +19,15 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 public class App extends Application {
     private final BorderPane border = new BorderPane();
     private SimulationEngine engine;
+
+    private ImageView grass = new ImageView(new Images().grassImage);
+
 
     private GridPane gridPane;
 
@@ -162,16 +168,18 @@ public class App extends Application {
             textFieldValues[9] = minimalMutationNumber.getText();
             textFieldValues[10] = maximalMutationNumber.getText();
             textFieldValues[11] = genLength.getText();
-            textFieldValues[13] = (String) movementDetails.getValue();
-            textFieldValues[14] = (String) animalMoving.getValue();
-            textFieldValues[15] = (String) mutationVariant.getValue();
-            textFieldValues[12] = (String) mapVariant.getValue();
+            textFieldValues[14] = (String) movementDetails.getValue();
+            textFieldValues[12] = (String) animalMoving.getValue();
+            textFieldValues[13] = (String) mutationVariant.getValue();
+            textFieldValues[15] = (String) mapVariant.getValue();
             try {
                 parameters = new Settings(textFieldValues);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
             engine = new SimulationEngine(parameters);
+            grass.setFitWidth(800 / (2 * parameters.getMapWidth()));
+            grass.setFitHeight(800 / (2 * parameters.getMapHeight()));
             startApp();
         });
 
@@ -258,30 +266,40 @@ public class App extends Application {
         AbstractWorldMap map = parameters.getMap();
         ImageView imageView;
         engine.initSimulation();
-        for (int row = 0; row < parameters.getMapWidth(); row++) {
-            for (int col = 0; col < parameters.getMapHeight(); col++) {
-                List<IMapElement> mapSquer = map.objectsAt(new Vector2d(row, col));
-                for(IMapElement objects : mapSquer){
-                    switch (objects.getImage()) {
-                        case 5 -> imageView = new ImageView(new Images().Image3);
-                        case 4 -> imageView = new ImageView(new Images().Image3);
-                        case 3 -> imageView = new ImageView(new Images().Image3);
-                        case 2 -> imageView = new ImageView(new Images().Image3);
-                        case 1 -> imageView = new ImageView(new Images().Image3);
-                        case 0 -> imageView = new ImageView(new Images().grassImage);
-                        default -> throw new IllegalStateException("Unexpected value: ");
+        List<Animal> animals = engine.getAnimals();
+        HashMap mapsquer = (HashMap) map.getElements();
+        for (int i = 0; i < parameters.getMapHeight();i++){
+            for(int j = 0; j < parameters.getMapWidth();j++){
+                MapSquare square = (MapSquare) mapsquer.get(new Vector2d(i,j));
+                if(square != null) {
+                    HBox hbox = new HBox();
+                    hbox.setSpacing(5);
+                    hbox.setAlignment(Pos.CENTER);
+                    int howMany = square.getObjects().size();
+                    for (IMapElement animal : square.getObjects()) {
+                        switch (animal.getImage()) {
+                            case 5 -> imageView = new ImageView(new Images().Image5);
+                            case 4 -> imageView = new ImageView(new Images().Image4);
+                            case 3 -> imageView = new ImageView(new Images().Image3);
+                            case 2 -> imageView = new ImageView(new Images().Image2);
+                            case 1 -> imageView = new ImageView(new Images().Image1);
+                            default -> throw new IllegalStateException("Unexpected value: ");
+                        }
+                        imageView.setFitWidth(800 / (2*parameters.getMapWidth() * (howMany)));
+                        imageView.setFitHeight(800 / (2*parameters.getMapHeight() * (howMany)));
+                        hbox.getChildren().add(imageView);
+
                     }
-                    imageView.setFitWidth(800 / (2 * parameters.getMapWidth()));
-                    imageView.setFitHeight(800 / (2 * parameters.getMapHeight()));
-                    gridPane.add(imageView,row,col);
-
+                    gridPane.add(hbox, i, j);
+                    GridPane.setHalignment(hbox, Pos.CENTER.getHpos());
+                }else {
+                    if (square.didGrassGrow()) {
+                        gridPane.add(grass, i, j);
+                        GridPane.setHalignment(grass, Pos.CENTER.getHpos());
+                    }
                 }
-
             }
-
-
         }
-        gridPane.setGridLinesVisible(true);
         gridPane.setAlignment(Pos.CENTER);
         border.setCenter(gridPane);
     }

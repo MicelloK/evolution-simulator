@@ -1,5 +1,7 @@
 package agh.oop.proj;
 
+import java.util.Random;
+
 public class Animal implements IMapElement {
     private final IElementChangeObserver observer;
     private final AbstractWorldMap map;
@@ -13,7 +15,12 @@ public class Animal implements IMapElement {
     private final Genome genotype;
     private final Settings settings;
 
+    private final Random random = new Random();
+
+    private final int image;
+
     public Animal(Vector2d position, Settings settings, int createdDay) {
+        this.image = random.nextInt(5)+1;
         this.map = settings.getMap();
         this.position = position;
         this.settings = settings;
@@ -26,6 +33,7 @@ public class Animal implements IMapElement {
     }
 
     public Animal(Animal parentTwo, Animal parentOne, Settings settings, int createdDay) {
+        this.image = parentOne.getImage();
         this.settings = settings;
         this.createdDay = createdDay;
         this.orientation = MoveDirection.randomDirection();
@@ -133,7 +141,7 @@ public class Animal implements IMapElement {
 
     @Override
     public int getImage() {
-        return random.nextInt(5) +1;
+        return image;
     }
 
     public void setOrientation(MoveDirection orientation) {

@@ -9,3 +9,18 @@ gradlew.bat
 .idea
 !**/src/main/**/out/
 !**/src/test/**/out/
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+Footer
+© 2022 GitHub, Inc.

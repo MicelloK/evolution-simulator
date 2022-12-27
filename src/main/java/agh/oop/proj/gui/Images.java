@@ -15,12 +15,12 @@ public class Images {
 
     public Images(){
         try {
-            this.grassImage = new javafx.scene.image.Image(new FileInputStream("src/main/resources/ziemia.png"));
-            this.Image1 = new javafx.scene.image.Image(new FileInputStream("src/main/resources/sowa.png"));
-            this.Image2 = new javafx.scene.image.Image(new FileInputStream("src/main/resources/zyrafa.png"));
+            this.grassImage = new javafx.scene.image.Image(new FileInputStream("src/main/resources/trawa.png"));
+            this.Image1 = new javafx.scene.image.Image(new FileInputStream("src/main/resources/pig.png"));
+            this.Image2 = new javafx.scene.image.Image(new FileInputStream("src/main/resources/malpa.png"));
             this.Image3 = new javafx.scene.image.Image(new FileInputStream("src/main/resources/pies.png"));
-            this.Image4 = new javafx.scene.image.Image(new FileInputStream("src/main/resources/jez.png"));
-            this.Image5 = new javafx.scene.image.Image(new FileInputStream("src/main/resources/gryzon.png"));
+            this.Image4 = new javafx.scene.image.Image(new FileInputStream("src/main/resources/tygrys.png"));
+            this.Image5 = new javafx.scene.image.Image(new FileInputStream("src/main/resources/kot.png"));
         } catch (FileNotFoundException e){
             e.printStackTrace();
         }

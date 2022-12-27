@@ -3,6 +3,7 @@ package agh.oop.proj;
 import java.util.*;
 
 abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObserver {
+
     protected final Map<Vector2d, MapSquare> elements;
     private int animalsNumber;
     private int grassNumber;
@@ -56,7 +57,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     abstract void updatePreferredPositions();
 
 
-    protected List<Vector2d> getPreferred() {
+    public List<Vector2d> getPreferred() {
         return new LinkedList<>(preferredPositions.subList(0, (int) Math.round(0.2 * mapSize)));
     }
 
@@ -180,6 +181,11 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
             }
         }
     }
+
+    public Map<Vector2d, MapSquare> getElements() {
+        return elements;
+    }
+
 
     public String toString() {
         return new MapVisualiser(this).draw(lowerLeft, upperRight);
