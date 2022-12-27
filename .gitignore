@@ -7,6 +7,7 @@ gradlew.bat
 
 ### idea
 .idea
+.vscode
 !**/src/main/**/out/
 !**/src/test/**/out/
 
