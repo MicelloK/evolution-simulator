@@ -21,6 +21,7 @@ public class Animal implements IMapElement {
 
     private final int image;
 
+
     public Animal(Vector2d position, Settings settings, int createdDay) {
         this.image = random.nextInt(5)+1;
         this.map = settings.getMap();
@@ -89,7 +90,8 @@ public class Animal implements IMapElement {
     }
 
     public int getLife() {
-        return this.life;
+        this.life = this.createdDay;
+        return life;
     }
 
     public int getDeathDay() {

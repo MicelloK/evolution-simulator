@@ -199,4 +199,8 @@ public class SimulationEngine implements Runnable{
     public List<Animal> getAnimals() {
         return animals;
     }
+
+    public boolean isActive() {
+        return active;
+    }
 }
