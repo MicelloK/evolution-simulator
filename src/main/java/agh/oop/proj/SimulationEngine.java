@@ -1,10 +1,12 @@
 package agh.oop.proj;
 
+import agh.oop.proj.gui.App;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class SimulationEngine {
+public class SimulationEngine implements Runnable{
 
 
     private final Settings settings;
@@ -15,11 +17,12 @@ public class SimulationEngine {
 
     private boolean active = false;
 
-    public SimulationEngine(Settings settings) {
+    private App app;
+    public SimulationEngine(Settings settings, App app) {
+        this.app = app;
         this.settings = settings;
         map = settings.getMap();
         currentDay = 0;
-        this.active = true;
     }
 
     private void moveAnimals() {
@@ -154,20 +157,27 @@ public class SimulationEngine {
             animals.add(animal);
         }
         map.growGrass(settings.getStartGrassQuantity());
+        System.out.println(settings.getMap().toString());
+        app.uploadMap();
     }
 
     public void run() {
-        initSimulation();
         System.out.println(settings.getMap().toString());
         System.out.println("start simulation:");
-        while (isSimulationNotOver()) {
-            currentDay += 1;
-            settings.getMap().updatePreferredPositions();
-            moveAnimals();
-            eatGrass();
-            animalsReproduction();
-            growGrass();
+        while (isSimulationNotOver() && active) {
+            try{
+                currentDay += 1;
+                settings.getMap().updatePreferredPositions();
+                moveAnimals();
+                eatGrass();
+                animalsReproduction();
+                growGrass();
+                Thread.sleep(500);
+                app.uploadMap();
 
+            }  catch (InterruptedException ex) {
+                System.out.println(ex);
+            }
             System.out.println(settings.getMap().toString()); // visualization
         }
     }

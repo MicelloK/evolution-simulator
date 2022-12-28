@@ -5,8 +5,6 @@ import javafx.application.Application;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 
 import javafx.scene.control.*;
@@ -14,13 +12,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 
 public class App extends Application {
     private final BorderPane border = new BorderPane();
@@ -49,13 +44,6 @@ public class App extends Application {
         primaryStage.alwaysOnTopProperty();
         primaryStage.setScene(new Scene(border, 880, 460));
         primaryStage.show();
-        primaryStage.setOnCloseRequest(event -> {
-            if(engine != null && engine.getCurrentDay() != 0) {
-                engine.changeStatus();
-                engine.getSettings().getEatingGrassEnergy();
-            }
-            System.exit(0);
-        });
     }
 
     private void initBorder() {
@@ -177,9 +165,10 @@ public class App extends Application {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            engine = new SimulationEngine(parameters);
+            engine = new SimulationEngine(parameters,this);
             grass.setFitWidth(800 / (2 * parameters.getMapWidth()));
             grass.setFitHeight(800 / (2 * parameters.getMapHeight()));
+            primaryStage.setFullScreen(true);
             startApp();
         });
 
@@ -195,40 +184,17 @@ public class App extends Application {
         startButton.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84)");
         border.setCenter(startButton);
         startButton.setOnAction(actionEvent -> {
-            creativeMap();
+            engine.initSimulation();
             addButtons();
         });
     }
 
-    public void creativeMap() {
-        gridPane = new GridPane();
-        for (int i = 0; i < parameters.getMapWidth(); i++) {
-            this.gridPane.getColumnConstraints().add(new ColumnConstraints(border.getWidth() / parameters.getMapWidth()));
-        }
-        for (int i = 0; i < parameters.getMapHeight(); i++) {
-            this.gridPane.getRowConstraints().add(new RowConstraints(border.getHeight() / parameters.getMapHeight()));
-        }
-        gridPane.getChildren().clear();
-        gridPane.setGridLinesVisible(true);
-        coloringMap();
-        drawingObjects();
-        primaryStage.setFullScreen(true);
-    }
-
-    private void coloringMap(){
-        List<Vector2d> mapcotain = parameters.getMap().getPreferred();
-        gridPane.setPadding(new Insets(10, 10, 10, 10));
-        for (int row = 0; row < parameters.getMapWidth(); row++) {
-            for (int col = 0; col < parameters.getMapHeight(); col++) {
-                StackPane grass = new StackPane();
-                if (mapcotain.contains(new Vector2d(row, col))) {
-                    grass.setStyle("-fx-background-color: rgba(177,234,167,0.84)");
-                } else {
-                    grass.setStyle("-fx-background-color: #083841");
-                }
-                gridPane.add(grass, row, col);
-            }
-        }
+    public void uploadMap() {
+        CreativeMap newMap = new CreativeMap(engine, this,border);
+        gridPane = newMap.getGridPane();
+        this.gridPane.setGridLinesVisible(true);
+        gridPane.setAlignment(Pos.CENTER);
+        border.setCenter(gridPane);
     }
 
     private void addButtons() {
@@ -240,6 +206,9 @@ public class App extends Application {
         centerButtons.setSpacing(15);
         exitButton.setOnAction(action -> {
             System.exit(0);
+        });
+        buttonEndTracking.setOnAction(action -> {
+            engine.changeStatus();
         });
 
         buttons.getChildren().addAll(centerButtons);
@@ -258,49 +227,5 @@ public class App extends Application {
         border.setRight(null);
         border.setLeft(null);
         border.setBottom(null);
-    }
-
-    ;
-
-    private void drawingObjects() {
-        AbstractWorldMap map = parameters.getMap();
-        ImageView imageView;
-        engine.initSimulation();
-        List<Animal> animals = engine.getAnimals();
-        HashMap mapsquer = (HashMap) map.getElements();
-        for (int i = 0; i < parameters.getMapHeight();i++){
-            for(int j = 0; j < parameters.getMapWidth();j++){
-                MapSquare square = (MapSquare) mapsquer.get(new Vector2d(i,j));
-                if(square != null) {
-                    HBox hbox = new HBox();
-                    hbox.setSpacing(5);
-                    hbox.setAlignment(Pos.CENTER);
-                    int howMany = square.getObjects().size();
-                    for (IMapElement animal : square.getObjects()) {
-                        switch (animal.getImage()) {
-                            case 5 -> imageView = new ImageView(new Images().Image5);
-                            case 4 -> imageView = new ImageView(new Images().Image4);
-                            case 3 -> imageView = new ImageView(new Images().Image3);
-                            case 2 -> imageView = new ImageView(new Images().Image2);
-                            case 1 -> imageView = new ImageView(new Images().Image1);
-                            default -> throw new IllegalStateException("Unexpected value: ");
-                        }
-                        imageView.setFitWidth(800 / (2*parameters.getMapWidth() * (howMany)));
-                        imageView.setFitHeight(800 / (2*parameters.getMapHeight() * (howMany)));
-                        hbox.getChildren().add(imageView);
-
-                    }
-                    gridPane.add(hbox, i, j);
-                    GridPane.setHalignment(hbox, Pos.CENTER.getHpos());
-                }else {
-                    if (square.didGrassGrow()) {
-                        gridPane.add(grass, i, j);
-                        GridPane.setHalignment(grass, Pos.CENTER.getHpos());
-                    }
-                }
-            }
-        }
-        gridPane.setAlignment(Pos.CENTER);
-        border.setCenter(gridPane);
     }
 }

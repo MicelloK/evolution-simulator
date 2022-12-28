@@ -39,7 +39,7 @@ public class Settings {
         }
         switch (config[13]) {
             case "Correction" -> mutationVariant = new LittleCorrectionGens();
-            case "Random" -> mutationVariant = new FullRandomGens();
+            case "Random" -> mutationVariant = new FullRandomGens(maximalMutationNumber, minimalMutationNumber);
             default -> throw new Exception("wrong mutationVariant configuration");
         }
         IMoveAllowed movementDetails;
@@ -89,14 +89,6 @@ public class Settings {
 
     public int getReproductionEnergy() {
         return reproductionEnergy;
-    }
-
-    public int getMinimalMutationNumber() {
-        return minimalMutationNumber;
-    }
-
-    public int getMaximalMutationNumber() {
-        return maximalMutationNumber;
     }
 
     public int getGenLength() {

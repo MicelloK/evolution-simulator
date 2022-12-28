@@ -1,9 +1,11 @@
 package agh.oop.proj;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 public class Animal implements IMapElement {
-    private final IElementChangeObserver observer;
+    private final List<IElementChangeObserver> observer;
     private final AbstractWorldMap map;
     private int energy;
     private int life = 0;
@@ -25,7 +27,7 @@ public class Animal implements IMapElement {
         this.position = position;
         this.settings = settings;
         this.createdDay = createdDay;
-        this.observer = map;
+        this.observer = new LinkedList<>();
         this.genotype = new Genome(settings);
         this.orientation = MoveDirection.randomDirection();
         this.energy = settings.getStartAnimalEnergy();
@@ -38,7 +40,7 @@ public class Animal implements IMapElement {
         this.createdDay = createdDay;
         this.orientation = MoveDirection.randomDirection();
         this.map = settings.getMap();
-        this.observer = map;
+        this.observer = new LinkedList<>();
         this.position = parentOne.getPosition();
         this.genotype = new Genome(parentOne, parentTwo, settings);
         map.place(this);
@@ -56,7 +58,9 @@ public class Animal implements IMapElement {
         settings.getAnimalMoving().moving(this);
 
         if (isDead()) {
-            observer.animalDies(this);
+            for(IElementChangeObserver observers: observer) {
+                observers.animalDies(this);
+            }
         }
     }
 
@@ -148,8 +152,19 @@ public class Animal implements IMapElement {
         this.orientation = orientation;
     }
 
+
+
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        observer.positionChanged(oldPosition, newPosition, this);
+        for(IElementChangeObserver observers : observer) {
+            observers.positionChanged(oldPosition, newPosition, this);
+        }
+    }
+
+    public void addObserver(IElementChangeObserver observer){
+        this.observer.add(observer);
+    }
+    public void removeObserver(IElementChangeObserver observer){
+        this.observer.remove(observer);
     }
 
 

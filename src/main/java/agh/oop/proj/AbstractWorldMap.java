@@ -12,7 +12,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     private final Vector2d upperRight;
     private final IMoveAllowed movementDetails;
     private final int reproductionEnergy;
-    protected final List<Vector2d> preferredPositions = new LinkedList<>();
+    protected final List<Vector2d> preferredPositions = new ArrayList<>();
     protected List<Vector2d> emptyPreferred;
     protected List<Vector2d> emptyNotPreferred;
 
@@ -131,7 +131,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         if (inMap(position)) {
             elements.get(position).placeObject(object);
             animalsNumber += 1;
-            animalsList.add(object);
+            object.addObserver(this);
             return true;
         }
         return false;
