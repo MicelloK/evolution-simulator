@@ -158,12 +158,15 @@ public class SimulationEngine implements Runnable{
         }
         map.growGrass(settings.getStartGrassQuantity());
         System.out.println(settings.getMap().toString());
-        app.uploadMap();
     }
 
     public void run() {
         System.out.println(settings.getMap().toString());
         System.out.println("start simulation:");
+        if(currentDay == 0){
+            initSimulation();
+            app.uploadMap();
+        }
         while (isSimulationNotOver() && active) {
             try{
                 currentDay += 1;
@@ -172,8 +175,8 @@ public class SimulationEngine implements Runnable{
                 eatGrass();
                 animalsReproduction();
                 growGrass();
-                Thread.sleep(500);
                 app.uploadMap();
+                Thread.sleep(500);
 
             }  catch (InterruptedException ex) {
                 System.out.println(ex);

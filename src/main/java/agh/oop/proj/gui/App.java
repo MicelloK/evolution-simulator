@@ -3,6 +3,7 @@ package agh.oop.proj.gui;
 import agh.oop.proj.*;
 import javafx.application.Application;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -181,20 +182,24 @@ public class App extends Application {
     }
 
     public void startApp() {
+        Thread engineThread = new Thread(engine);
         startButton.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84)");
         border.setCenter(startButton);
         startButton.setOnAction(actionEvent -> {
-            engine.initSimulation();
+            engine.changeStatus();
+            engineThread.start();
             addButtons();
         });
     }
 
     public void uploadMap() {
-        CreativeMap newMap = new CreativeMap(engine, this,border);
-        gridPane = newMap.getGridPane();
-        this.gridPane.setGridLinesVisible(true);
-        gridPane.setAlignment(Pos.CENTER);
-        border.setCenter(gridPane);
+        Platform.runLater(() ->{
+            CreativeMap newMap = new CreativeMap(engine, this,border);
+            gridPane = newMap.getGridPane();
+            this.gridPane.setGridLinesVisible(true);
+            gridPane.setAlignment(Pos.CENTER);
+            border.setCenter(gridPane);
+        });
     }
 
     private void addButtons() {
