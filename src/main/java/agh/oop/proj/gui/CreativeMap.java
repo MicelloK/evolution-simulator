@@ -19,6 +19,8 @@ public class CreativeMap {
     private final Settings parameters;
     private int size;
 
+    private Images images = new Images();
+
 
 
     public CreativeMap(SimulationEngine engine, Application app, BorderPane border) {
@@ -72,11 +74,11 @@ public class CreativeMap {
                     int howMany = square.getObjects().size();
                     for (IMapElement animal : square.getObjects()) {
                         switch (animal.getImage()) {
-                            case 5 -> imageView = new ImageView(new Images().Image5);
-                            case 4 -> imageView = new ImageView(new Images().Image4);
-                            case 3 -> imageView = new ImageView(new Images().Image3);
-                            case 2 -> imageView = new ImageView(new Images().Image2);
-                            case 1 -> imageView = new ImageView(new Images().Image1);
+                            case 5 -> imageView = new ImageView(images.Image5);
+                            case 4 -> imageView = new ImageView(images.Image4);
+                            case 3 -> imageView = new ImageView(images.Image3);
+                            case 2 -> imageView = new ImageView(images.Image2);
+                            case 1 -> imageView = new ImageView(images.Image1);
                             default -> throw new IllegalStateException("Unexpected value: ");
                         }
                         VBox box = new VBox();
@@ -85,13 +87,13 @@ public class CreativeMap {
                         posit.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 10px; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
                         ElementBox pictures = new ElementBox(animal, engine);
                         pictures.createElement(imageView);
-                        double imageHeight = 500 / (2 * size);
-                        double imageWidth = 600 / (2 * size);
+                        double imageHeight = 500 / (2 * size*howMany);
+                        double imageWidth = 600 / (2 * size*howMany);
                         imageView.setFitHeight(imageHeight);
                         imageView.setFitWidth(imageWidth);
                         ProgressBar lifeBar = pictures.energyInAnimal();
                         lifeBar.setPrefHeight(20);
-                        lifeBar.setPrefWidth(600 / (2 * size));
+                        lifeBar.setPrefWidth(600 / (2 * size)*howMany);
                         HBox lifeandposition = new HBox();
                         lifeandposition.getChildren().addAll(lifeBar,posit);
                         box.getChildren().addAll(imageView,lifeandposition);
@@ -106,7 +108,7 @@ public class CreativeMap {
                         VBox box = new VBox();
                         box.setSpacing(3);
                         box.setAlignment(Pos.CENTER);
-                        imageView = new ImageView(new Images().grassImage);
+                        imageView = new ImageView(images.grassImage);
                         double imageHeight = 500 / (2 * size);
                         double imageWidth = 600 / (2 * size);
                         imageView.setFitHeight(imageHeight);
