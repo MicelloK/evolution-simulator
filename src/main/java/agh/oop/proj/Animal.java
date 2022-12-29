@@ -90,7 +90,6 @@ public class Animal implements IMapElement {
     }
 
     public int getLife() {
-        this.life = this.createdDay;
         return life;
     }
 

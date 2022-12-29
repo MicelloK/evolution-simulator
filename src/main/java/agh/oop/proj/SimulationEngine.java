@@ -1,6 +1,7 @@
 package agh.oop.proj;
 
 import agh.oop.proj.gui.App;
+import agh.oop.proj.gui.StartApp;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,8 +18,8 @@ public class SimulationEngine implements Runnable{
 
     private boolean active = false;
 
-    private App app;
-    public SimulationEngine(Settings settings, App app) {
+    private StartApp app;
+    public SimulationEngine(Settings settings, StartApp app) {
         this.app = app;
         this.settings = settings;
         map = settings.getMap();
@@ -161,7 +162,6 @@ public class SimulationEngine implements Runnable{
     }
 
     public void run() {
-        System.out.println(settings.getMap().toString());
         System.out.println("start simulation:");
         if(currentDay == 0){
             initSimulation();

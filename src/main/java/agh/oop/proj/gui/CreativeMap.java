@@ -1,30 +1,26 @@
 package agh.oop.proj.gui;
 
 import agh.oop.proj.*;
-import javafx.application.Application;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+
 import java.util.List;
 import java.util.Map;
 
 public class CreativeMap {
     private final SimulationEngine engine;
     private final GridPane gridPane;
-    private final Application app;
 
     private final Settings parameters;
     private int size;
 
     private Images images = new Images();
 
-
-
-    public CreativeMap(SimulationEngine engine, Application app, BorderPane border) {
-        this.app = app;
+    public CreativeMap(SimulationEngine engine, BorderPane border) {
         this.engine = engine;
         this.parameters = engine.getSettings();
         this.gridPane = new GridPane();
@@ -84,7 +80,8 @@ public class CreativeMap {
                         VBox box = new VBox();
                         box.setAlignment(Pos.CENTER);
                         Label posit = new Label(position.toString());
-                        posit.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 10px; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+                        posit.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+                        posit.setFont(Font.font(20/(0.4*size)));
                         ElementBox pictures = new ElementBox(animal, engine);
                         pictures.createElement(imageView);
                         double imageHeight = 500 / (2 * size*howMany);
@@ -92,8 +89,8 @@ public class CreativeMap {
                         imageView.setFitHeight(imageHeight);
                         imageView.setFitWidth(imageWidth);
                         ProgressBar lifeBar = pictures.energyInAnimal();
-                        lifeBar.setPrefHeight(20);
-                        lifeBar.setPrefWidth(600 / (2 * size)*howMany);
+                        lifeBar.setPrefHeight(100/(size));
+                        lifeBar.setPrefWidth(600 / (2 * size*howMany));
                         HBox lifeandposition = new HBox();
                         lifeandposition.getChildren().addAll(lifeBar,posit);
                         box.getChildren().addAll(imageView,lifeandposition);
@@ -105,6 +102,7 @@ public class CreativeMap {
                     if(square.didGrassGrow()){
                         Label posit = new Label(position.toString());
                         posit.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+                        posit.setFont(Font.font(20/(0.4*size)));
                         VBox box = new VBox();
                         box.setSpacing(3);
                         box.setAlignment(Pos.CENTER);
