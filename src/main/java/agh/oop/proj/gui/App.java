@@ -38,9 +38,10 @@ public class App extends Application {
         BorderPane.setMargin(tittle, new Insets(20, 0, 20, 0));
     }
 
-    private void initGetDate(){
+    private void initGetDate() throws FileNotFoundException {
         ChoiceBox confVariant = new ChoiceBox();
-        confVariant.getItems().addAll("My Configuration", "Configuration 1", "Configuration 2");
+        confVariant.getItems().add("My Configuration");
+        confVariant.getItems().addAll(OptionReader.names());
 
 
         Button getParametr = new Button("CONFIRM");
@@ -71,14 +72,21 @@ public class App extends Application {
         getParametr.setOnAction(action -> {
             try {
                 String items = confVariant.getValue().toString();
-                if ("My Configuration" == items) {
+                if (items.equals("My Configuration")) {
                     new GetDateStage();
-                } else if ("Configuration 1" == items) {
-                    System.exit(0);
-                } else if ("Configuration 2" == items) {
-                    System.exit(0);
-                } else {
-                    throw new Exception("Configuration not choice");
+                }
+                else {
+                    String[] headers = OptionReader.names();
+                    for (String name : headers) {
+                        if (items.equals(name)) {
+                            String[] parameters = OptionReader.find(name);
+                            if (parameters != null) {
+                                Settings settings = new Settings(parameters);
+                                StartApp app = new StartApp(settings);
+                            }
+                        }
+                    }
+                    throw new Exception("wrong configuration");
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

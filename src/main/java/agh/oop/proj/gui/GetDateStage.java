@@ -1,5 +1,6 @@
 package agh.oop.proj.gui;
 
+import agh.oop.proj.OptionReader;
 import agh.oop.proj.Settings;
 import agh.oop.proj.SimulationEngine;
 import javafx.geometry.Insets;
@@ -16,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class GetDateStage {
     private final Stage stage;
@@ -37,6 +39,7 @@ public class GetDateStage {
     }
 
     private void initGetDate(){
+        TextField name = new TextField("My new configuration");
         TextField mapWidth = new TextField();
         TextField mapHeight = new TextField();
         TextField startGrassQuantity = new TextField("5");
@@ -62,13 +65,15 @@ public class GetDateStage {
         Button getParametr = new Button("CONFIRM");
         getParametr.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         VBox listTextFieldRight = new VBox();
-        listTextFieldRight.getChildren().addAll(mapWidth, mapHeight, startGrassQuantity, eatingGrassEnergy, grassPerDay, startAnimalsQuantity, startAnimalsEnergy, animalFullEnergy);
+        listTextFieldRight.getChildren().addAll(name, mapWidth, mapHeight, startGrassQuantity, eatingGrassEnergy, grassPerDay, startAnimalsQuantity, startAnimalsEnergy, animalFullEnergy);
         listTextFieldRight.setSpacing(10);
         VBox listTextFieldLeft = new VBox();
         listTextFieldLeft.getChildren().addAll(reproductionEnergy, minimalMutationNumber, maximalMutationNumber, genLength, movementDetails, animalMoving, mutationVariant, mapVariant);
         listTextFieldLeft.setSpacing(10);
 
 
+        Label namelabel = new Label("Name: ");
+        namelabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         Label mapWidthlabel = new Label("Width: ");
         mapWidthlabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         Label mapHeightlabel = new Label("Height: ");
@@ -106,7 +111,7 @@ public class GetDateStage {
         VBox listOfLabelRight = new VBox();
         listOfLabelLeft.getChildren().addAll(reproductionEnergylabel, minimalMutationNumberlabel, maximalMutationNumberlabel, genLengthlabel, movementDetailsLabel, animalMovingLabel, mutationVariantLabel, mapVariantLabel);
         listOfLabelLeft.setSpacing(18);
-        listOfLabelRight.getChildren().addAll(mapWidthlabel, mapHeightlabel, startGrassQuantitylabel, eatingGrassEnergylabel, grassPerDaylabel, startAnimalsQuantitylabel, startAnimalsEnergylabel, animalFullEnergylabel);
+        listOfLabelRight.getChildren().addAll(namelabel, mapWidthlabel, mapHeightlabel, startGrassQuantitylabel, eatingGrassEnergylabel, grassPerDaylabel, startAnimalsQuantitylabel, startAnimalsEnergylabel, animalFullEnergylabel);
         listOfLabelRight.setSpacing(18);
 
         HBox inputList = new HBox();
@@ -124,6 +129,16 @@ public class GetDateStage {
         borderPane.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         getParametr.setOnAction(action -> {
+            String configName;
+            configName = name.getText();
+            if (configName.contains(",")) {
+                try {
+                    throw new Exception("name can not contains comma");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
             String[] textFieldValues = new String[16];
             textFieldValues[0] = mapWidth.getText();
             textFieldValues[1] = mapHeight.getText();
@@ -143,6 +158,7 @@ public class GetDateStage {
             textFieldValues[15] = (String) mapVariant.getValue();
             Settings parameter;
             try {
+                OptionReader.add(configName, textFieldValues);
                 parameter = new Settings(textFieldValues);
             } catch (Exception e) {
                 throw new RuntimeException(e);
