@@ -49,8 +49,6 @@ public class Animal implements IMapElement {
         parentOne.loseEnergy(settings.getReproductionEnergy());
         parentTwo.loseEnergy(settings.getReproductionEnergy());
 
-        parentTwo.newChildren();
-        parentOne.newChildren();
         this.energy = settings.getReproductionEnergy() * 2;
     }
 
@@ -105,7 +103,7 @@ public class Animal implements IMapElement {
     }
 
     public void newChildren() {
-        this.children++;
+        this.children += 1;
     }
 
     public int[] getGenotype() {

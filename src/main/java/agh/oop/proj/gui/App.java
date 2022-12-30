@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -39,7 +38,7 @@ public class App extends Application {
     }
 
     private void initGetDate() throws FileNotFoundException {
-        ChoiceBox confVariant = new ChoiceBox();
+        ChoiceBox<String> confVariant = new ChoiceBox<String>();
         confVariant.getItems().add("My Configuration");
         confVariant.getItems().addAll(OptionReader.names());
 
@@ -84,9 +83,11 @@ public class App extends Application {
                                 Settings settings = new Settings(parameters);
                                 StartApp app = new StartApp(settings);
                             }
+                            else {
+                                throw new Exception("wrong configuration");
+                            }
                         }
                     }
-                    throw new Exception("wrong configuration");
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

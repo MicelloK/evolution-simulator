@@ -8,6 +8,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
 
+import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public class ElementBox {
@@ -36,7 +37,7 @@ public class ElementBox {
         if (element.isAnimal()) {
             Animal animal = (Animal) element;
             int energy = animal.getEnergy();
-            energyBar = new ProgressBar((double) energy / (double) engine.getSettings().getAnimalFullEnergy());
+            energyBar = new ProgressBar(min(1.00,(double) energy / (double) engine.getSettings().getAnimalFullEnergy()));
             if (((double) energy / (double) engine.getSettings().getAnimalFullEnergy()) * 100.00 >= 100) {
                 energyBar.setStyle("-fx-accent: #410000;-fx-background-insets: 0 0 0 0;-fx-padding: 0em;");
             } else if (((double) energy / (double) engine.getSettings().getAnimalFullEnergy()) * 100.00 >= 80.00) {

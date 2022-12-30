@@ -133,7 +133,7 @@ public class GetDateStage {
             configName = name.getText();
             if (configName.contains(",")) {
                 try {
-                    throw new Exception("name can not contains comma");
+                    throw new Exception("Name can not contains comma");
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

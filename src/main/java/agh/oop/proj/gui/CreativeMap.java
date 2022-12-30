@@ -17,23 +17,23 @@ public class CreativeMap {
     private final GridPane gridPane;
 
     private final Settings parameters;
-    private int size;
+    private double size;
 
     private Images images = new Images();
 
-    public CreativeMap(SimulationEngine engine, BorderPane border) {
+    public CreativeMap(SimulationEngine engine, BorderPane border,double sizeScene) {
         this.engine = engine;
         this.parameters = engine.getSettings();
         this.gridPane = new GridPane();
-        for (int i = 0; i < parameters.getMapWidth(); i++) {
-            this.gridPane.getColumnConstraints().add(new ColumnConstraints(border.getWidth() / (2*parameters.getMapWidth())));
-        }
-        for (int i = 0; i < parameters.getMapHeight(); i++) {
-            this.gridPane.getRowConstraints().add(new RowConstraints(border.getHeight() / (2*parameters.getMapHeight())));
-        }
         int width = parameters.getMapWidth();
         int height = parameters.getMapHeight();
         this.size = Math.max(width, height);
+        for (int i = 0; i < parameters.getMapWidth(); i++) {
+            this.gridPane.getColumnConstraints().add(new ColumnConstraints(sizeScene / (0.8*size)));
+        }
+        for (int i = 0; i < parameters.getMapHeight(); i++) {
+            this.gridPane.getRowConstraints().add(new RowConstraints(sizeScene / (1.5*size)));
+        }
         creativeMap();
     }
 
@@ -52,6 +52,7 @@ public class CreativeMap {
         ImageView imageView;
         Map<Vector2d,MapSquare> mapsquer = map.getElements();
         List<Vector2d> mapContain = parameters.getMap().getPreferred();
+        int freePosition = 0;
         for (int i = 0; i < parameters.getMapWidth(); i++) {
             for (int j = 0; j < parameters.getMapHeight(); j++) {
                 StackPane grasses = new StackPane();
@@ -82,11 +83,11 @@ public class CreativeMap {
                         box.setAlignment(Pos.CENTER);
                         Label posit = new Label(position.toString());
                         posit.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-                        posit.setFont(Font.font(20/(0.4*size)));
+                        posit.setFont(Font.font(20/(0.2*size)));
                         ElementBox pictures = new ElementBox(animal, engine);
                         pictures.createElement(imageView);
-                        double imageHeight = 500 / (2 * size*howMany);
-                        double imageWidth = 600 / (2 * size*howMany);
+                        double imageHeight = 500 / (1.5 * size*howMany);
+                        double imageWidth = 600 / (1.5 * size*howMany);
                         imageView.setFitHeight(imageHeight);
                         imageView.setFitWidth(imageWidth);
                         ProgressBar lifeBar = pictures.energyInAnimal();
@@ -97,8 +98,9 @@ public class CreativeMap {
                         stackPane.getChildren().addAll(imageView, live);
                         imageView.setOnMouseEntered(event -> live.setVisible(true));  // po najechaniu na obrazek ustaw etykietę jako widoczną
                         imageView.setOnMouseExited(event -> live.setVisible(false));  // po opuszczeniu obrazka ustaw etykietę jako niewidoczną
-                        lifeBar.setPrefHeight(60/(size));
-                        lifeBar.setPrefWidth(600 / (2 * size*howMany));
+                        lifeBar.setPrefHeight(80/(size));
+                        lifeBar.setPrefWidth(600 / (1.5 * size*howMany));
+                        lifeBar.setMinHeight(10);
                         HBox lifeandposition = new HBox();
                         lifeandposition.getChildren().addAll(lifeBar,posit);
                         box.getChildren().addAll(stackPane,lifeandposition);
@@ -107,16 +109,17 @@ public class CreativeMap {
                     gridPane.add(hbox,i,j);
                     GridPane.setHalignment(hbox, Pos.CENTER.getHpos());
                 }else{
+                    freePosition+=1;
                     if(square.didGrassGrow()){
                         Label posit = new Label(position.toString());
                         posit.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-                        posit.setFont(Font.font(20/(0.4*size)));
+                        posit.setFont(Font.font(20/(0.2*size)));
                         VBox box = new VBox();
                         box.setSpacing(3);
                         box.setAlignment(Pos.CENTER);
                         imageView = new ImageView(images.grassImage);
-                        double imageHeight = 500 / (2 * size);
-                        double imageWidth = 600 / (2 * size);
+                        double imageHeight = 500 / (1.5 * size);
+                        double imageWidth = 600 / (1.5 * size);
                         imageView.setFitHeight(imageHeight);
                         imageView.setFitWidth(imageWidth);
                         box.getChildren().addAll(imageView,posit);
@@ -125,6 +128,7 @@ public class CreativeMap {
                     }
                 }
             }
+            engine.setFreePosition(freePosition);
             gridPane.setAlignment(Pos.CENTER);
         }
     }

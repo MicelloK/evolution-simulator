@@ -49,7 +49,7 @@ public class StartApp {
                 System.out.println(e.getMessage());
             }
         });
-        CreativeMap mapWorld = new CreativeMap(engine,borderPane);
+        CreativeMap mapWorld = new CreativeMap(engine,borderPane,sceneMain.getHeight());
         GridPane gridPane = mapWorld.getGridPane();
         gridPane.setAlignment(Pos.CENTER);
         borderPane.setCenter(gridPane);
@@ -92,11 +92,18 @@ public class StartApp {
 
     public void uploadMap() {
         Platform.runLater(() ->{
-            CreativeMap newMap = new CreativeMap(engine,borderPane);
+            CreativeMap newMap = new CreativeMap(engine,borderPane,stage.getHeight());
             GridPane gridPane = newMap.getGridPane();
             gridPane.setGridLinesVisible(true);
-            gridPane.setAlignment(Pos.CENTER);
-            borderPane.setCenter(gridPane);
+            VBox stat = engine.getStat().uploudStatic();
+            stat.setAlignment(Pos.CENTER);
+            stat.setMaxHeight(stage.getHeight()/1.5);
+            stat.setStyle("-fx-background-color: rgba(8,56,65,0.84);");
+            HBox hbox = new HBox(10);
+            hbox.getChildren().addAll(gridPane, stat);
+            hbox.setAlignment(Pos.CENTER);
+            borderPane.setCenter(hbox);
+
         });
     }
 

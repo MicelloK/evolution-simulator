@@ -7,6 +7,10 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     protected final Map<Vector2d, MapSquare> elements;
     private int animalsNumber;
     private int grassNumber;
+
+    private int animalsDead = 0;
+
+    private int lifeOfDeadAniaml = 0;
     protected final int mapSize;
     private final Vector2d lowerLeft;
     private final Vector2d upperRight;
@@ -16,9 +20,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     protected List<Vector2d> emptyPreferred;
     protected List<Vector2d> emptyNotPreferred;
 
-    protected ArrayList<IMapElement> animalsList = new ArrayList<>();
-
-    protected ArrayList<IMapElement> grassList = new ArrayList<>();
+    protected ArrayList<Animal> animalsList = new ArrayList<>();
 
     protected AbstractWorldMap(int width, int height, IMoveAllowed movementDetails, int reproductionEnergy) {
         elements = new HashMap<>();
@@ -103,6 +105,9 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
             MapSquare square = elements.get(position);
             square.animalDie(animal);
             animalsList.remove(animal);
+            animalsNumber -= 1;
+            this.setAnimalsDead();
+            this.setLifeOfDeadAniaml((Animal) animal);
             return true;
         }
         return false;
@@ -131,6 +136,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         if (inMap(position)) {
             elements.get(position).placeObject(object);
             animalsNumber += 1;
+            animalsList.add((Animal) object);
             object.addObserver(this);
             return true;
         }
@@ -189,5 +195,21 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
 
     public String toString() {
         return new MapVisualiser(this).draw(lowerLeft, upperRight);
+    }
+
+    public int getAnimalsDead() {
+        return animalsDead;
+    }
+
+    public void setAnimalsDead() {
+        this.animalsDead = this.animalsDead + 1;
+    }
+
+    public int getLifeOfDeadAniaml() {
+        return lifeOfDeadAniaml;
+    }
+
+    public void setLifeOfDeadAniaml(Animal animal) {
+        this.lifeOfDeadAniaml = this.lifeOfDeadAniaml + animal.getLife();
     }
 }

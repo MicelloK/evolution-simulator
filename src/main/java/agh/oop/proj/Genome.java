@@ -52,7 +52,7 @@ public class Genome {
     }
 
     public int getActiveGenomeAnimal() {
-        return this.activeGenome;
+        return this.animalGenotype[activeGenome];
     }
 
     public void setActiveGenome(int activeGenome) {

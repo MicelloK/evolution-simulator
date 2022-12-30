@@ -12,22 +12,28 @@ public class SimulationEngine implements Runnable{
 
     private final Settings settings;
     private final AbstractWorldMap map;
+
+    private final Statistic stat;
     private int currentDay;
 
-    private final List<Animal> animals = new LinkedList<>();
+    private List<Animal> animals = new LinkedList<>();
 
     private boolean active = false;
 
     private StartApp app;
+
+
+    private int freePosition;
     public SimulationEngine(Settings settings, StartApp app) {
         this.app = app;
         this.settings = settings;
         map = settings.getMap();
         currentDay = 0;
+        this.stat = new Statistic(this);
     }
 
     private void moveAnimals() {
-        List<Animal> animals = new LinkedList<>();
+        this.animals = new LinkedList<>();
         for (MapSquare square : map.elements.values()) {
             for (IMapElement element : square.getObjects()) {
                 if (element.isAnimal()) {
@@ -126,6 +132,8 @@ public class SimulationEngine implements Runnable{
             Animal secondAnimal = findSecondAlfaFullAnimal(square);
             if (firstAnimal != null && secondAnimal != null) {
                 new Animal(firstAnimal, secondAnimal, settings, currentDay);
+                firstAnimal.newChildren();
+                secondAnimal.newChildren();
             }
         }
     }
@@ -202,5 +210,17 @@ public class SimulationEngine implements Runnable{
 
     public boolean isActive() {
         return active;
+    }
+
+    public int getFreePosition() {
+        return freePosition;
+    }
+
+    public void setFreePosition(int freePosition) {
+        this.freePosition = freePosition;
+    }
+
+    public Statistic getStat() {
+        return stat;
     }
 }
