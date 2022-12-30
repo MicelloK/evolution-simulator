@@ -4,6 +4,7 @@ import agh.oop.proj.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
@@ -89,11 +90,18 @@ public class CreativeMap {
                         imageView.setFitHeight(imageHeight);
                         imageView.setFitWidth(imageWidth);
                         ProgressBar lifeBar = pictures.energyInAnimal();
-                        lifeBar.setPrefHeight(100/(size));
+                        Label live = new Label(String.format("%.2f%%", lifeBar.getProgress() * 100));
+                        live.setVisible(false);
+                        live.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+                        StackPane stackPane = new StackPane();
+                        stackPane.getChildren().addAll(imageView, live);
+                        imageView.setOnMouseEntered(event -> live.setVisible(true));  // po najechaniu na obrazek ustaw etykietę jako widoczną
+                        imageView.setOnMouseExited(event -> live.setVisible(false));  // po opuszczeniu obrazka ustaw etykietę jako niewidoczną
+                        lifeBar.setPrefHeight(60/(size));
                         lifeBar.setPrefWidth(600 / (2 * size*howMany));
                         HBox lifeandposition = new HBox();
                         lifeandposition.getChildren().addAll(lifeBar,posit);
-                        box.getChildren().addAll(imageView,lifeandposition);
+                        box.getChildren().addAll(stackPane,lifeandposition);
                         hbox.getChildren().addAll(box,posit);
                     }
                     gridPane.add(hbox,i,j);

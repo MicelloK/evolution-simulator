@@ -20,7 +20,7 @@ public class StartApp {
 
     private final Button exitButton = new Button("EXIT");
 
-    private final Button buttonEndTracking = new Button("END TRACKING");
+    private final Button buttonEndTracking = new Button("START/STOP");
 
     private final SimulationEngine engine;
 
