@@ -201,7 +201,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         return animalsDead;
     }
 
-    public void setAnimalsDead() {
+    private void setAnimalsDead() {
         this.animalsDead = this.animalsDead + 1;
     }
 

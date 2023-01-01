@@ -12,7 +12,9 @@ import java.util.List;
 public class Statistic {
     private final VBox statisticLabel;
     private final AbstractWorldMap map;
+
     private int numberAnimals;
+
     private int numberGrass;
     private int numberDeadAnimals;
     private int worldDays;
@@ -22,7 +24,6 @@ public class Statistic {
     private double avgChildren;
     private int dominantGenotype;
     private SimulationEngine engine = null;
-
 
     public Statistic(SimulationEngine engine) {
         this.map = engine.getSettings().getMap();
@@ -106,7 +107,7 @@ public class Statistic {
     public void calculateAvgLifeLength(){
         if(map.getAnimalsDead() != 0) {
             this.avgLife =  map.getLifeOfDeadAniaml() / map.getAnimalsDead();
-        };
+        }
     }
 
 
@@ -139,5 +140,39 @@ public class Statistic {
         }
     }
 
+    public int getNumberAnimals() {
+        return numberAnimals;
+    }
 
+    public int getNumberGrass() {
+        return numberGrass;
+    }
+
+    public int getNumberDeadAnimals() {
+        return numberDeadAnimals;
+    }
+
+    public int getWorldDays() {
+        return worldDays;
+    }
+
+    public double getAvgLife() {
+        return avgLife;
+    }
+
+    public double getAvgEnergy() {
+        return avgEnergy;
+    }
+
+    public int getFreePosition() {
+        return freePosition;
+    }
+
+    public double getAvgChildren() {
+        return avgChildren;
+    }
+
+    public int getDominantGenotype() {
+        return dominantGenotype;
+    }
 }

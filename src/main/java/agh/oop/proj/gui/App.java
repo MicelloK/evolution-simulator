@@ -80,7 +80,7 @@ public class App extends Application {
                         if (items.equals(name)) {
                             String[] parameters = OptionReader.find(name);
                             if (parameters != null) {
-                                Settings settings = new Settings(parameters);
+                                Settings settings = new Settings(name, parameters);
                                 StartApp app = new StartApp(settings);
                             }
                             else {

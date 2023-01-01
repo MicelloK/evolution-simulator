@@ -1,27 +1,21 @@
 package agh.oop.proj;
 
-import agh.oop.proj.gui.App;
 import agh.oop.proj.gui.StartApp;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 public class SimulationEngine implements Runnable{
-
-
     private final Settings settings;
+    private final StatisticsWriter writer = new StatisticsWriter();
     private final AbstractWorldMap map;
-
     private final Statistic stat;
     private int currentDay;
-
     private List<Animal> animals = new LinkedList<>();
-
     private boolean active = false;
-
     private StartApp app;
-
 
     private int freePosition;
     public SimulationEngine(Settings settings, StartApp app) {
@@ -172,6 +166,11 @@ public class SimulationEngine implements Runnable{
     public void run() {
         System.out.println("start simulation:");
         if(currentDay == 0){
+            try {
+                writer.setSettingsFile(settings.getName());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             initSimulation();
             app.uploadMap();
         }
@@ -184,10 +183,13 @@ public class SimulationEngine implements Runnable{
                 animalsReproduction();
                 growGrass();
                 app.uploadMap();
+                writer.save(stat);
                 Thread.sleep(500);
 
-            }  catch (InterruptedException ex) {
+            } catch (InterruptedException ex) {
                 System.out.println(ex);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
             System.out.println(settings.getMap().toString()); // visualization
         }
@@ -202,10 +204,6 @@ public class SimulationEngine implements Runnable{
 
     public void changeStatus(){
         this.active = !this.active;
-    }
-
-    public List<Animal> getAnimals() {
-        return animals;
     }
 
     public boolean isActive() {
