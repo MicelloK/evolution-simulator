@@ -3,14 +3,11 @@ package agh.oop.proj;
 import java.util.*;
 
 abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObserver {
-
     protected final Map<Vector2d, MapSquare> elements;
     private int animalsNumber;
     private int grassNumber;
-
     private int animalsDead = 0;
-
-    private int lifeOfDeadAniaml = 0;
+    private int lifeOfDeadAnimal = 0;
     protected final int mapSize;
     private final Vector2d lowerLeft;
     private final Vector2d upperRight;
@@ -19,7 +16,6 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     protected final List<Vector2d> preferredPositions = new ArrayList<>();
     protected List<Vector2d> emptyPreferred;
     protected List<Vector2d> emptyNotPreferred;
-
     protected ArrayList<Animal> animalsList = new ArrayList<>();
 
     protected AbstractWorldMap(int width, int height, IMoveAllowed movementDetails, int reproductionEnergy) {
@@ -47,17 +43,14 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     }
 
     @Override
-    public boolean positionChanged(Vector2d oldPosition, Vector2d newPosition, IMapElement object) {
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition, IMapElement object) {
         if (elements.containsKey(oldPosition) && elements.containsKey(newPosition)) {
             elements.get(oldPosition).removeObject(object);
             elements.get(newPosition).placeObject(object);
-            return true;
         }
-        return false;
     }
 
     abstract void updatePreferredPositions();
-
 
     public List<Vector2d> getPreferred() {
         return new LinkedList<>(preferredPositions.subList(0, (int) Math.round(0.2 * mapSize)));
@@ -90,8 +83,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         if (preference >= 20) {
             position = emptyPreferred.get(random.nextInt(emptyPreferred.size()));
             emptyPreferred.remove(position);
-        }
-        else  {
+        } else {
             position = emptyNotPreferred.get(random.nextInt(emptyNotPreferred.size()));
             emptyNotPreferred.remove(position);
         }
@@ -99,18 +91,16 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     }
 
     @Override
-    public boolean animalDies(IMapElement animal) {
+    public void animalDies(IMapElement animal) {
         Vector2d position = animal.getPosition();
         if (elements.get(position).getObjects().contains(animal)) {
             MapSquare square = elements.get(position);
             square.animalDie(animal);
-            animalsList.remove(animal);
+            animalsList.remove((Animal) animal);
             animalsNumber -= 1;
             this.setAnimalsDead();
-            this.setLifeOfDeadAniaml((Animal) animal);
-            return true;
+            this.setLifeOfDeadAnimal((Animal) animal);
         }
-        return false;
     }
 
     public boolean inMap(Vector2d position) {
@@ -126,16 +116,14 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     }
 
     @Override
-    public boolean place(IMapElement object) {
+    public void place(IMapElement object) {
         Vector2d position = object.getPosition();
         if (inMap(position)) {
             elements.get(position).placeObject(object);
             animalsNumber += 1;
             animalsList.add((Animal) object);
-            object.addObserver(this);
-            return true;
+            object.setObserver(this);
         }
-        return false;
     }
 
     private void addGrass(Vector2d position) {
@@ -158,8 +146,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
 
         if (getPreferred().contains(position)) {
             emptyPreferred.add(position);
-        }
-        else {
+        } else {
             emptyNotPreferred.add(position);
         }
     }
@@ -187,7 +174,6 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         return elements;
     }
 
-
     public String toString() {
         return new MapVisualiser(this).draw(lowerLeft, upperRight);
     }
@@ -200,11 +186,11 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         this.animalsDead = this.animalsDead + 1;
     }
 
-    public int getLifeOfDeadAniaml() {
-        return lifeOfDeadAniaml;
+    public int getLifeOfDeadAnimal() {
+        return lifeOfDeadAnimal;
     }
 
-    public void setLifeOfDeadAniaml(Animal animal) {
-        this.lifeOfDeadAniaml = this.lifeOfDeadAniaml + animal.getLife();
+    public void setLifeOfDeadAnimal(Animal animal) {
+        this.lifeOfDeadAnimal = this.lifeOfDeadAnimal + animal.getLifeLength();
     }
 }

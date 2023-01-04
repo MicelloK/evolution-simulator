@@ -2,7 +2,7 @@ package agh.oop.proj;
 
 public class EarthMoveAllowed implements IMoveAllowed {
     @Override
-    public Vector2d newPosition(Vector2d oldPosition, Vector2d newPosition,  Vector2d lowerLeft, Vector2d upperRight) {
+    public Vector2d newPosition(Vector2d oldPosition, Vector2d newPosition, Vector2d lowerLeft, Vector2d upperRight) {
         if (onRightSide(newPosition, lowerLeft, upperRight)) {
             newPosition = new Vector2d(lowerLeft.x(), newPosition.y());
         } else if (onLeftSide(newPosition, lowerLeft, upperRight)) {

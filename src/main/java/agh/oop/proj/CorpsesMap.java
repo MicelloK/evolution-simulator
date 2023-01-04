@@ -17,7 +17,7 @@ public class CorpsesMap extends AbstractWorldMap {
         updateEmptyPositions();
     }
 
-    protected void updateEmptyPositions() {
+    private void updateEmptyPositions() {
         for (Vector2d position : getPreferred()) {
             if (emptyNotPreferred.contains(position)) {
                 emptyNotPreferred.remove(position);

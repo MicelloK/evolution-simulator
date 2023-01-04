@@ -18,26 +18,26 @@ public class Genome {
     }
 
     public Genome(Animal parentOne, Animal parentTwo, Settings settings) {
-        int whichSide = (random.nextInt() % 2); //0 - left, 1 - right
+        int side = (random.nextInt() % 2); //0 - left, 1 - right
 
-        Animal dominant = parentTwo;
+        Animal moreDominant = parentTwo;
         Animal lessDominant = parentOne;
 
         if (parentOne.getEnergy() > parentTwo.getEnergy()) {
-            dominant = parentOne;
+            moreDominant = parentOne;
             lessDominant = parentTwo;
         }
 
-        int cut = dominant.getEnergy() / (dominant.getEnergy() + lessDominant.getEnergy()) * dominant.getGenotype().length;
+        int cut = moreDominant.getEnergy() / (moreDominant.getEnergy() + lessDominant.getEnergy()) * moreDominant.getGenotype().length;
 
         int[] firstPiece, secondPiece;
-        int n = dominant.getGenotype().length;
+        int n = moreDominant.getGenotype().length;
 
-        if (whichSide == 0) {
-            firstPiece = Arrays.copyOfRange(dominant.getGenotype(), 0, cut);
+        if (side == 0) {
+            firstPiece = Arrays.copyOfRange(moreDominant.getGenotype(), 0, cut);
             secondPiece = Arrays.copyOfRange(lessDominant.getGenotype(), cut, n);
         } else {
-            firstPiece = Arrays.copyOfRange(dominant.getGenotype(), n - cut, n);
+            firstPiece = Arrays.copyOfRange(moreDominant.getGenotype(), n - cut, n);
             secondPiece = Arrays.copyOfRange(lessDominant.getGenotype(), 0, n - cut);
         }
 
@@ -57,10 +57,5 @@ public class Genome {
 
     public void setActiveGenome(int activeGenome) {
         this.activeGenome = activeGenome;
-    }
-
-    @Override
-    public String toString() {
-        return Arrays.toString(this.animalGenotype);
     }
 }

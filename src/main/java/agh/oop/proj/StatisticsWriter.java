@@ -1,6 +1,5 @@
 package agh.oop.proj;
 
-import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,7 +9,7 @@ public class StatisticsWriter {
     private static String SETTINGS_FILE;
     private static final String CSV_SPLIT_BY = ",";
 
-    public void save(Statistic statistics) throws IOException {
+    public void save(Statistics statistics) throws IOException {
         String[] stats = statisticsParser(statistics);
 
         FileWriter writer = new FileWriter(SETTINGS_FILE, true);
@@ -23,7 +22,7 @@ public class StatisticsWriter {
         writer.close();
     }
 
-    private String[] statisticsParser(Statistic statistics) {
+    private String[] statisticsParser(Statistics statistics) {
         String[] parsed = new String[9];
 
         parsed[0] = String.valueOf(statistics.getWorldDays());
@@ -33,7 +32,7 @@ public class StatisticsWriter {
         parsed[4] = String.valueOf(statistics.getAvgChildren());
         parsed[5] = String.valueOf(statistics.getAvgLife());
         parsed[6] = String.valueOf(statistics.getAvgEnergy());
-        parsed[7] = String.valueOf(statistics.getFreePosition());
+        parsed[7] = String.valueOf(statistics.getFreePositionQuantity());
         parsed[8] = String.valueOf(statistics.getDominantGenotype());
 
         return parsed;

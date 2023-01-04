@@ -73,7 +73,7 @@ public class ElementInformation {
         Label energy = new Label(Integer.toString(animal.getEnergy()));
         Label grassesEaten = new Label(Integer.toString(animal.getHowManyGrassEat()));
         Label children = new Label(Integer.toString(animal.getChildren()));
-        Label live = new Label(Integer.toString(animal.getLife()));
+        Label live = new Label(Integer.toString(animal.getLifeLength()));
         Label dead = new Label(Integer.toString(animal.getDeathDay()));
         listOfInformation.getChildren().addAll(activeGenom, genom, energy, grassesEaten, children, live, dead);
         activeGenom.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");

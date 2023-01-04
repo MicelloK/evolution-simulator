@@ -4,7 +4,6 @@ import agh.oop.proj.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
@@ -71,7 +70,7 @@ public class CreativeMap {
                     hbox.setAlignment(Pos.CENTER);
                     int howMany = square.getObjects().size();
                     for (IMapElement animal : square.getObjects()) {
-                        switch (animal.getImage()) {
+                        switch (animal.getImageIdx()) {
                             case 5 -> imageView = new ImageView(images.Image5);
                             case 4 -> imageView = new ImageView(images.Image4);
                             case 3 -> imageView = new ImageView(images.Image3);
@@ -128,7 +127,7 @@ public class CreativeMap {
                     }
                 }
             }
-            engine.setFreePosition(freePosition);
+            engine.setFreePositionQuantity(freePosition);
             gridPane.setAlignment(Pos.CENTER);
         }
     }
