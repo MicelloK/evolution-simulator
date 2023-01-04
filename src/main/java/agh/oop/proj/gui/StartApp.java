@@ -1,7 +1,9 @@
 package agh.oop.proj.gui;
 
+import agh.oop.proj.Controller;
 import agh.oop.proj.Settings;
 import agh.oop.proj.SimulationEngine;
+import agh.oop.proj.Statistic;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class StartApp {
@@ -24,7 +27,7 @@ public class StartApp {
 
     private final SimulationEngine engine;
 
-    private Thread engineThread;
+    private final Thread engineThread;
 
     public StartApp(Settings parameters) {
         this.stage = new Stage();
@@ -40,6 +43,7 @@ public class StartApp {
         borderPane.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
         BorderPane.setMargin(tittle, new Insets(20, 0, 20, 0));
         engine = new SimulationEngine(parameters,this);
+        new Controller(engine, this);
         this.engineThread = new Thread(() -> {
             try {
                 while (true) {
@@ -90,12 +94,51 @@ public class StartApp {
         buttonEndTracking.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
     }
 
+    public VBox uploadStats() {
+        Statistic stats = engine.getStat();
+        stats.updateStats();
+
+        Label title = new Label("STATISTIC MAP");
+
+        Label worldDays = new Label("Number Day: " + stats.getWorldDays());
+        worldDays.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+
+        Label numberOfAliveAnimals = new Label("Number of Alive Animals"+ stats.getNumberAnimals());
+        numberOfAliveAnimals.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+
+        Label numberOfGrass = new Label("Number of grass: " + stats.getNumberGrass());
+        numberOfGrass.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+
+        Label numberOfDeadAnimals = new Label("Number of Dead Animals " + stats.getNumberDeadAnimals());
+        numberOfDeadAnimals.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+
+        Label avgEnergy = new Label("Average of energy: " + stats.getAvgEnergy());
+        avgEnergy.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+
+        Label avgLifeDaysDeadAnimal = new Label("Average of life: " + stats.getAvgLife());
+        avgLifeDaysDeadAnimal.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+
+        Label avgChildren = new Label("Average of Children: " + stats.getAvgChildren());
+        avgChildren.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+
+        Label dominantGenotype = new Label("Dominant Genotype: " + stats.getDominantGenotype());
+        dominantGenotype.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+
+        VBox statistics = new VBox(15);
+        statistics.getChildren().addAll(title,worldDays, numberOfAliveAnimals, numberOfGrass, numberOfDeadAnimals, avgEnergy, avgLifeDaysDeadAnimal, avgChildren, dominantGenotype);
+        statistics.setAlignment(Pos.TOP_CENTER);
+        title.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);-fx-font-weight: bold;");
+        title.setFont(new Font(15));
+        statistics.setStyle(String.valueOf(new Insets(0,1,1,50)));
+        return statistics;
+    }
+
     public void uploadMap() {
         Platform.runLater(() ->{
             CreativeMap newMap = new CreativeMap(engine,borderPane,stage.getHeight());
             GridPane gridPane = newMap.getGridPane();
             gridPane.setGridLinesVisible(true);
-            VBox stat = engine.getStat().uploudStatic();
+            VBox stat = uploadStats();
             stat.setAlignment(Pos.CENTER);
             stat.setMaxHeight(stage.getHeight()/1.5);
             stat.setStyle("-fx-background-color: rgba(8,56,65,0.84);");

@@ -15,15 +15,18 @@ public class SimulationEngine implements Runnable{
     private int currentDay;
     private List<Animal> animals = new LinkedList<>();
     private boolean active = false;
-    private StartApp app;
-
+    private ISimulationObserver observer;
     private int freePosition;
+
     public SimulationEngine(Settings settings, StartApp app) {
-        this.app = app;
         this.settings = settings;
         map = settings.getMap();
         currentDay = 0;
         this.stat = new Statistic(this);
+    }
+
+    public void setObserver(ISimulationObserver observer) {
+        this.observer = observer;
     }
 
     private void moveAnimals() {
@@ -172,7 +175,7 @@ public class SimulationEngine implements Runnable{
                 throw new RuntimeException(e);
             }
             initSimulation();
-            app.uploadMap();
+            observer.SimulationStep();
         }
         while (isSimulationNotOver() && active) {
             try{
@@ -182,7 +185,7 @@ public class SimulationEngine implements Runnable{
                 eatGrass();
                 animalsReproduction();
                 growGrass();
-                app.uploadMap();
+                observer.SimulationStep();
                 writer.save(stat);
                 Thread.sleep(500);
 
