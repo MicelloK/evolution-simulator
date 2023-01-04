@@ -1,4 +1,4 @@
-name,mapWidth,mapHeight,startGrassQuatity,eatingGrassEnergy,grassPerDay,startAnimalsQuantity,startAnimalEnergy,animalFullEnergy,reproductionEnergy,minimalMutationNumber,maximalMutationNumber,genLength,animalMoving,mutationVariant,movementDetails,map
-config 1,20,10,4,1,1,5,10,15,1,1,3,3,Craziness,Random,Earth,Corpses
-config 2,10,10,5,1,8,15,10,15,5,2,9,8,Craziness,Correction,Earth,Equators
+name,mapWidth,mapHeight,startGrassQuantity,eatingGrassEnergy,grassPerDay,startAnimalsQuantity,startAnimalEnergy,animalFullEnergy,reproductionEnergy,minimalMutationNumber,maximalMutationNumber,genLength,animalMoving,mutationVariant,movementDetails,map
 testowa konfiguracja,12,11,5,1,8,15,10,15,5,2,9,8,Predestination,Random,Earth,Corpses
+config 1,10,10,5,1,8,15,10,15,5,2,9,8,Craziness,Correction,Earth,Equators
+config 2,20,10,5,1,8,15,10,15,5,2,9,8,Craziness,Random,Portal,Corpses

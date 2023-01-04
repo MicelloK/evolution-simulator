@@ -1,16 +1,8 @@
 package agh.oop.proj;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Statistic {
-    private final VBox statisticLabel;
     private final AbstractWorldMap map;
     private int numberAnimals;
     private int numberGrass;
@@ -21,8 +13,7 @@ public class Statistic {
     private int freePosition;
     private double avgChildren;
     private int dominantGenotype;
-    private SimulationEngine engine = null;
-
+    private final SimulationEngine engine;
 
     public Statistic(SimulationEngine engine) {
         this.map = engine.getSettings().getMap();
@@ -36,55 +27,21 @@ public class Statistic {
         this.avgChildren = 0;
         this.dominantGenotype = 0;
         this.engine = engine;
-        this.statisticLabel = uploudStatic();
         this.freePosition = engine.getFreePosition();
     }
 
-    public VBox uploudStatic(){
-        AbstractWorldMap map = this.engine.getSettings().getMap();
-        this.numberAnimals = map.getAnimalsNumber();
-        this.numberGrass = map.getGrassNumber();
-        this.numberDeadAnimals = map.getAnimalsDead() ;
-        this.worldDays = engine.getCurrentDay();
+    public void updateStats() {
+        AbstractWorldMap map = engine.getSettings().getMap();
+        numberAnimals = map.getAnimalsNumber();
+        numberGrass = map.getGrassNumber();
+        numberDeadAnimals = map.getAnimalsDead() ;
+        worldDays = engine.getCurrentDay();
+        freePosition = engine.getFreePosition();
         calculateAvgLifeLength();
         calculateAvgEnergy();
-        this.freePosition = engine.getFreePosition();
         calculateAvgChildren();
         findDominant();
-        Label title = new Label("STATISTIC MAP");
-
-        Label worldDays = new Label("Number Day: " + this.worldDays);
-        worldDays.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-
-        Label numberOfAliveAnimals = new Label("Number of Alive Animals"+this.numberAnimals);
-        numberOfAliveAnimals.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-
-        Label numberOfGrass = new Label("Number of grass: " + this.numberGrass);
-        numberOfGrass.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-
-        Label numberOfDeadAnimals = new Label("Number of Dead Animals " + this.numberDeadAnimals);
-        numberOfDeadAnimals.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-
-        Label avgEnergy = new Label("Average of energy: " + this.avgEnergy);
-        avgEnergy.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-
-        Label avgLifeDaysDeadAnimal = new Label("Average of life: " + this.avgLife);
-        avgLifeDaysDeadAnimal.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-
-        Label avgChildren = new Label("Average of Children: " + this.avgChildren);
-        avgChildren.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-
-        Label dominantGenotype = new Label("Dominant Genotype: " + this.dominantGenotype);
-        dominantGenotype.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-
-        VBox statsistic = new VBox(15);
-        statsistic.getChildren().addAll(title,worldDays, numberOfAliveAnimals, numberOfGrass, numberOfDeadAnimals, avgEnergy, avgLifeDaysDeadAnimal, avgChildren, dominantGenotype);
-        statsistic.setAlignment(Pos.TOP_CENTER);
-        title.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);-fx-font-weight: bold;");
-        title.setFont(new Font(15));
-        statsistic.setStyle(String.valueOf(new Insets(0,1,1,50)));
-        return statsistic;
-    };
+    }
 
     public void findDominant(){
         List<Animal> animals = engine.getSettings().getMap().animalsList;
@@ -106,7 +63,7 @@ public class Statistic {
     public void calculateAvgLifeLength(){
         if(map.getAnimalsDead() != 0) {
             this.avgLife =  map.getLifeOfDeadAniaml() / map.getAnimalsDead();
-        };
+        }
     }
 
 
@@ -139,5 +96,39 @@ public class Statistic {
         }
     }
 
+    public int getNumberAnimals() {
+        return numberAnimals;
+    }
 
+    public int getNumberGrass() {
+        return numberGrass;
+    }
+
+    public int getNumberDeadAnimals() {
+        return numberDeadAnimals;
+    }
+
+    public int getWorldDays() {
+        return worldDays;
+    }
+
+    public double getAvgLife() {
+        return avgLife;
+    }
+
+    public double getAvgEnergy() {
+        return avgEnergy;
+    }
+
+    public int getFreePosition() {
+        return freePosition;
+    }
+
+    public double getAvgChildren() {
+        return avgChildren;
+    }
+
+    public int getDominantGenotype() {
+        return dominantGenotype;
+    }
 }

@@ -1,35 +1,32 @@
 package agh.oop.proj;
 
-import agh.oop.proj.gui.App;
 import agh.oop.proj.gui.StartApp;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 public class SimulationEngine implements Runnable{
-
-
     private final Settings settings;
+    private final StatisticsWriter writer = new StatisticsWriter();
     private final AbstractWorldMap map;
-
     private final Statistic stat;
     private int currentDay;
-
     private List<Animal> animals = new LinkedList<>();
-
     private boolean active = false;
-
-    private StartApp app;
-
-
+    private ISimulationObserver observer;
     private int freePosition;
+
     public SimulationEngine(Settings settings, StartApp app) {
-        this.app = app;
         this.settings = settings;
         map = settings.getMap();
         currentDay = 0;
         this.stat = new Statistic(this);
+    }
+
+    public void setObserver(ISimulationObserver observer) {
+        this.observer = observer;
     }
 
     private void moveAnimals() {
@@ -172,8 +169,13 @@ public class SimulationEngine implements Runnable{
     public void run() {
         System.out.println("start simulation:");
         if(currentDay == 0){
+            try {
+                writer.setSettingsFile(settings.getName());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             initSimulation();
-            app.uploadMap();
+            observer.SimulationStep();
         }
         while (isSimulationNotOver() && active) {
             try{
@@ -183,11 +185,14 @@ public class SimulationEngine implements Runnable{
                 eatGrass();
                 animalsReproduction();
                 growGrass();
-                app.uploadMap();
+                observer.SimulationStep();
+                writer.save(stat);
                 Thread.sleep(500);
 
-            }  catch (InterruptedException ex) {
+            } catch (InterruptedException ex) {
                 System.out.println(ex);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
             System.out.println(settings.getMap().toString()); // visualization
         }
@@ -202,10 +207,6 @@ public class SimulationEngine implements Runnable{
 
     public void changeStatus(){
         this.active = !this.active;
-    }
-
-    public List<Animal> getAnimals() {
-        return animals;
     }
 
     public boolean isActive() {

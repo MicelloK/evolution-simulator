@@ -25,7 +25,7 @@ public class OptionReader {
         return options;
     }
 
-    public static void add(String name, String[] config) throws IOException {
+    public static void add(String name, String[] config) throws Exception {
         FileWriter writer = new FileWriter(CSV_FILE, true);
 
         String line = String.join(CSV_SPLIT_BY , config);
@@ -55,12 +55,4 @@ public class OptionReader {
         }
         return list;
     }
-
-
-
-
-
-
-
-
 }

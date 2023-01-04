@@ -1,6 +1,7 @@
 package agh.oop.proj;
 
 public class Settings {
+    private final String name;
     private final int mapWidth;
     private final int mapHeight;
     private final int startGrassQuantity;
@@ -18,7 +19,8 @@ public class Settings {
     private final IMove animalMoving;
     private final IGenome mutationVariant;
 
-    public Settings(String[] config) throws Exception {
+    public Settings(String configName, String[] config) throws Exception {
+        name = configName;
         mapWidth = Integer.parseInt(config[0]);
         mapHeight = Integer.parseInt(config[1]);
         startGrassQuantity = Integer.parseInt(config[2]);
@@ -55,6 +57,9 @@ public class Settings {
         }
     }
 
+    public String getName() {
+        return name;
+    }
     public int getMapWidth() {
         return mapWidth;
     }

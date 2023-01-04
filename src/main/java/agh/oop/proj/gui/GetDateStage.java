@@ -133,11 +133,19 @@ public class GetDateStage {
             configName = name.getText();
             if (configName.contains(",")) {
                 try {
-                    throw new Exception("Name can not contains comma");
+                    throw new Exception("Incorrect config name");
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }
+            try {
+                if (OptionReader.find(configName) != null) {
+                    throw new Exception("this configuration already exist, use another name");
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
 
             String[] textFieldValues = new String[16];
             textFieldValues[0] = mapWidth.getText();
@@ -159,7 +167,7 @@ public class GetDateStage {
             Settings parameter;
             try {
                 OptionReader.add(configName, textFieldValues);
-                parameter = new Settings(textFieldValues);
+                parameter = new Settings(configName, textFieldValues);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

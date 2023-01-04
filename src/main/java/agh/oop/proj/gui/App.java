@@ -75,8 +75,8 @@ public class App extends Application {
                         if (items.equals(name)) {
                             String[] parameters = OptionReader.find(name);
                             if (parameters != null) {
-                                Settings settings = new Settings(parameters);
-                                StartApp app = new StartApp(settings);
+                                Settings settings = new Settings(name, parameters);
+                                new StartApp(settings);
                             }
                             else {
                                 throw new Exception("wrong configuration");
