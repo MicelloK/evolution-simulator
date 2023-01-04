@@ -20,6 +20,8 @@ import java.io.IOException;
 public class App extends Application {
     private final BorderPane border = new BorderPane();
 
+    String buttonStyle = "-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);";
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.getIcons().add(new Image(new FileInputStream("src/main/resources/world.jpg")));
@@ -29,9 +31,9 @@ public class App extends Application {
         primaryStage.show();
     }
 
-    private void initBorder() throws FileNotFoundException {
+    private void initBorder() {
         Label tittle = new Label("Choice your configuration and have fun!");
-        tittle.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 22pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        tittle.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 26 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         border.setTop(tittle);
         BorderPane.setAlignment(tittle, Pos.CENTER);
         BorderPane.setMargin(tittle, new Insets(20, 0, 20, 0));
@@ -44,24 +46,17 @@ public class App extends Application {
 
 
         Button getParametr = new Button("CONFIRM");
-        getParametr.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-
+        getParametr.setStyle(buttonStyle);
         Button exitButton = new Button("EXIT");
-        exitButton.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-
-
+        exitButton.setStyle(buttonStyle);
         Label choiceLabel = new Label("Your choice: ");
         choiceLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
 
 
-        HBox inputList = new HBox();
-        inputList.getChildren().addAll(choiceLabel,confVariant);
-        inputList.setSpacing(10);
+        HBox inputList = new HBox(10,choiceLabel,confVariant);
         inputList.setAlignment(Pos.CENTER);
 
-        HBox confirm = new HBox();
-        confirm.setSpacing(50);
-        confirm.getChildren().addAll(getParametr,exitButton);
+        HBox confirm = new HBox(50,getParametr,exitButton);
         border.setMargin(confirm, new Insets(10, 0, 60, 0));
         border.setCenter(inputList);
         border.setBottom(confirm);
