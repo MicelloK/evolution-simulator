@@ -113,11 +113,6 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
         return false;
     }
 
-    @Override
-    public boolean canMoveTo(Vector2d position) {
-        return movementDetails.canMoveTo(position, lowerLeft, upperRight);
-    }
-
     public boolean inMap(Vector2d position) {
         return position.precedes(upperRight) && position.follows(lowerLeft);
     }
