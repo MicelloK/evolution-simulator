@@ -3,7 +3,7 @@ package agh.oop.proj.gui;
 import agh.oop.proj.Controller;
 import agh.oop.proj.Settings;
 import agh.oop.proj.SimulationEngine;
-import agh.oop.proj.Statistic;
+import agh.oop.proj.Statistics;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -42,7 +42,7 @@ public class StartApp {
         BorderPane.setAlignment(tittle, Pos.CENTER);
         borderPane.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
         BorderPane.setMargin(tittle, new Insets(20, 0, 20, 0));
-        engine = new SimulationEngine(parameters,this);
+        engine = new SimulationEngine(parameters);
         new Controller(engine, this);
         this.engineThread = new Thread(() -> {
             try {
@@ -53,7 +53,7 @@ public class StartApp {
                 System.out.println(e.getMessage());
             }
         });
-        CreativeMap mapWorld = new CreativeMap(engine,borderPane,sceneMain.getHeight());
+        CreativeMap mapWorld = new CreativeMap(engine, sceneMain.getHeight());
         GridPane gridPane = mapWorld.getGridPane();
         gridPane.setAlignment(Pos.CENTER);
         borderPane.setCenter(gridPane);
@@ -95,7 +95,7 @@ public class StartApp {
     }
 
     public VBox uploadStats() {
-        Statistic stats = engine.getStat();
+        Statistics stats = engine.getStats();
         stats.updateStats();
 
         Label title = new Label("STATISTIC MAP");
@@ -135,7 +135,7 @@ public class StartApp {
 
     public void uploadMap() {
         Platform.runLater(() ->{
-            CreativeMap newMap = new CreativeMap(engine,borderPane,stage.getHeight());
+            CreativeMap newMap = new CreativeMap(engine, stage.getHeight());
             GridPane gridPane = newMap.getGridPane();
             gridPane.setGridLinesVisible(true);
             VBox stat = uploadStats();

@@ -11,8 +11,6 @@ public class Settings {
     private final int startAnimalEnergy;
     private final int animalFullEnergy;
     private final int reproductionEnergy;
-    private final int minimalMutationNumber;
-    private final int maximalMutationNumber;
     private final int genLength;
 
     private final AbstractWorldMap map;
@@ -30,8 +28,8 @@ public class Settings {
         startAnimalEnergy = Integer.parseInt(config[6]);
         animalFullEnergy = Integer.parseInt(config[7]);
         reproductionEnergy = Integer.parseInt(config[8]);
-        minimalMutationNumber = Integer.parseInt(config[9]);
-        maximalMutationNumber = Integer.parseInt(config[10]);
+        int minimalMutationNumber = Integer.parseInt(config[9]);
+        int maximalMutationNumber = Integer.parseInt(config[10]);
         genLength = Integer.parseInt(config[11]);
 
         switch (config[12]) {

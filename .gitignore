@@ -18,6 +18,9 @@ gradlew.bat
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 
+### simulation statisctic
+src/main/statistics
+
 # Local History for Visual Studio Code
 .history/
 

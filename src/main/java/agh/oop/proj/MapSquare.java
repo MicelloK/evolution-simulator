@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapSquare {
-    private boolean grass;
     private final ArrayList<IMapElement> objects;
+    private boolean grass;
     private int deathCounter;
 
     public MapSquare() {
