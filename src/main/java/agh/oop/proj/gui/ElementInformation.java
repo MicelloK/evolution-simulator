@@ -17,7 +17,6 @@ public class ElementInformation {
     private final Button exitButton = new Button("EXIT");
     private final VBox needDate;
 
-
     public ElementInformation() {
         this.stage = new Stage();
         this.borderPane = new BorderPane();
@@ -33,25 +32,25 @@ public class ElementInformation {
 
     }
 
-    private VBox infoDate(){
-        VBox listOfEtykiet = new VBox();
-        listOfEtykiet.setSpacing(10);
-        Label activeGenomLabel = new Label("Active Genome:");
-        Label genomLabel = new Label("Genome:");;
+    private VBox infoDate() {
+        VBox listOfLabels = new VBox();
+        listOfLabels.setSpacing(10);
+        Label activeGenomeLabel = new Label("Active Genome:");
+        Label genomeLabel = new Label("Genome:");
         Label energyLabel = new Label("Energy:");
         Label grassesEatenLabel = new Label("Grasses Eaten:");
         Label childrenLabel = new Label("Children:");
         Label liveLabel = new Label("Days Lived:");
         Label deadLabel = new Label("Day of Death:");
-        activeGenomLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: transparent;");
-        genomLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: transparent;");
+        activeGenomeLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: transparent;");
+        genomeLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: transparent;");
         energyLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: transparent;");
         grassesEatenLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: transparent;");
         childrenLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: transparent;");
         liveLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: transparent;");
         deadLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: transparent;");
-        listOfEtykiet.getChildren().addAll(activeGenomLabel, genomLabel, energyLabel, grassesEatenLabel, childrenLabel, liveLabel, deadLabel);
-        return listOfEtykiet;
+        listOfLabels.getChildren().addAll(activeGenomeLabel, genomeLabel, energyLabel, grassesEatenLabel, childrenLabel, liveLabel, deadLabel);
+        return listOfLabels;
     }
 
     public void creativeInfo(Animal animal, SimulationEngine engine) {
@@ -68,16 +67,16 @@ public class ElementInformation {
 
         VBox listOfInformation = new VBox();
         listOfInformation.setSpacing(10);
-        Label activeGenom = new Label(Integer.toString(animal.getActiveGenome()));
-        Label genom = new Label(genomeString.toString());
+        Label activeGenome = new Label(Integer.toString(animal.getActiveGenome()));
+        Label genome = new Label(genomeString.toString());
         Label energy = new Label(Integer.toString(animal.getEnergy()));
         Label grassesEaten = new Label(Integer.toString(animal.getHowManyGrassEat()));
         Label children = new Label(Integer.toString(animal.getChildren()));
         Label live = new Label(Integer.toString(animal.getLifeLength()));
         Label dead = new Label(Integer.toString(animal.getDeathDay()));
-        listOfInformation.getChildren().addAll(activeGenom, genom, energy, grassesEaten, children, live, dead);
-        activeGenom.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-        genom.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        listOfInformation.getChildren().addAll(activeGenome, genome, energy, grassesEaten, children, live, dead);
+        activeGenome.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        genome.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         energy.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         grassesEaten.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         children.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
@@ -85,17 +84,15 @@ public class ElementInformation {
         dead.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
 
         HBox inputList = new HBox();
-        inputList.getChildren().addAll(needDate,listOfInformation);
+        inputList.getChildren().addAll(needDate, listOfInformation);
         inputList.setSpacing(20);
         inputList.setAlignment(Pos.CENTER);
         borderPane.setCenter(inputList);
         stage.show();
 
         exitButton.setOnAction(e -> {
-
             engine.changeStatus();
             stage.close();
-
         });
     }
 }

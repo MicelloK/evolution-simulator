@@ -53,7 +53,7 @@ public class StartApp {
                 System.out.println(e.getMessage());
             }
         });
-        CreativeMap mapWorld = new CreativeMap(engine,borderPane,sceneMain.getHeight());
+        CreativeMap mapWorld = new CreativeMap(engine, sceneMain.getHeight());
         GridPane gridPane = mapWorld.getGridPane();
         gridPane.setAlignment(Pos.CENTER);
         borderPane.setCenter(gridPane);
@@ -135,7 +135,7 @@ public class StartApp {
 
     public void uploadMap() {
         Platform.runLater(() ->{
-            CreativeMap newMap = new CreativeMap(engine,borderPane,stage.getHeight());
+            CreativeMap newMap = new CreativeMap(engine, stage.getHeight());
             GridPane gridPane = newMap.getGridPane();
             gridPane.setGridLinesVisible(true);
             VBox stat = uploadStats();
