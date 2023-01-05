@@ -136,7 +136,7 @@ public class SimulationEngine implements Runnable {
         map.growGrass(settings.getGrassPerDay());
     }
 
-    private boolean isSimulationNotOver() {
+    public boolean isSimulationNotOver() {
         return map.getAnimalsNumber() > 0;
     }
 
@@ -147,7 +147,7 @@ public class SimulationEngine implements Runnable {
         return new Vector2d(x, y);
     }
 
-    public void initSimulation() {
+    private void initSimulation() {
         for (int i = 0; i < settings.getStartAnimalsQuantity(); i++) {
             new Animal(drawPosition(), settings, currentDay);
         }

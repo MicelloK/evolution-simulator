@@ -41,7 +41,7 @@ public class App extends Application {
         ChoiceBox<String> confVariant = new ChoiceBox<>();
         confVariant.getItems().add("My Configuration");
         confVariant.getItems().addAll(OptionReader.names());
-
+        confVariant.setValue("My Configuration");
 
         Button getParameter = new Button("CONFIRM");
         getParameter.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");

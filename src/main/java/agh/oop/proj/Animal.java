@@ -40,10 +40,10 @@ public class Animal implements IMapElement {
         genotype = new Genome(parentOne, parentTwo, settings);
         map.place(this);
 
-        parentOne.loseEnergy(settings.getReproductionEnergy());
-        parentTwo.loseEnergy(settings.getReproductionEnergy());
+        parentOne.loseEnergy(settings.getReproductionLostEnergy());
+        parentTwo.loseEnergy(settings.getReproductionLostEnergy());
 
-        energy = settings.getReproductionEnergy() * 2;
+        energy = settings.getReproductionLostEnergy() * 2;
     }
 
     public void move() {

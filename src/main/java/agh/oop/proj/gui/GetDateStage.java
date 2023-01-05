@@ -5,10 +5,7 @@ import agh.oop.proj.Settings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -129,8 +126,13 @@ public class GetDateStage {
         getParameter.setOnAction(action -> {
             String configName;
             configName = name.getText();
-            if (configName.contains(",")) {
+            if (configName.contains(",") || configName.isEmpty() || configName.charAt(0) == ' ' || configName.charAt(configName.length()-1)  == ' ') {
                 try {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("error");
+                    alert.setHeaderText("INCORRECT CONFIG NAME");
+                    alert.setContentText("Please, make sure your name is correct");
+                    alert.showAndWait();
                     throw new Exception("Incorrect config name");
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -143,7 +145,6 @@ public class GetDateStage {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-
 
             String[] textFieldValues = new String[16];
             textFieldValues[0] = mapWidth.getText();
@@ -164,11 +165,22 @@ public class GetDateStage {
             textFieldValues[15] = mapVariant.getValue();
             Settings parameter;
             try {
-                OptionReader.add(configName, textFieldValues);
                 parameter = new Settings(configName, textFieldValues);
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("error");
+                alert.setHeaderText("INCORRECT INPUT DATA");
+                alert.setContentText("Please, check your settings and try again");
+                alert.showAndWait();
+                throw new RuntimeException(e);
+            }
+
+            try {
+                OptionReader.add(configName, textFieldValues);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+
             new StartApp(parameter);
             stage.close();
         });

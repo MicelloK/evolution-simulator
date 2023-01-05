@@ -81,9 +81,7 @@ public class StartApp {
             engineThread.interrupt();
             stage.close();
         });
-        buttonEndTracking.setOnAction(action -> {
-            engine.changeStatus();
-        });
+        buttonEndTracking.setOnAction(action -> engine.changeStatus());
 
         buttons.getChildren().addAll(centerButtons);
         buttons.setAlignment(Pos.CENTER);
@@ -98,18 +96,18 @@ public class StartApp {
         Statistics stats = engine.getStats();
         stats.updateStats();
 
-        Label title = new Label("STATISTIC MAP");
+        Label title = new Label("MAP STATISTICS");
 
         Label worldDays = new Label("Number Day: " + stats.getWorldDays());
         worldDays.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
 
-        Label numberOfAliveAnimals = new Label("Number of Alive Animals"+ stats.getNumberAnimals());
+        Label numberOfAliveAnimals = new Label("Number of Alive Animals: "+ stats.getNumberAnimals());
         numberOfAliveAnimals.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
 
         Label numberOfGrass = new Label("Number of grass: " + stats.getNumberGrass());
         numberOfGrass.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
 
-        Label numberOfDeadAnimals = new Label("Number of Dead Animals " + stats.getNumberDeadAnimals());
+        Label numberOfDeadAnimals = new Label("Number of Dead Animals: " + stats.getNumberDeadAnimals());
         numberOfDeadAnimals.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
 
         Label avgEnergy = new Label("Average of energy: " + stats.getAvgEnergy());

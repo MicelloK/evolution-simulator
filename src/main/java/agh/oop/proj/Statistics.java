@@ -75,8 +75,10 @@ public class Statistics {
                     energy += animal.getEnergy();
                 }
             }
-
             avgEnergy = Math.round(energy / (double) numberAnimals * 100) / 100.0;
+        }
+        if (!engine.isSimulationNotOver()) {
+            avgEnergy = 0.0;
         }
     }
 
