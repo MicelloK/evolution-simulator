@@ -16,7 +16,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IElementChangeObser
     protected final List<Vector2d> preferredPositions = new ArrayList<>();
     protected List<Vector2d> emptyPreferred;
     protected List<Vector2d> emptyNotPreferred;
-    protected ArrayList<Animal> animalsList = new ArrayList<>();
+    protected final ArrayList<Animal> animalsList = new ArrayList<>();
 
     protected AbstractWorldMap(int width, int height, IMoveAllowed movementDetails, int reproductionEnergy) {
         elements = new HashMap<>();

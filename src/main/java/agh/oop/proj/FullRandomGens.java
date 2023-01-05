@@ -7,7 +7,7 @@ public class FullRandomGens implements IGenome {
     private final int minimum;
     private final int maximum;
 
-    public FullRandomGens(int maximum, int minimum) {
+    public FullRandomGens(int minimum, int maximum) {
         this.minimum = minimum;
         this.maximum = maximum;
     }

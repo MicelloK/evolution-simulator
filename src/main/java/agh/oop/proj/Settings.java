@@ -44,7 +44,7 @@ public class Settings {
         if (grassPerDay < 0) {
             throw new Exception("wrong grassPerDay config");
         }
-        if (startAnimalsQuantity < 0 || startAnimalEnergy <= 0) {
+        if (startAnimalsQuantity <= 0 || startAnimalEnergy <= 0) {
             throw new Exception("wrong animal start config");
         }
         if (animalFullEnergy < 0 || reproductionLostEnergy < 0) {

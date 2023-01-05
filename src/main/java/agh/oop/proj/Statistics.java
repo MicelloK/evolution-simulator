@@ -43,7 +43,7 @@ public class Statistics {
         findDominant();
     }
 
-    public void findDominant() {
+    private void findDominant() {
         List<Animal> animals = engine.getSettings().getMap().animalsList;
         int[] counter = new int[8];
         for (Animal animal : animals) {
@@ -60,14 +60,14 @@ public class Statistics {
         this.dominantGenotype = dominant;
     }
 
-    public void calculateAvgLifeLength() {
+    private void calculateAvgLifeLength() {
         if (map.getAnimalsDead() != 0) {
             avgLife = Math.round(map.getLifeOfDeadAnimal() / (double) map.getAnimalsDead() * 100) / 100.0;
         }
     }
 
 
-    public void calculateAvgEnergy() {
+    private void calculateAvgEnergy() {
         if (engine.getSettings().getMap().animalsList.size() != 0) {
             int energy = 0;
             for (Animal animal : engine.getSettings().getMap().animalsList) {
@@ -82,7 +82,7 @@ public class Statistics {
         }
     }
 
-    public void calculateAvgChildren() {
+    private void calculateAvgChildren() {
         int numberOfChildren = 0;
         List<Animal> animals = engine.getSettings().getMap().animalsList;
         if (animals.size() == 0) {
