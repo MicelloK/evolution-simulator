@@ -21,20 +21,50 @@ public class GetDateStage {
     private final Stage stage;
     private final BorderPane borderPane = new BorderPane();
 
+    String labelStyle = "-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);";
+
+    private Label tittle;
+
     public GetDateStage() throws FileNotFoundException {
+
         this.stage = new Stage();
         stage.getIcons().add(new Image(new FileInputStream("src/main/resources/world.jpg")));
         stage.setTitle("About unusual adventures with evolution");
-        stage.alwaysOnTopProperty();
-        stage.setScene(new Scene(borderPane, 880, 460));
+        stage.setScene(new Scene(borderPane, 880, 500));
         stage.show();
-        Label tittle = new Label("This is the world that evolving before our eyes! ");
+
+
+        this.tittle = new Label("This is the world that evolving before our eyes! ");
         tittle.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 22pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         borderPane.setTop(tittle);
         BorderPane.setAlignment(tittle, Pos.CENTER);
         BorderPane.setMargin(tittle, new Insets(20, 0, 20, 0));
+
         initGetDate();
     }
+
+    public static boolean isInt(String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private boolean isIntInRange(String string, int min, int max) {
+        try {
+            int number = Integer.parseInt(string);
+            if(number >= min && number <= max) {
+                return true;
+            }
+        } catch(NumberFormatException e) {
+            return false;
+        }
+        return false;
+    }
+
+
 
     private void initGetDate(){
         TextField name = new TextField("My new configuration");
@@ -50,6 +80,8 @@ public class GetDateStage {
         TextField maximalMutationNumber = new TextField("9");
         TextField genLength = new TextField("8");
         TextField grassPerDay = new TextField("8");
+
+
         ChoiceBox movementDetails = new ChoiceBox();
         movementDetails.getItems().addAll("Earth", "Portal");
         ChoiceBox animalMoving = new ChoiceBox();
@@ -62,68 +94,68 @@ public class GetDateStage {
 
         Button getParametr = new Button("CONFIRM");
         getParametr.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-        VBox listTextFieldRight = new VBox();
+
+        VBox listTextFieldRight = new VBox(10);
         listTextFieldRight.getChildren().addAll(name, mapWidth, mapHeight, startGrassQuantity, eatingGrassEnergy, grassPerDay, startAnimalsQuantity, startAnimalsEnergy, animalFullEnergy);
-        listTextFieldRight.setSpacing(10);
-        VBox listTextFieldLeft = new VBox();
+
+        VBox listTextFieldLeft = new VBox(10);
         listTextFieldLeft.getChildren().addAll(reproductionEnergy, minimalMutationNumber, maximalMutationNumber, genLength, movementDetails, animalMoving, mutationVariant, mapVariant);
-        listTextFieldLeft.setSpacing(10);
 
 
         Label namelabel = new Label("Name: ");
-        namelabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        namelabel.setStyle(labelStyle);
         Label mapWidthlabel = new Label("Width: ");
-        mapWidthlabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        mapWidthlabel.setStyle(labelStyle);
         Label mapHeightlabel = new Label("Height: ");
-        mapHeightlabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        mapHeightlabel.setStyle(labelStyle);
         Label startGrassQuantitylabel = new Label("Start Quantity of Grass: ");
-        startGrassQuantitylabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        startGrassQuantitylabel.setStyle(labelStyle);
         Label eatingGrassEnergylabel = new Label("Energy from eating grass: ");
-        eatingGrassEnergylabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        eatingGrassEnergylabel.setStyle(labelStyle);
         Label grassPerDaylabel = new Label("How many grass grow per day: ");
-        grassPerDaylabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        grassPerDaylabel.setStyle(labelStyle);
         Label startAnimalsQuantitylabel = new Label("Start Quantity of Animals: ");
-        startAnimalsQuantitylabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        startAnimalsQuantitylabel.setStyle(labelStyle);
         Label startAnimalsEnergylabel = new Label("Start energy of Animals: ");
-        startAnimalsEnergylabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        startAnimalsEnergylabel.setStyle(labelStyle);
         Label animalFullEnergylabel = new Label("Full Animals energy: ");
-        animalFullEnergylabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        animalFullEnergylabel.setStyle(labelStyle);
         Label reproductionEnergylabel = new Label("Energy to reproduction: ");
-        reproductionEnergylabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        reproductionEnergylabel.setStyle(labelStyle);
         Label minimalMutationNumberlabel = new Label("Minimal mutation number: ");
-        minimalMutationNumberlabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        minimalMutationNumberlabel.setStyle(labelStyle);
         Label maximalMutationNumberlabel = new Label("Maximal mutation number: ");
-        maximalMutationNumberlabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        maximalMutationNumberlabel.setStyle(labelStyle);
         Label genLengthlabel = new Label("Gen length: ");
-        genLengthlabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        genLengthlabel.setStyle(labelStyle);
         Label movementDetailsLabel = new Label("Movement Details:");
-        movementDetailsLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        movementDetailsLabel.setStyle(labelStyle);
         Label animalMovingLabel = new Label("Animal Moving:");
-        animalMovingLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        animalMovingLabel.setStyle(labelStyle);
         Label mutationVariantLabel = new Label("Mutation Variant:");
-        mutationVariantLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        mutationVariantLabel.setStyle(labelStyle);
         Label mapVariantLabel = new Label("Map Variant:");
-        mapVariantLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        mapVariantLabel.setStyle(labelStyle);
 
-        VBox listOfLabelLeft = new VBox();
-        VBox listOfLabelRight = new VBox();
+        VBox listOfLabelLeft = new VBox(18);
+        VBox listOfLabelRight = new VBox(18);
         listOfLabelLeft.getChildren().addAll(reproductionEnergylabel, minimalMutationNumberlabel, maximalMutationNumberlabel, genLengthlabel, movementDetailsLabel, animalMovingLabel, mutationVariantLabel, mapVariantLabel);
-        listOfLabelLeft.setSpacing(18);
         listOfLabelRight.getChildren().addAll(namelabel, mapWidthlabel, mapHeightlabel, startGrassQuantitylabel, eatingGrassEnergylabel, grassPerDaylabel, startAnimalsQuantitylabel, startAnimalsEnergylabel, animalFullEnergylabel);
-        listOfLabelRight.setSpacing(18);
 
-        HBox inputList = new HBox();
+
+        HBox inputList = new HBox(10);
         inputList.getChildren().addAll(listOfLabelRight, listTextFieldRight, listOfLabelLeft, listTextFieldLeft);
-        inputList.setSpacing(10);
         inputList.setAlignment(Pos.TOP_CENTER);
 
-        VBox confirm = new VBox();
-        confirm.getChildren().addAll(getParametr);
+
+
+        VBox confirm = new VBox(getParametr);
         VBox.setVgrow(getParametr, Priority.ALWAYS);
         VBox.setMargin(getParametr, new Insets(60, 0, 200, 0));
+        confirm.setAlignment(Pos.TOP_CENTER);
+
         borderPane.setCenter(inputList);
         borderPane.setBottom(confirm);
-        confirm.setAlignment(Pos.TOP_CENTER);
         borderPane.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         getParametr.setOnAction(action -> {
@@ -162,6 +194,16 @@ public class GetDateStage {
             textFieldValues[12] = (String) animalMoving.getValue();
             textFieldValues[13] = (String) mutationVariant.getValue();
             textFieldValues[15] = (String) mapVariant.getValue();
+            for (int i = 0; i < textFieldValues.length; i++) {
+                if ((i == 0 && !isInt(textFieldValues[i])) || (0<i && i<11 && !isIntInRange(textFieldValues[i], 0, 100))) {
+                    try {
+                        throw new Exception("Pole nie może być puste i musi zawierać prawidłowe dane.");
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
             Settings parameter;
             try {
                 OptionReader.add(configName, textFieldValues);
@@ -176,6 +218,5 @@ public class GetDateStage {
             }
             stage.close();
         });
-
     }
 }

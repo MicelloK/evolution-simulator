@@ -79,7 +79,7 @@ public class CreativeMap {
 
                     int howMany = square.getObjects().size();
                     for (IMapElement animal : square.getObjects()) {
-                        switch (animal.getImage()) {
+                        switch (animal.getImageIdx()) {
                             case 5 -> imageView = new ImageView(images.Image5);
                             case 4 -> imageView = new ImageView(images.Image4);
                             case 3 -> imageView = new ImageView(images.Image3);
@@ -159,7 +159,7 @@ public class CreativeMap {
                 }
             }
 
-            engine.setFreePosition(freePosition);
+            engine.setFreePositionQuantity(freePosition);
             gridPane.setAlignment(Pos.CENTER);
 
         }
