@@ -28,7 +28,7 @@ public class OptionReader {
     public static void add(String name, String[] config) throws Exception {
         FileWriter writer = new FileWriter(CSV_FILE, true);
 
-        String line = String.join(CSV_SPLIT_BY , config);
+        String line = String.join(CSV_SPLIT_BY, config);
         line = name + "," + line;
         line += "\n";
         writer.write(line);
@@ -49,7 +49,7 @@ public class OptionReader {
 
     public static String[] names() throws FileNotFoundException {
         List<String[]> configs = read();
-        String[] list = new String[configs.size()-1];
+        String[] list = new String[configs.size() - 1];
         for (int i = 0; i < list.length; i++) {
             list[i] = configs.get(i + 1)[0];
         }

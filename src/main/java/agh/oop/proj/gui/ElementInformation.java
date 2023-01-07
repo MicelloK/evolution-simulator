@@ -97,7 +97,7 @@ public class ElementInformation implements IElementChangeObserver {
 
             Button exitButton = new Button("EXIT");
 
-            exitButton.setOnAction(action -> {
+            exitButton.setOnAction(actoion -> {
                 animal.removeObserver(this);
                 this.stage.close();
             });
@@ -110,6 +110,9 @@ public class ElementInformation implements IElementChangeObserver {
 
     @Override
     public boolean positionChanged(Vector2d oldPosition, Vector2d newPosition, IMapElement object) {
+        borderPane.setCenter(null);
+        borderPane.setRight(null);
+        borderPane.setLeft(null);
         Platform.runLater(this::creativeInfo
         );
         return true;

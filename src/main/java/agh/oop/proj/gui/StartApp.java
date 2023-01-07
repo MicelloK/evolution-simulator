@@ -23,7 +23,6 @@ import java.io.FileNotFoundException;
 
 public class StartApp {
     private final Stage stage;
-
     private final BorderPane borderPane;
 
     private final Button startButton = new Button("Create Simulation");
@@ -42,8 +41,6 @@ public class StartApp {
 
         this.stage = new Stage();
         this.borderPane = new BorderPane();
-
-
         //ustawienia sceny
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         stage.setWidth(screenBounds.getWidth());
@@ -54,8 +51,6 @@ public class StartApp {
         stage.getIcons().add(new Image(new FileInputStream("src/main/resources/world.jpg")));
         stage.setTitle("About unusual adventures with evolution");
 
-
-
         //ustawienia borderPane i tytułu
         Label tittle = new Label("This is the world that evolving before our eyes! ");
         tittle.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 22pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
@@ -64,9 +59,9 @@ public class StartApp {
         borderPane.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
         BorderPane.setMargin(tittle, new Insets(20, 0, 20, 0));
 
-        //rozpoczęcie
+        //rozpoczęcie tytyułu
         engine = new SimulationEngine(parameters,this);
-        this.newMap = new CreativeMap(engine, stage, stage.getHeight());
+        this.newMap = new CreativeMap(engine,stage.getHeight());
         new Controller(engine, this);
         this.engineThread = new Thread(() -> {
             try {
@@ -77,12 +72,8 @@ public class StartApp {
                 System.out.println(e.getMessage());
             }
         });
-
-
         GridPane gridPane = newMap.getGridPane();
         gridPane.setAlignment(Pos.CENTER);
-
-
         borderPane.setCenter(gridPane);
         startApp();
     }
@@ -90,14 +81,11 @@ public class StartApp {
     public void startApp() {
         startButton.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84)");
         borderPane.setCenter(startButton);
-
-
         startButton.setOnAction(actionEvent -> {
             engine.changeStatus();
             engineThread.start();
             addButtons();
         });
-
     }
 
     private void addButtons() {
@@ -107,27 +95,21 @@ public class StartApp {
 
         HBox centerButtons = new HBox(exitButton, buttonEndTracking);
         centerButtons.setSpacing(15);
-
         exitButton.setOnAction(action -> {
             engineThread.interrupt();
             stage.close();
         });
-
-
-        buttonEndTracking.setOnAction(action -> engine.changeStatus());
-
-
-        exitButton.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-        buttonEndTracking.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        buttonEndTracking.setOnAction(action -> {
+            engine.changeStatus();
+        });
 
         buttons.getChildren().addAll(centerButtons);
         buttons.setAlignment(Pos.CENTER);
-
-
         borderPane.setBottom(buttons);
         BorderPane.setAlignment(buttons, Pos.CENTER);
         BorderPane.setMargin(buttons, new Insets(10, 0, 10, 0));
-
+        exitButton.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        buttonEndTracking.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
     }
 
     public VBox uploadStats() {
@@ -136,10 +118,7 @@ public class StartApp {
 
         String labelStyle = "-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);";
 
-
         Label title = new Label("STATISTIC MAP");
-        title.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);-fx-font-weight: bold;");
-        title.setFont(new Font(15));
 
         Label worldDays = new Label("Number Day: " + stats.getWorldDays());
         worldDays.setStyle(labelStyle);
@@ -168,31 +147,24 @@ public class StartApp {
         VBox statistics = new VBox(15);
         statistics.getChildren().addAll(title,worldDays, numberOfAliveAnimals, numberOfGrass, numberOfDeadAnimals, avgEnergy, avgLifeDaysDeadAnimal, avgChildren, dominantGenotype);
         statistics.setAlignment(Pos.TOP_CENTER);
+        title.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);-fx-font-weight: bold;");
+        title.setFont(new Font(15));
         statistics.setStyle(String.valueOf(new Insets(0,1,1,50)));
-
-
         return statistics;
     }
 
     public void uploadMap() {
         Platform.runLater(() ->{
-
             newMap.creativeMap();
             GridPane gridPane = newMap.getGridPane();
             gridPane.setGridLinesVisible(true);
-
-
             VBox stat = uploadStats();
             stat.setAlignment(Pos.CENTER);
             stat.setMaxHeight(stage.getHeight()/1.5);
             stat.setStyle("-fx-background-color: rgba(8,56,65,0.84);");
-
-
             HBox hbox = new HBox(10);
             hbox.getChildren().addAll(gridPane, stat);
             hbox.setAlignment(Pos.CENTER);
-
-
             borderPane.setCenter(hbox);
 
         });

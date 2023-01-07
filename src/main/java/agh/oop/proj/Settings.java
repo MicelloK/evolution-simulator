@@ -10,9 +10,7 @@ public class Settings {
     private final int startAnimalsQuantity;
     private final int startAnimalEnergy;
     private final int animalFullEnergy;
-    private final int reproductionEnergy;
-    private final int minimalMutationNumber;
-    private final int maximalMutationNumber;
+    private final int reproductionLostEnergy;
     private final int genLength;
 
     private final AbstractWorldMap map;
@@ -29,10 +27,32 @@ public class Settings {
         startAnimalsQuantity = Integer.parseInt(config[5]);
         startAnimalEnergy = Integer.parseInt(config[6]);
         animalFullEnergy = Integer.parseInt(config[7]);
-        reproductionEnergy = Integer.parseInt(config[8]);
-        minimalMutationNumber = Integer.parseInt(config[9]);
-        maximalMutationNumber = Integer.parseInt(config[10]);
+        reproductionLostEnergy = Integer.parseInt(config[8]);
+        int minimalMutationNumber = Integer.parseInt(config[9]);
+        int maximalMutationNumber = Integer.parseInt(config[10]);
         genLength = Integer.parseInt(config[11]);
+
+        if (mapWidth <= 0 || mapHeight <= 0) {
+            throw new Exception("wrong map dimension");
+        }
+        if (startGrassQuantity < 0 || startGrassQuantity > mapWidth * mapHeight) {
+            throw new Exception("wrong startGrassQuantity config");
+        }
+        if (eatingGrassEnergy < 0) {
+            throw new Exception("wrong eatingGrassEnergy config");
+        }
+        if (grassPerDay < 0) {
+            throw new Exception("wrong grassPerDay config");
+        }
+        if (startAnimalsQuantity <= 0 || startAnimalEnergy <= 0) {
+            throw new Exception("wrong animal start config");
+        }
+        if (animalFullEnergy < 0 || reproductionLostEnergy < 0) {
+            throw new Exception("wrong reproductionLostEnergy/animalFullEnergy config");
+        }
+        if (minimalMutationNumber < 0 || minimalMutationNumber > maximalMutationNumber || genLength <= 0) {
+            throw new Exception("wrong gen/mutation config");
+        }
 
         switch (config[12]) {
             case "Predestination" -> animalMoving = new FullPredestinationMove();
@@ -51,8 +71,8 @@ public class Settings {
             default -> throw new Exception("wrong movementDetails configuration");
         }
         switch (config[15]) {
-            case "Equators" -> map = new EquatorsMap(mapWidth, mapHeight, movementDetails, reproductionEnergy);
-            case "Corpses" -> map = new CorpsesMap(mapWidth, mapHeight, movementDetails, reproductionEnergy);
+            case "Equators" -> map = new EquatorsMap(mapWidth, mapHeight, movementDetails, reproductionLostEnergy);
+            case "Corpses" -> map = new CorpsesMap(mapWidth, mapHeight, movementDetails, reproductionLostEnergy);
             default -> throw new Exception("wrong map configuration");
         }
     }
@@ -60,6 +80,7 @@ public class Settings {
     public String getName() {
         return name;
     }
+
     public int getMapWidth() {
         return mapWidth;
     }
@@ -92,8 +113,8 @@ public class Settings {
         return animalFullEnergy;
     }
 
-    public int getReproductionEnergy() {
-        return reproductionEnergy;
+    public int getReproductionLostEnergy() {
+        return reproductionLostEnergy;
     }
 
     public int getGenLength() {

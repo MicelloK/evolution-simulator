@@ -40,15 +40,19 @@ public class App extends Application {
     }
 
     private void initGetDate() throws FileNotFoundException {
-        ChoiceBox<String> confVariant = new ChoiceBox<String>();
+        ChoiceBox<String> confVariant = new ChoiceBox<>();
         confVariant.getItems().add("My Configuration");
         confVariant.getItems().addAll(OptionReader.names());
+        confVariant.setValue("My Configuration");
 
 
-        Button getParametr = new Button("CONFIRM");
-        getParametr.setStyle(buttonStyle);
+        Button getParameter = new Button("CONFIRM");
+        getParameter.setStyle(buttonStyle);
+
+
         Button exitButton = new Button("EXIT");
         exitButton.setStyle(buttonStyle);
+
         Label choiceLabel = new Label("Your choice: ");
         choiceLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
 
@@ -56,20 +60,20 @@ public class App extends Application {
         HBox inputList = new HBox(10,choiceLabel,confVariant);
         inputList.setAlignment(Pos.CENTER);
 
-        HBox confirm = new HBox(50,getParametr,exitButton);
-        border.setMargin(confirm, new Insets(10, 0, 60, 0));
+        HBox confirm = new HBox(50,getParameter,exitButton);
+        BorderPane.setMargin(confirm, new Insets(10, 0, 60, 0));
+
         border.setCenter(inputList);
         border.setBottom(confirm);
         confirm.setAlignment(Pos.BOTTOM_CENTER);
         border.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        getParametr.setOnAction(action -> {
+        getParameter.setOnAction(action -> {
             try {
                 String items = confVariant.getValue();
                 if (items.equals("My Configuration")) {
                     new GetDateStage();
-                }
-                else {
+                } else {
                     String[] headers = OptionReader.names();
                     for (String name : headers) {
                         if (items.equals(name)) {
@@ -77,8 +81,7 @@ public class App extends Application {
                             if (parameters != null) {
                                 Settings settings = new Settings(name, parameters);
                                 new StartApp(settings);
-                            }
-                            else {
+                            } else {
                                 throw new Exception("wrong configuration");
                             }
                         }
@@ -89,10 +92,7 @@ public class App extends Application {
             }
         });
 
-        exitButton.setOnAction(action -> {
-            System.exit(0);
-        });
-
+        exitButton.setOnAction(action -> System.exit(0));
     }
 
     @Override

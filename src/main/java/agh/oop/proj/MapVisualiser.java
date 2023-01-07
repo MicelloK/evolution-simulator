@@ -4,7 +4,6 @@ public class MapVisualiser {
     private static final String EMPTY_CELL = " ";
     private static final String GRASS_CELL = "*";
     private static final String PREFERRED_CELL = "P";
-    private static final String FRAME_SEGMENT = "-";
     private static final String CELL_SEGMENT = "|";
     private final AbstractWorldMap map;
 
@@ -47,7 +46,7 @@ public class MapVisualiser {
 
         //-------------------
         try {
-            Thread.sleep(800);
+            Thread.sleep(900);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

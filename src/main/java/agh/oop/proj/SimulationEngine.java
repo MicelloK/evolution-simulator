@@ -1,28 +1,25 @@
 package agh.oop.proj;
 
-import agh.oop.proj.gui.StartApp;
-
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class SimulationEngine implements Runnable{
+public class SimulationEngine implements Runnable {
     private final Settings settings;
     private final StatisticsWriter writer = new StatisticsWriter();
     private final AbstractWorldMap map;
-    private final Statistic stat;
+    private final Statistics stats;
     private int currentDay;
-    private List<Animal> animals = new LinkedList<>();
-    private boolean active = false;
+    private int freePositionQuantity;
+    private boolean isActive = false;
     private ISimulationObserver observer;
-    private int freePosition;
 
-    public SimulationEngine(Settings settings, StartApp app) {
+    public SimulationEngine(Settings settings) {
         this.settings = settings;
         map = settings.getMap();
         currentDay = 0;
-        this.stat = new Statistic(this);
+        stats = new Statistics(this);
     }
 
     public void setObserver(ISimulationObserver observer) {
@@ -30,7 +27,7 @@ public class SimulationEngine implements Runnable{
     }
 
     private void moveAnimals() {
-        this.animals = new LinkedList<>();
+        List<Animal> animals = new LinkedList<>();
         for (MapSquare square : map.elements.values()) {
             for (IMapElement element : square.getObjects()) {
                 if (element.isAnimal()) {
@@ -53,7 +50,7 @@ public class SimulationEngine implements Runnable{
                 }
                 if (currentAnimal.getEnergy() > alfaAnimal.getEnergy()) {
                     alfaAnimal = currentAnimal;
-                } else if (currentAnimal.getLife() > alfaAnimal.getLife()) {
+                } else if (currentAnimal.getLifeLength() > alfaAnimal.getLifeLength()) {
                     alfaAnimal = currentAnimal;
                 } else if (currentAnimal.getChildren() > alfaAnimal.getChildren()) {
                     alfaAnimal = currentAnimal;
@@ -77,7 +74,7 @@ public class SimulationEngine implements Runnable{
 
                 if (currentAnimal.getEnergy() > alfaAnimal.getEnergy()) {
                     alfaAnimal = currentAnimal;
-                } else if (currentAnimal.getLife() > alfaAnimal.getLife()) {
+                } else if (currentAnimal.getLifeLength() > alfaAnimal.getLifeLength()) {
                     alfaAnimal = currentAnimal;
                 } else if (currentAnimal.getChildren() > alfaAnimal.getChildren()) {
                     alfaAnimal = currentAnimal;
@@ -102,7 +99,7 @@ public class SimulationEngine implements Runnable{
                 if (!currentAnimal.equals(alfa) && currentAnimal.getEnergy() >= settings.getAnimalFullEnergy()) {
                     if (currentAnimal.getEnergy() > secondAlfaAnimal.getEnergy()) {
                         secondAlfaAnimal = currentAnimal;
-                    } else if (currentAnimal.getLife() > secondAlfaAnimal.getLife()) {
+                    } else if (currentAnimal.getLifeLength() > secondAlfaAnimal.getLifeLength()) {
                         secondAlfaAnimal = currentAnimal;
                     } else if (currentAnimal.getChildren() > secondAlfaAnimal.getChildren()) {
                         secondAlfaAnimal = currentAnimal;
@@ -139,15 +136,8 @@ public class SimulationEngine implements Runnable{
         map.growGrass(settings.getGrassPerDay());
     }
 
-    private boolean isSimulationNotOver() {
-        for (MapSquare square : map.elements.values()) {
-            for (IMapElement element : square.getObjects()) {
-                if (element.isAnimal() && !((Animal) element).isDead()) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    public boolean isSimulationNotOver() {
+        return map.getAnimalsNumber() > 0;
     }
 
     private Vector2d drawPosition() {
@@ -157,28 +147,27 @@ public class SimulationEngine implements Runnable{
         return new Vector2d(x, y);
     }
 
-    public void initSimulation() {
+    private void initSimulation() {
         for (int i = 0; i < settings.getStartAnimalsQuantity(); i++) {
-            Animal animal = new Animal(drawPosition(), settings, currentDay);
-            animals.add(animal);
+            new Animal(drawPosition(), settings, currentDay);
         }
         map.growGrass(settings.getStartGrassQuantity());
         System.out.println(settings.getMap().toString());
     }
 
     public void run() {
-        System.out.println("start simulation:");
-        if(currentDay == 0){
+        if (currentDay == 0) {
             try {
                 writer.setSettingsFile(settings.getName());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+            System.out.println("start simulation:");
             initSimulation();
             observer.SimulationStep();
         }
-        while (isSimulationNotOver() && active) {
-            try{
+        while (isSimulationNotOver() && isActive) {
+            try {
                 currentDay += 1;
                 settings.getMap().updatePreferredPositions();
                 moveAnimals();
@@ -186,11 +175,7 @@ public class SimulationEngine implements Runnable{
                 animalsReproduction();
                 growGrass();
                 observer.SimulationStep();
-                writer.save(stat);
-                Thread.sleep(500);
-
-            } catch (InterruptedException ex) {
-                System.out.println(ex);
+                writer.save(stats);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -201,27 +186,28 @@ public class SimulationEngine implements Runnable{
     public Settings getSettings() {
         return settings;
     }
+
     public int getCurrentDay() {
         return currentDay;
     }
 
-    public void changeStatus(){
-        this.active = !this.active;
+    public void changeStatus() {
+        this.isActive = !this.isActive;
     }
 
     public boolean isActive() {
-        return active;
+        return isActive;
     }
 
-    public int getFreePosition() {
-        return freePosition;
+    public int getFreePositionQuantity() {
+        return freePositionQuantity;
     }
 
-    public void setFreePosition(int freePosition) {
-        this.freePosition = freePosition;
+    public void setFreePositionQuantity(int freePositionQuantity) {
+        this.freePositionQuantity = freePositionQuantity;
     }
 
-    public Statistic getStat() {
-        return stat;
+    public Statistics getStats() {
+        return stats;
     }
 }

@@ -1,5 +1,11 @@
 name,mapWidth,mapHeight,startGrassQuantity,eatingGrassEnergy,grassPerDay,startAnimalsQuantity,startAnimalEnergy,animalFullEnergy,reproductionEnergy,minimalMutationNumber,maximalMutationNumber,genLength,animalMoving,mutationVariant,movementDetails,map
+<<<<<<< HEAD
 testowa konfiguracja,12,11,5,1,8,15,10,15,5,2,9,8,Predestination,Random,Earth,Corpses
 config 1,10,10,5,1,8,15,10,15,5,2,9,8,Craziness,Correction,Earth,Equators
 config 2,20,10,5,1,8,15,10,15,5,2,9,8,Craziness,Random,Portal,Corpses
 My new configuration,5,5,5,1,8,5,10,15,5,2,9,8,Predestination,Random,Earth,Equators
+=======
+sample configuration 1,12,11,5,1,8,15,10,15,5,2,9,8,Predestination,Random,Earth,Corpses
+sample configuration 2,10,10,5,1,8,15,10,15,5,2,9,8,Craziness,Correction,Earth,Equators
+sample configuration 3,20,10,5,1,8,15,10,15,5,2,9,8,Craziness,Random,Portal,Corpses
+>>>>>>> 31084aa60e8bbb0fbe00acc2f955ec67528ae18a

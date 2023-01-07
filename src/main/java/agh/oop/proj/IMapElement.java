@@ -8,7 +8,7 @@ public interface IMapElement {
 
     MoveDirection getOrientation();
 
-    int getImage();
+    int getImageIdx();
 
-    void addObserver(IElementChangeObserver observer);
+    void setObserver(IElementChangeObserver observer);
 }
