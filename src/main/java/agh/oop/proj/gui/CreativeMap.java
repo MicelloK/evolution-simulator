@@ -15,27 +15,25 @@ import java.util.Map;
 public class CreativeMap {
     private final SimulationEngine engine;
     private final GridPane gridPane;
-
     private final Settings parameters;
     private final double size;
-
     private final Images images = new Images();
-
     private final Stage stage;
 
-    public CreativeMap(SimulationEngine engine, Stage stage, double sizeScene) {
+    public CreativeMap(SimulationEngine engine, Stage stage) {
         this.stage = stage;
+        double sizeScene = stage.getHeight();
         this.engine = engine;
         this.parameters = engine.getSettings();
         this.gridPane = new GridPane();
         int width = parameters.getMapWidth();
         int height = parameters.getMapHeight();
-        this.size = Math.max(width, height);//wielkość mapy
+        this.size = Math.max(width, height);
         for (int i = 0; i < parameters.getMapWidth(); i++) {
-            this.gridPane.getColumnConstraints().add(new ColumnConstraints(sizeScene / (0.8*size)));
+            this.gridPane.getColumnConstraints().add(new ColumnConstraints(sizeScene / (0.8 * size)));
         }
         for (int i = 0; i < parameters.getMapHeight(); i++) {
-            this.gridPane.getRowConstraints().add(new RowConstraints(sizeScene / (1.5*size)));
+            this.gridPane.getRowConstraints().add(new RowConstraints(sizeScene / (1.5 * size)));
         }
         creativeMap();
     }
@@ -56,22 +54,22 @@ public class CreativeMap {
         List<Vector2d> mapContain = parameters.getMap().getPreferred();
 
         ImageView imageView;
-        Map<Vector2d,MapSquare> mapsquer = map.getElements();
+        Map<Vector2d, MapSquare> MapSquare = map.getElements();
         int freePosition = 0;
 
         for (int i = 0; i < parameters.getMapWidth(); i++) {
             for (int j = 0; j < parameters.getMapHeight(); j++) {
                 StackPane grasses = new StackPane();
-                if(mapContain.contains(new Vector2d(i,j))){
+                if (mapContain.contains(new Vector2d(i, j))) {
                     grasses.setStyle("-fx-background-color: rgba(177,234,167,0.84)");
-                    gridPane.add(grasses,i,j);
-                }else{
+                    gridPane.add(grasses, i, j);
+                } else {
                     grasses.setStyle("-fx-background-color: rgb(8,56,65)");
-                    gridPane.add(grasses,i,j);
+                    gridPane.add(grasses, i, j);
                 }
 
-                Vector2d position = new Vector2d(i,j);
-                MapSquare square = mapsquer.get(position);
+                Vector2d position = new Vector2d(i, j);
+                MapSquare square = MapSquare.get(position);
                 if (square != null && square.getObjects().size() != 0) {
 
                     HBox hbox = new HBox(5);
@@ -79,7 +77,7 @@ public class CreativeMap {
 
                     int howMany = square.getObjects().size();
                     for (IMapElement animal : square.getObjects()) {
-                        switch (animal.getImage()) {
+                        switch (animal.getImageIdx()) {
                             case 5 -> imageView = new ImageView(images.Image5);
                             case 4 -> imageView = new ImageView(images.Image4);
                             case 3 -> imageView = new ImageView(images.Image3);
@@ -87,59 +85,51 @@ public class CreativeMap {
                             case 1 -> imageView = new ImageView(images.Image1);
                             default -> throw new IllegalStateException("Unexpected value: ");
                         }
-                        double imageHeight = 500 / (1.5 * size*howMany);
-                        double imageWidth = 600 / (1.5 * size*howMany);
+                        double imageHeight = 500 / (1.5 * size * howMany);
+                        double imageWidth = 600 / (1.5 * size * howMany);
                         imageView.setFitHeight(imageHeight);
                         imageView.setFitWidth(imageWidth);
 
-
                         Label posit = new Label(position.toString());
                         posit.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-                        posit.setFont(Font.font(20/(0.2*size)));
+                        posit.setFont(Font.font(20 / (0.2 * size)));
 
-
-                        ElementBox picturesAnimal = new ElementBox(animal, engine,stage);
+                        ElementBox picturesAnimal = new ElementBox(animal, engine, stage);
                         ProgressBar lifeBar = picturesAnimal.energyInAnimal();
-                        lifeBar.setPrefHeight(80/(size));
-                        lifeBar.setPrefWidth(600 / (1.5 * size*howMany));
+                        lifeBar.setPrefHeight(80 / (size));
+                        lifeBar.setPrefWidth(600 / (1.5 * size * howMany));
                         lifeBar.setMinHeight(10);
-                        HBox lifeandposition = new HBox(lifeBar,posit);
-
+                        HBox lifeAndPosition = new HBox(lifeBar, posit);
 
                         Label live = new Label(String.format("%.2f%%", lifeBar.getProgress() * 100));
                         live.setVisible(false);
                         live.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
 
-
                         StackPane stackPane = new StackPane(imageView, live);
-                        stackPane.setOnMouseEntered(event -> live.setVisible(true));  // po najechaniu na obrazek ustaw etykietę jako widoczną
-                        stackPane.setOnMouseExited(event -> live.setVisible(false));  // po opuszczeniu obrazka ustaw etykietę jako niewidoczną
+                        stackPane.setOnMouseEntered(event -> live.setVisible(true));
+                        stackPane.setOnMouseExited(event -> live.setVisible(false));
                         picturesAnimal.createElement(stackPane);
 
-
-
-                        VBox box = new VBox(stackPane,lifeandposition);
+                        VBox box = new VBox(stackPane, lifeAndPosition);
                         box.setAlignment(Pos.CENTER);
 
-
-                        hbox.getChildren().addAll(box,posit);
-
+                        hbox.getChildren().addAll(box, posit);
                     }
 
-                    gridPane.add(hbox,i,j);
+                    gridPane.add(hbox, i, j);
                     GridPane.setHalignment(hbox, Pos.CENTER.getHpos());
 
-                }else{
+                } else {
 
-                    freePosition+=1;
+                    freePosition += 1;
 
                     assert square != null;
-                    if(square.didGrassGrow()){
+                    if (square.didGrassGrow()) {
 
 
                         Label posit = new Label(position.toString());
                         posit.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-                        posit.setFont(Font.font(20/(0.2*size)));
+                        posit.setFont(Font.font(20 / (0.2 * size)));
 
 
                         imageView = new ImageView(images.grassImage);
@@ -149,17 +139,17 @@ public class CreativeMap {
                         imageView.setFitWidth(imageWidth);
 
 
-                        VBox box = new VBox(3,imageView,posit);
+                        VBox box = new VBox(3, imageView, posit);
                         box.setAlignment(Pos.CENTER);
 
 
-                        gridPane.add(box,i,j);
+                        gridPane.add(box, i, j);
                         GridPane.setHalignment(box, Pos.CENTER.getHpos());
                     }
                 }
             }
 
-            engine.setFreePosition(freePosition);
+            engine.setFreePositionQuantity(freePosition);
             gridPane.setAlignment(Pos.CENTER);
 
         }

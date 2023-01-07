@@ -15,8 +15,7 @@ public class ElementInformation implements IElementChangeObserver {
     private final Stage stage;
     private final BorderPane borderPane;
     private final VBox needDate;
-
-    private Animal animal;
+    private final Animal animal;
 
     public ElementInformation(Stage mainStage,Animal animal) {
         this.animal = animal;
@@ -26,7 +25,7 @@ public class ElementInformation implements IElementChangeObserver {
         stage.setScene(sceneMain);
         stage.initOwner(mainStage);
         this.needDate = infoDate();
-        animal.addObserver(this);
+        animal.setObserver(this);
         creativeInfo();
         this.stage.show();
 
@@ -78,7 +77,7 @@ public class ElementInformation implements IElementChangeObserver {
             Label energy = new Label(Integer.toString(animal.getEnergy()));
             Label grassesEaten = new Label(Integer.toString(animal.getHowManyGrassEat()));
             Label children = new Label(Integer.toString(animal.getChildren()));
-            Label live = new Label(Integer.toString(animal.getLife()));
+            Label live = new Label(Integer.toString(animal.getLifeLength()));
             Label dead = new Label(Integer.toString(animal.getDeathDay()));
             listOfInformation.getChildren().addAll(activeGenome, genome, energy, grassesEaten, children, live, dead);
             activeGenome.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
@@ -97,8 +96,8 @@ public class ElementInformation implements IElementChangeObserver {
 
             Button exitButton = new Button("EXIT");
 
-            exitButton.setOnAction(actoion -> {
-                animal.removeObserver(this);
+            exitButton.setOnAction(action -> {
+//                animal.removeObserver(this);
                 this.stage.close();
             });
 
@@ -109,17 +108,14 @@ public class ElementInformation implements IElementChangeObserver {
     }
 
     @Override
-    public boolean positionChanged(Vector2d oldPosition, Vector2d newPosition, IMapElement object) {
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition, IMapElement object) {
         borderPane.setCenter(null);
         borderPane.setRight(null);
         borderPane.setLeft(null);
         Platform.runLater(this::creativeInfo
         );
-        return true;
     }
 
     @Override
-    public boolean animalDies(IMapElement animal) {
-        return false;
-    }
+    public void animalDies(IMapElement animal) {}
 }

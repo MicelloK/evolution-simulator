@@ -19,7 +19,6 @@ import java.io.IOException;
 
 public class App extends Application {
     private final BorderPane border = new BorderPane();
-
     String buttonStyle = "-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);";
 
     @Override

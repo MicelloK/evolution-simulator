@@ -1,12 +1,5 @@
 package agh.oop.proj;
 
-<<<<<<< HEAD
-import agh.oop.proj.gui.ElementBox;
-
-import java.util.LinkedList;
-import java.util.List;
-=======
->>>>>>> 31084aa60e8bbb0fbe00acc2f955ec67528ae18a
 import java.util.Random;
 
 public class Animal implements IMapElement {
@@ -22,13 +15,6 @@ public class Animal implements IMapElement {
     private MoveDirection orientation;
     private final Genome genotype;
     private final Settings settings;
-
-<<<<<<< HEAD
-    private final Random random = new Random();
-
-    private final int image;
-=======
->>>>>>> 31084aa60e8bbb0fbe00acc2f955ec67528ae18a
 
     public Animal(Vector2d position, Settings settings, int createdDay) {
         Random random = new Random();
@@ -156,18 +142,8 @@ public class Animal implements IMapElement {
         observer.positionChanged(oldPosition, newPosition, this);
     }
 
-<<<<<<< HEAD
-    public void addObserver(IElementChangeObserver observer){
-        this.observer.add(observer);
-    }
-
-
-    public void removeObserver(IElementChangeObserver observer){
-        this.observer.remove(observer);
-=======
     public void setObserver(IElementChangeObserver observer) {
         this.observer = observer;
->>>>>>> 31084aa60e8bbb0fbe00acc2f955ec67528ae18a
     }
 
     public int getHowManyGrassEat() {

@@ -14,7 +14,6 @@ import static java.lang.Math.min;
 public class ElementBox {
     private final IMapElement element;
     private final SimulationEngine engine;
-
     private final Stage stage;
 
     public ElementBox(IMapElement element, SimulationEngine engine, Stage stage) {
@@ -30,7 +29,6 @@ public class ElementBox {
             setButtonOnAction(till, (Animal) element, engine);
         }
     }
-
 
     public ProgressBar energyInAnimal() {
         ProgressBar energyBar = null;
@@ -59,14 +57,11 @@ public class ElementBox {
         return energyBar;
     }
 
-
-    private void setButtonOnAction(StackPane till, Animal animal,SimulationEngine engine)
-    {
-
-            till.setOnMouseClicked(event -> {
-                if (!engine.isActive()) {
-                    new ElementInformation(stage, animal);
-                }
-            });
+    private void setButtonOnAction(StackPane till, Animal animal,SimulationEngine engine) {
+        till.setOnMouseClicked(event -> {
+            if (!engine.isActive()) {
+                new ElementInformation(stage, animal);
+            }
+        });
     }
 }

@@ -3,7 +3,7 @@ package agh.oop.proj.gui;
 import agh.oop.proj.Controller;
 import agh.oop.proj.Settings;
 import agh.oop.proj.SimulationEngine;
-import agh.oop.proj.Statistic;
+import agh.oop.proj.Statistics;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -60,8 +60,8 @@ public class StartApp {
         BorderPane.setMargin(tittle, new Insets(20, 0, 20, 0));
 
         //rozpoczęcie tytyułu
-        engine = new SimulationEngine(parameters,this);
-        this.newMap = new CreativeMap(engine,stage.getHeight());
+        engine = new SimulationEngine(parameters);
+        this.newMap = new CreativeMap(engine, stage);
         new Controller(engine, this);
         this.engineThread = new Thread(() -> {
             try {
@@ -113,7 +113,7 @@ public class StartApp {
     }
 
     public VBox uploadStats() {
-        Statistic stats = engine.getStat();
+        Statistics stats = engine.getStats();
         stats.updateStats();
 
         String labelStyle = "-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);";
