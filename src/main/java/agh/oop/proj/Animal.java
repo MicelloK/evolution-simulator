@@ -1,5 +1,7 @@
 package agh.oop.proj;
 
+import agh.oop.proj.gui.ElementBox;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -20,7 +22,6 @@ public class Animal implements IMapElement {
     private final Random random = new Random();
 
     private final int image;
-
 
     public Animal(Vector2d position, Settings settings, int createdDay) {
         this.image = random.nextInt(5)+1;
@@ -162,6 +163,8 @@ public class Animal implements IMapElement {
     public void addObserver(IElementChangeObserver observer){
         this.observer.add(observer);
     }
+
+
     public void removeObserver(IElementChangeObserver observer){
         this.observer.remove(observer);
     }

@@ -5,29 +5,29 @@ import agh.oop.proj.IMapElement;
 import agh.oop.proj.SimulationEngine;
 
 import javafx.scene.control.ProgressBar;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
-import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public class ElementBox {
     private final IMapElement element;
     private final SimulationEngine engine;
 
+    private final Stage stage;
 
-    private static final ElementInformation boxInfo = new ElementInformation();
-
-    public ElementBox(IMapElement element, SimulationEngine engine) {
+    public ElementBox(IMapElement element, SimulationEngine engine, Stage stage) {
         this.element = element;
         this.engine = engine;
+        this.stage = stage;
     }
 
-    public void createElement(ImageView imageView)
+    public void createElement(StackPane till)
     {
 
         if(element.isAnimal()) {
-            setButtonOnAction(imageView, (Animal) element, engine);
+            setButtonOnAction(till, (Animal) element, engine);
         }
     }
 
@@ -60,13 +60,13 @@ public class ElementBox {
     }
 
 
-    private static void setButtonOnAction(ImageView imageView, Animal animal,SimulationEngine engine)
+    private void setButtonOnAction(StackPane till, Animal animal,SimulationEngine engine)
     {
-        imageView.setOnMouseClicked(event -> {
-            if (!engine.isActive())
-            {
-                boxInfo.creativeInfo(animal,engine);
-            }
-        });
+
+            till.setOnMouseClicked(event -> {
+                if (!engine.isActive()) {
+                    new ElementInformation(stage, animal);
+                }
+            });
     }
 }

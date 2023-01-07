@@ -2,3 +2,4 @@ name,mapWidth,mapHeight,startGrassQuantity,eatingGrassEnergy,grassPerDay,startAn
 testowa konfiguracja,12,11,5,1,8,15,10,15,5,2,9,8,Predestination,Random,Earth,Corpses
 config 1,10,10,5,1,8,15,10,15,5,2,9,8,Craziness,Correction,Earth,Equators
 config 2,20,10,5,1,8,15,10,15,5,2,9,8,Craziness,Random,Portal,Corpses
+My new configuration,5,5,5,1,8,5,10,15,5,2,9,8,Predestination,Random,Earth,Equators

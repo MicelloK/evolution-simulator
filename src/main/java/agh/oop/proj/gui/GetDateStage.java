@@ -2,7 +2,6 @@ package agh.oop.proj.gui;
 
 import agh.oop.proj.OptionReader;
 import agh.oop.proj.Settings;
-import agh.oop.proj.SimulationEngine;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,11 +16,10 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public class GetDateStage {
     private final Stage stage;
-    private BorderPane borderPane = new BorderPane();
+    private final BorderPane borderPane = new BorderPane();
 
     public GetDateStage() throws FileNotFoundException {
         this.stage = new Stage();
@@ -40,8 +38,8 @@ public class GetDateStage {
 
     private void initGetDate(){
         TextField name = new TextField("My new configuration");
-        TextField mapWidth = new TextField();
-        TextField mapHeight = new TextField();
+        TextField mapWidth = new TextField("20");
+        TextField mapHeight = new TextField("15");
         TextField startGrassQuantity = new TextField("5");
         TextField eatingGrassEnergy = new TextField("1");
         TextField startAnimalsQuantity = new TextField("15");
@@ -171,7 +169,11 @@ public class GetDateStage {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            StartApp app = new StartApp(parameter);
+            try {
+                new StartApp(parameter);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             stage.close();
         });
 

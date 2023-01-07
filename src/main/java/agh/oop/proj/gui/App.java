@@ -65,7 +65,7 @@ public class App extends Application {
 
         getParametr.setOnAction(action -> {
             try {
-                String items = confVariant.getValue().toString();
+                String items = confVariant.getValue();
                 if (items.equals("My Configuration")) {
                     new GetDateStage();
                 }
