@@ -1,7 +1,6 @@
 package agh.oop.proj.gui;
 
-import agh.oop.proj.Animal;
-import agh.oop.proj.SimulationEngine;
+import agh.oop.proj.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,24 +10,22 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class ElementInformation {
+public class ElementInformation{
     private final Stage stage;
     private final BorderPane borderPane;
-    private final Button exitButton = new Button("EXIT");
     private final VBox needDate;
+    private final Animal animal;
 
-    public ElementInformation() {
+    public ElementInformation(Stage mainStage,Animal animal) {
+        this.animal = animal;
         this.stage = new Stage();
         this.borderPane = new BorderPane();
         Scene sceneMain = new Scene(borderPane, 500, 300);
         stage.setScene(sceneMain);
-        Label tittle = new Label("Information about animal!");
-        tittle.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 22pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-        borderPane.setTop(tittle);
-        BorderPane.setAlignment(tittle, Pos.CENTER);
-        borderPane.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
-        BorderPane.setMargin(tittle, new Insets(20, 0, 20, 0));
+        stage.initOwner(mainStage);
         this.needDate = infoDate();
+        creativeInfo();
+        this.stage.show();
 
     }
 
@@ -53,8 +50,13 @@ public class ElementInformation {
         return listOfLabels;
     }
 
-    public void creativeInfo(Animal animal, SimulationEngine engine) {
-        borderPane.setCenter(null);
+    public void creativeInfo(){
+        Label tittle = new Label("Information about animal!");
+        tittle.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 22pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        borderPane.setTop(tittle);
+        BorderPane.setAlignment(tittle, Pos.CENTER);
+        borderPane.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
+        BorderPane.setMargin(tittle, new Insets(20, 0, 20, 0));
         StringBuilder genomeString = new StringBuilder();
         genomeString.append("[");
         for (int i = 0; i < animal.getGenotype().length; i++) {
@@ -83,16 +85,22 @@ public class ElementInformation {
         live.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         dead.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
 
+
         HBox inputList = new HBox();
         inputList.getChildren().addAll(needDate, listOfInformation);
         inputList.setSpacing(20);
         inputList.setAlignment(Pos.CENTER);
         borderPane.setCenter(inputList);
-        stage.show();
 
-        exitButton.setOnAction(e -> {
-            engine.changeStatus();
-            stage.close();
+        Button exitButton = new Button("EXIT");
+
+
+        exitButton.setOnAction(actoion -> {
+            this.stage.hide();
         });
+
+        exitButton.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        exitButton.setAlignment(Pos.BOTTOM_CENTER);
+        borderPane.setBottom(exitButton);
     }
 }

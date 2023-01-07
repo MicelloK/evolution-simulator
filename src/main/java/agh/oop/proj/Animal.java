@@ -1,5 +1,4 @@
 package agh.oop.proj;
-
 import java.util.Random;
 
 public class Animal implements IMapElement {
@@ -15,7 +14,6 @@ public class Animal implements IMapElement {
     private MoveDirection orientation;
     private final Genome genotype;
     private final Settings settings;
-
 
     public Animal(Vector2d position, Settings settings, int createdDay) {
         Random random = new Random();
