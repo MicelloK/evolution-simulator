@@ -19,11 +19,10 @@ import java.io.IOException;
 
 public class App extends Application {
     private final BorderPane border = new BorderPane();
-    String buttonStyle = "-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);";
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.getIcons().add(new Image(new FileInputStream("src/main/resources/world.jpg")));
+        primaryStage.getIcons().add(new Image(new FileInputStream("src/main/resources/world.png")));
         primaryStage.setTitle("About unusual adventures with evolution");
         primaryStage.alwaysOnTopProperty();
         primaryStage.setScene(new Scene(border, 880, 460));
@@ -31,7 +30,7 @@ public class App extends Application {
     }
 
     private void initBorder() {
-        Label tittle = new Label("Choice your configuration and have fun!");
+        Label tittle = new Label("Choose your configuration and have fun!");
         tittle.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 26 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         border.setTop(tittle);
         BorderPane.setAlignment(tittle, Pos.CENTER);
@@ -45,6 +44,7 @@ public class App extends Application {
         confVariant.setValue("My Configuration");
 
         Button getParameter = new Button("CONFIRM");
+        String buttonStyle = "-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);";
         getParameter.setStyle(buttonStyle);
 
         Button exitButton = new Button("EXIT");
@@ -68,7 +68,7 @@ public class App extends Application {
             try {
                 String items = confVariant.getValue();
                 if (items.equals("My Configuration")) {
-                    new GetDateStage();
+                    new GetDataStage();
                 } else {
                     String[] headers = OptionReader.names();
                     for (String name : headers) {

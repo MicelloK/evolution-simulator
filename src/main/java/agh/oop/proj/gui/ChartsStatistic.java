@@ -17,7 +17,7 @@ public class ChartsStatistic {
         this.mapSeries = new XYChart.Series();
 
         chart.setTitle(string);
-        mapSeries.setName("Map Information's");
+        mapSeries.setName("Map Information");
         chart.setCreateSymbols(false);
         chart.lookup(".chart-legend").setStyle("-fx-background-color: transparent;");
         chart.getData().addAll(mapSeries);

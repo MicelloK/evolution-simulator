@@ -2,20 +2,20 @@
 
 <p align="center">
   <a href="" rel="noopener">
-    <img src='PhotosToReadme/ourmap.jpg' alt="Project logo">
+    <img src='docs/images/map.jpg' alt="Project logo">
   </a>
 </p>
 
 ## 📝 Table of Contents
 
-- [About](#about)
-- [Getting Started](#getting_started)
-- [Configurations and Variants](#config)
-- [Animal and grass](#-animal-and-grass)
-- [Structure](#structure)
-- [Statistics](#tests)
-- [How to use?](#built_using)
-- [Authors](#authors)
+- [About](#-about-)
+- [Getting Started](#-getting-started-)
+- [Configurations and Variants](#-configurations-and-variants-)
+- [Animal and grass](#-animal-and-grass-)
+- [Structure](#-structure-)
+- [Statistics](#-statistic-)
+- [How to use?](#%EF%B8%8F-how-to-use-)
+- [Authors](#%EF%B8%8F-authors-)
 
 ## 	🌍 About <a name = “about”></a>
 
@@ -35,7 +35,7 @@ After you create a simulation, it will be saved and can be later reproduced!
 
 <p align="center">
   <a href="" rel="noopener">
-    <img src='PhotosToReadme/configurations.jpg' alt="Project logo">
+    <img src='docs/images/configurations.jpg' alt="Project logo">
   </a>
 </p>
 
@@ -49,28 +49,28 @@ This applies in particular to: map behavior, plant growth behavior, mutation beh
 #### 🌗 In the case of the map, the key is how we handle its edges.
 #### We will implement the following variants:
 
-* 🌗 Earth ball - the left and right edges of the map loop (if the animal goes beyond the left edge, it appears on the right side - and if it goes beyond the right edge, it appears on the left); the top and bottom edges of the map are poles - you cannot enter them (if the animal tries to go beyond these edges of the map, it remains on the field it was on, and its direction changes to the opposite);
-* 🌗 Hellish portal - if the animal goes beyond the edge of the map, it goes to a magic portal; its energy decreases by a certain value (the same as in the case of generating offspring), and then it is teleported to a new, random place on the map.
+* 🌗 `Earth ball` - the left and right edges of the map loop (if the animal goes beyond the left edge, it appears on the right side - and if it goes beyond the right edge, it appears on the left); the top and bottom edges of the map are poles - you cannot enter them (if the animal tries to go beyond these edges of the map, it remains on the field it was on, and its direction changes to the opposite);
+* 🌗 `Hellish portal` - if the animal goes beyond the edge of the map, it goes to a magic portal; its energy decreases by a certain value (the same as in the case of generating offspring), and then it is teleported to a new, random place on the map.
 
 #### 🌱 In the case of plant growth, certain fields are strongly preferred, according to the Pareto principle.
 There is an 80% chance that a new plant will grow on a preferred field, and only a 20% chance that it will grow on a field of the second category. Approximately 20% of all places on the map are preferred, 80% of places are considered unappealing.
 
 #### 🌱 We implement the following variants:
 
-* 🌱 Wooded equator - the plants prefer a horizontal strip of fields in the central part of the map (imitating the equator and surroundings);
-* 🌱 Toxic corpses - plants prefer those fields on which animals die less frequently - they grow on those fields on which the least number of animals have ended their lives during the simulation.
+* 🌱 `Wooded equator` - the plants prefer a horizontal strip of fields in the central part of the map (imitating the equator and surroundings);
+* 🌱 `Toxic corpses` - plants prefer those fields on which animals die less frequently - they grow on those fields on which the least number of animals have ended their lives during the simulation.
 
 
 #### 💌 In the case of mutations, we have two simple options:
 
-* 💌 Full randomness - mutation changes the gene to any other gene;
-* 💌 Light correction - mutation changes the gene by 1 up or down (e.g. gene 3 can be changed to 2 or 4, and gene 0 to 1 or 7). In the case of animal behavior, we can distinguish the following options:
+* 💌 `Full randomness` - mutation changes the gene to any other gene;
+* 💌 `Light correction` - mutation changes the gene by 1 up or down (e.g. gene 3 can be changed to 2 or 4, and gene 0 to 1 or 7). In the case of animal behavior, we can distinguish the following options:
 
 Now you can choose one of them and press the confirm button 👍 !
 
 <p align="center">
   <a href="" rel="noopener">
-    <img src='PhotosToReadme/menu.jpg' alt="Project logo">
+    <img src='docs/images/menu.jpg' alt="Project logo">
   </a>
 </p>
 
@@ -79,12 +79,12 @@ Now you can choose one of them and press the confirm button 👍 !
 
 <p align="center">
   <a href="" rel="noopener">
-    <img width=200px height=100px src='PhotosToReadme/animals.jpg' alt="Project logo">
+    <img width=200px height=100px src='docs/images/animals.jpg' alt="Project logo">
   </a>
 </p>
 
 We need to track several characteristics of each animal.
-First, for both plants and those that eat them, we need to know the x and y coordinates. 
+First, for both plants and those that eat them, we need to know the `x` and `y` coordinates. 
 They tell us where the animal or plant is on the map. 
 We also need to know how much energy the animal has.
 
@@ -92,7 +92,7 @@ We also need to know how much energy the animal has.
 
 <p align="center">
   <a href="" rel="noopener">
-    <img width=200px height=100px src='PhotosToReadme/animalsenegry.jpg' alt="Project logo">
+    <img width=200px height=100px src='docs/images/animalsenegry.jpg' alt="Project logo">
   </a>
 </p>
 
@@ -100,7 +100,7 @@ We also need to know how much energy the animal has.
 
 <p align="center">
   <a href="" rel="noopener">
-    <img src='PhotosToReadme/infbox.jpg' alt="Project logo">
+    <img src='docs/images/infbox.jpg' alt="Project logo">
   </a>
 </p>
 
@@ -108,7 +108,7 @@ We also need to know how much energy the animal has.
 
 <p align="center">
   <a href="" rel="noopener">
-    <img src='PhotosToReadme/dominana.jpg' alt="Project logo">
+    <img src='docs/images/dominana.jpg' alt="Project logo">
   </a>
 </p>
 
@@ -129,12 +129,17 @@ You can also view charts related to the simulation by clicking on the informatio
 
 <p align="center">
   <a href="" rel="noopener">
-    <img width=600px height=400px src='PhotosToReadme/charts.jpg' alt="Project logo">
+    <img width=600px height=400px src='docs/images/charts.jpg' alt="Project logo">
   </a>
 </p>
 
 
+
 ## ⛏️ How to use? <a name = “built_using”></a>
+
+[Here you can check more information about project.](docs/README.md)
+
+🎥 Check example video [here](https://www.youtube.com/watch?v=ei7FTJV72RA)
 
 Have fun creating and observing how the universe behaves! Enjoy!
 This is our animals and grass!

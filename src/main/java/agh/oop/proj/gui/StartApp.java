@@ -26,7 +26,7 @@ public class StartApp {
     private final Button buttonEndTracking = new Button("START/STOP");
     private final SimulationEngine engine;
     private final Thread engineThread;
-    private final CreativeMap newMap;
+    private final CreateMap newMap;
     private Animal followingAnimal = null;
     private final ElementInformation boxAboutAnimal;
     private final StageWithCharts charts;
@@ -43,7 +43,7 @@ public class StartApp {
         Scene sceneMain = new Scene(borderPane);
         stage.setScene(sceneMain);
         stage.show();
-        stage.getIcons().add(new Image(new FileInputStream("src/main/resources/world.jpg")));
+        stage.getIcons().add(new Image(new FileInputStream("src/main/resources/world.png")));
         stage.setTitle("About unusual adventures with evolution");
 
         Label tittle = new Label("This is the world that evolving before our eyes! ");
@@ -56,7 +56,7 @@ public class StartApp {
         engine = new SimulationEngine(parameters);
         this.charts = new StageWithCharts(stage, engine);
 
-        this.newMap = new CreativeMap(engine, stage, this);
+        this.newMap = new CreateMap(engine, stage, this);
 
         new Controller(engine, this);
         this.engineThread = new Thread(() -> {
@@ -77,7 +77,7 @@ public class StartApp {
         startApp();
     }
 
-    public void startApp() {
+    private void startApp() {
         startButton.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84)");
         borderPane.setCenter(startButton);
 
@@ -109,24 +109,24 @@ public class StartApp {
         buttonEndTracking.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
     }
 
-    public VBox uploadStats() {
+    private VBox uploadStats() {
         Statistics stats = engine.getStats();
         stats.updateStats();
 
         String labelStyle = "-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);";
 
-        Label title = new Label("STATISTIC MAP");
+        Label title = new Label("MAP STATISTICS");
 
         Label worldDays = new Label("Number Day: " + stats.getWorldDays());
         worldDays.setStyle(labelStyle);
 
-        Label numberOfAliveAnimals = new Label("Number of Alive Animals" + stats.getNumberAnimals());
+        Label numberOfAliveAnimals = new Label("Number of Alive Animals: " + stats.getNumberAnimals());
         numberOfAliveAnimals.setStyle(labelStyle);
 
         Label numberOfGrass = new Label("Number of grass: " + stats.getNumberGrass());
         numberOfGrass.setStyle(labelStyle);
 
-        Label numberOfDeadAnimals = new Label("Number of Dead Animals " + stats.getNumberDeadAnimals());
+        Label numberOfDeadAnimals = new Label("Number of Dead Animals: " + stats.getNumberDeadAnimals());
         numberOfDeadAnimals.setStyle(labelStyle);
 
         Label avgEnergy = new Label("Average of energy: " + stats.getAvgEnergy());
@@ -141,7 +141,7 @@ public class StartApp {
         Label dominantGenotype = new Label("Dominant Genotype: " + stats.getDominantGenotype());
         dominantGenotype.setStyle(labelStyle);
 
-        Label freePosition = new Label("Free position " + stats.getFreePositionQuantity());
+        Label freePosition = new Label("Free position: " + stats.getFreePositionQuantity());
         freePosition.setStyle(labelStyle);
 
         VBox statistics = new VBox(15);
@@ -172,7 +172,7 @@ public class StartApp {
 
             stat.setOnMouseClicked(event -> charts.chartsShow());
 
-            newMap.creativeMap();
+            newMap.createMap();
             GridPane gridPane = newMap.getGridPane();
             gridPane.setGridLinesVisible(true);
 

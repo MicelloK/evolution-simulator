@@ -102,7 +102,7 @@ public class ElementInformation {
         inputList.getChildren().addAll(needDate, listOfInformation);
         inputList.setSpacing(20);
         inputList.setAlignment(Pos.CENTER);
-        VBox outPut = new VBox(inputList, exitButton);
+        VBox outPut = new VBox(10, inputList, exitButton);
         outPut.setAlignment(Pos.CENTER);
         borderPane.setCenter(outPut);
         this.stage.show();

@@ -109,7 +109,7 @@ config structure:
 * `config[14]` - movement details
 * `config[15]` - map
 
-Settings data correctness:
+### Settings data correctness:
 * `map width` Integer, > 0
 * `map height` Integer, > 0
 * `start grass quantity` Integer, > 0 and <= `mapWidth` * `mapHeight`

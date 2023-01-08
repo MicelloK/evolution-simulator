@@ -37,6 +37,8 @@ public int[] getGenotype()
 
 public int getActiveGenome()
 
+public int getActiveGenomeIdx()
+
 public boolean isDead()
 
 public int getHowManyGrassEat()
@@ -61,7 +63,7 @@ public void increaseEnergy()
 
 public void increaseChildrenQuantity()
 
-public void setActiveGenome(int currGen)
+public void setActiveGenomeIdx(int currGen)
 
 public void setPosition(Vector2d newPosition)
 
