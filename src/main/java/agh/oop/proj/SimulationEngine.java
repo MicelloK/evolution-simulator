@@ -137,7 +137,14 @@ public class SimulationEngine implements Runnable {
     }
 
     public boolean isSimulationNotOver() {
-        return map.getAnimalsNumber() > 0;
+        for (MapSquare square : map.elements.values()) {
+            for (IMapElement element : square.getObjects()) {
+                if (element.isAnimal() && !((Animal) element).isDead()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private Vector2d drawPosition() {
