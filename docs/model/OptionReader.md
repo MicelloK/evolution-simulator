@@ -4,7 +4,7 @@ This class is responsible for reading and adding configuration to `CSV_FILE`.
 
 Configurations will be saved in `src/main/resources/config.csv`
 
-WARNING: `config.csv` should have empty line on the end.
+WARNING: `config.csv` should have empty line at the end.
 
 ## Class structure
 ### Fields:

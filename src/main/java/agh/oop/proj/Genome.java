@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Genome {
     private final int[] animalGenotype;
-    Random random = new Random();
+    private final Random random = new Random();
     private int activeGenomeIdx;
 
     public Genome(Settings settings) {

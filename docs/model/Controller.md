@@ -1,6 +1,6 @@
 # Controller
 ## Class description
-This class is responsible for communication model and view. 
+This class is responsible for communication between model and view. 
 Implements ISimulationObserver interface.
 
 ## Class structure

@@ -56,7 +56,7 @@ public class Animal implements IMapElement {
     }
 
     public void changerPosition() {
-        int numberDirection = getGenotype()[getActiveGenome()];
+        int numberDirection = getGenotype()[getActiveGenomeIdx()];
         for (int i = 0; i <= numberDirection; i++) {
             orientation = orientation.next();
         }

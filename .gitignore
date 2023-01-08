@@ -21,6 +21,9 @@ gradlew.bat
 ### simulation statisctic
 src/main/statistics
 
+### configs
+src/main/resources/config.csv
+
 # Local History for Visual Studio Code
 .history/
 

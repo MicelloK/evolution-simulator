@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class CreativeMap {
+public class CreateMap {
     private final SimulationEngine engine;
     private final GridPane gridPane;
     private final Settings parameters;
@@ -21,7 +21,7 @@ public class CreativeMap {
     private final Images images = new Images();
     private final StartApp app;
 
-    public CreativeMap(SimulationEngine engine, Stage stage, StartApp app) {
+    public CreateMap(SimulationEngine engine, Stage stage, StartApp app) {
 
         this.app = app;
         this.engine = engine;
@@ -39,10 +39,10 @@ public class CreativeMap {
         for (int i = 0; i < parameters.getMapHeight(); i++) {
             this.gridPane.getRowConstraints().add(new RowConstraints(sizeScene / (1.5 * size)));
         }
-        creativeMap();
+        createMap();
     }
 
-    public void creativeMap() {
+    public void createMap() {
         gridPane.getChildren().clear();
         gridPane.setGridLinesVisible(true);
         puttingObjects();

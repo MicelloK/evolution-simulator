@@ -14,14 +14,13 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-public class GetDateStage {
+public class GetDataStage {
     private final Stage stage;
     private final BorderPane borderPane = new BorderPane();
-    String labelStyle = "-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);";
 
-    public GetDateStage() throws FileNotFoundException {
+    public GetDataStage() throws FileNotFoundException {
         this.stage = new Stage();
-        stage.getIcons().add(new Image(new FileInputStream("src/main/resources/world.jpg")));
+        stage.getIcons().add(new Image(new FileInputStream("src/main/resources/world.png")));
         stage.setTitle("About unusual adventures with evolution");
         stage.setScene(new Scene(borderPane, 880, 500));
         stage.show();
@@ -32,10 +31,10 @@ public class GetDateStage {
         BorderPane.setAlignment(tittle, Pos.CENTER);
         BorderPane.setMargin(tittle, new Insets(20, 0, 20, 0));
 
-        initGetDate();
+        initGetData();
     }
 
-    private void initGetDate() {
+    private void initGetData() {
         TextField name = new TextField("My new configuration");
         TextField mapWidth = new TextField("20");
         TextField mapHeight = new TextField("15");
@@ -96,6 +95,7 @@ public class GetDateStage {
         Label genLengthLabel = new Label("Gen length: ");
         genLengthLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         Label movementDetailsLabel = new Label("Movement Details:");
+        String labelStyle = "-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);";
         movementDetailsLabel.setStyle(labelStyle);
         Label animalMovingLabel = new Label("Animal Moving:");
         animalMovingLabel.setStyle(labelStyle);

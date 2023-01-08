@@ -40,7 +40,7 @@ public class StageWithCharts {
 
         exitButton.setOnAction(action -> this.stage.hide());
 
-        Label title = new Label("Map Information's on Charts!");
+        Label title = new Label("Map Information on Charts!");
         title.setStyle("-fx-font-weight: bold");
         title.setFont(new Font(15));
         HBox mainDescription = new HBox(10, title, exitButton);
