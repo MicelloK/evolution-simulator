@@ -2,3 +2,4 @@ name,mapWidth,mapHeight,startGrassQuantity,eatingGrassEnergy,grassPerDay,startAn
 example configuration 1,12,11,5,1,8,15,10,15,5,2,9,8,Predestination,Random,Earth,Corpses
 example configuration 2,10,10,5,1,8,15,10,15,5,2,9,8,Craziness,Correction,Earth,Equators
 example configuration 3,20,10,5,1,8,15,10,15,5,2,9,8,Craziness,Random,Portal,Corpses
+My new configuration,10,5,5,1,8,30,20,15,5,2,9,8,Predestination,Correction,Earth,Corpses

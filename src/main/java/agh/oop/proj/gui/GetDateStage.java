@@ -106,8 +106,8 @@ public class GetDateStage {
 
         VBox listOfLabelLeft = new VBox(18);
         VBox listOfLabelRight = new VBox(18);
-        listOfLabelLeft.getChildren().addAll(reproductionEnergylabel, minimalMutationNumberlabel, maximalMutationNumberlabel, genLengthlabel, movementDetailsLabel, animalMovingLabel, mutationVariantLabel, mapVariantLabel);
-        listOfLabelRight.getChildren().addAll(namelabel, mapWidthlabel, mapHeightlabel, startGrassQuantitylabel, eatingGrassEnergylabel, grassPerDaylabel, startAnimalsQuantitylabel, startAnimalsEnergylabel, animalFullEnergylabel);
+        listOfLabelLeft.getChildren().addAll(reproductionEnergyLabel, minimalMutationNumberLabel, maximalMutationNumberLabel, genLengthLabel, movementDetailsLabel, animalMovingLabel, mutationVariantLabel, mapVariantLabel);
+        listOfLabelRight.getChildren().addAll(nameLabel, mapWidthLabel, mapHeightLabel, startGrassQuantityLabel, eatingGrassEnergyLabel, grassPerDayLabel, startAnimalsQuantityLabel, startAnimalsEnergyLabel, animalFullEnergyLabel);
 
 
         HBox inputList = new HBox(10);
@@ -182,7 +182,11 @@ public class GetDateStage {
                 throw new RuntimeException(e);
             }
 
-            new StartApp(parameter);
+            try {
+                new StartApp(parameter);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             stage.close();
         });
     }
