@@ -106,8 +106,12 @@ public class Animal implements IMapElement {
         return genotype.getActiveGenomeAnimal();
     }
 
-    public void setActiveGenome(int currGen) {
+    public void setActiveGenomeIdx(int currGen) {
         genotype.setActiveGenome(currGen);
+    }
+
+    public int getActiveGenomeIdx() {
+        return genotype.getActiveGenomeIdx();
     }
 
     @Override

@@ -1,4 +1,4 @@
 name,mapWidth,mapHeight,startGrassQuantity,eatingGrassEnergy,grassPerDay,startAnimalsQuantity,startAnimalEnergy,animalFullEnergy,reproductionEnergy,minimalMutationNumber,maximalMutationNumber,genLength,animalMoving,mutationVariant,movementDetails,map
-sample configuration 1,12,11,5,1,8,15,10,15,5,2,9,8,Predestination,Random,Earth,Corpses
-sample configuration 2,10,10,5,1,8,15,10,15,5,2,9,8,Craziness,Correction,Earth,Equators
-sample configuration 3,20,10,5,1,8,15,10,15,5,2,9,8,Craziness,Random,Portal,Corpses
+example configuration 1,12,11,5,1,8,15,10,15,5,2,9,8,Predestination,Random,Earth,Corpses
+example configuration 2,10,10,5,1,8,15,10,15,5,2,9,8,Craziness,Correction,Earth,Equators
+example configuration 3,20,10,5,1,8,15,10,15,5,2,9,8,Craziness,Random,Portal,Corpses
