@@ -47,7 +47,7 @@ public class Statistics {
         List<Animal> animals = engine.getSettings().getMap().animalsList;
         int[] counter = new int[8];
         for (Animal animal : animals) {
-            counter[animal.getGenotype()[animal.getActiveGenome()]] += 1;
+            counter[animal.getActiveGenome()] += 1;
         }
         int dominant = 0;
         int maxGenotype = 0;

@@ -13,9 +13,9 @@ public class LittleCrazinessMove implements IMove {
 
     private void updateActiveGen(Animal animal) {
         if (random.nextInt(100) >= 80) {
-            animal.setActiveGenome(random.nextInt(animal.getGenotype().length));
+            animal.setActiveGenomeIdx(random.nextInt(animal.getGenotype().length));
         } else {
-            animal.setActiveGenome((animal.getActiveGenome() + 1) % animal.getGenotype().length);
+            animal.setActiveGenomeIdx((animal.getActiveGenomeIdx() + 1) % animal.getGenotype().length);
         }
     }
 }

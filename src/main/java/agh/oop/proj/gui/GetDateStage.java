@@ -17,26 +17,28 @@ import java.io.FileNotFoundException;
 public class GetDateStage {
     private final Stage stage;
     private final BorderPane borderPane = new BorderPane();
+    String labelStyle = "-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);";
 
     public GetDateStage() throws FileNotFoundException {
         this.stage = new Stage();
         stage.getIcons().add(new Image(new FileInputStream("src/main/resources/world.jpg")));
         stage.setTitle("About unusual adventures with evolution");
-        stage.alwaysOnTopProperty();
-        stage.setScene(new Scene(borderPane, 880, 460));
+        stage.setScene(new Scene(borderPane, 880, 500));
         stage.show();
+
         Label tittle = new Label("This is the world that evolving before our eyes! ");
         tittle.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 22pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         borderPane.setTop(tittle);
         BorderPane.setAlignment(tittle, Pos.CENTER);
         BorderPane.setMargin(tittle, new Insets(20, 0, 20, 0));
+
         initGetDate();
     }
 
     private void initGetDate() {
         TextField name = new TextField("My new configuration");
-        TextField mapWidth = new TextField();
-        TextField mapHeight = new TextField();
+        TextField mapWidth = new TextField("20");
+        TextField mapHeight = new TextField("15");
         TextField startGrassQuantity = new TextField("5");
         TextField eatingGrassEnergy = new TextField("1");
         TextField startAnimalsQuantity = new TextField("15");
@@ -47,6 +49,7 @@ public class GetDateStage {
         TextField maximalMutationNumber = new TextField("9");
         TextField genLength = new TextField("8");
         TextField grassPerDay = new TextField("8");
+
         ChoiceBox<String> movementDetails = new ChoiceBox<>();
         movementDetails.getItems().addAll("Earth", "Portal");
         ChoiceBox<String> animalMoving = new ChoiceBox<>();
@@ -59,13 +62,12 @@ public class GetDateStage {
 
         Button getParameter = new Button("CONFIRM");
         getParameter.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-        VBox listTextFieldRight = new VBox();
-        listTextFieldRight.getChildren().addAll(name, mapWidth, mapHeight, startGrassQuantity, eatingGrassEnergy, grassPerDay, startAnimalsQuantity, startAnimalsEnergy, animalFullEnergy);
-        listTextFieldRight.setSpacing(10);
-        VBox listTextFieldLeft = new VBox();
-        listTextFieldLeft.getChildren().addAll(reproductionEnergy, minimalMutationNumber, maximalMutationNumber, genLength, movementDetails, animalMoving, mutationVariant, mapVariant);
-        listTextFieldLeft.setSpacing(10);
 
+        VBox listTextFieldRight = new VBox(10);
+        listTextFieldRight.getChildren().addAll(name, mapWidth, mapHeight, startGrassQuantity, eatingGrassEnergy, grassPerDay, startAnimalsQuantity, startAnimalsEnergy, animalFullEnergy);
+
+        VBox listTextFieldLeft = new VBox(10);
+        listTextFieldLeft.getChildren().addAll(reproductionEnergy, minimalMutationNumber, maximalMutationNumber, genLength, movementDetails, animalMoving, mutationVariant, mapVariant);
 
         Label nameLabel = new Label("Name: ");
         nameLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
@@ -94,33 +96,32 @@ public class GetDateStage {
         Label genLengthLabel = new Label("Gen length: ");
         genLengthLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         Label movementDetailsLabel = new Label("Movement Details:");
-        movementDetailsLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        movementDetailsLabel.setStyle(labelStyle);
         Label animalMovingLabel = new Label("Animal Moving:");
-        animalMovingLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        animalMovingLabel.setStyle(labelStyle);
         Label mutationVariantLabel = new Label("Mutation Variant:");
-        mutationVariantLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        mutationVariantLabel.setStyle(labelStyle);
         Label mapVariantLabel = new Label("Map Variant:");
-        mapVariantLabel.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        mapVariantLabel.setStyle(labelStyle);
 
-        VBox listOfLabelLeft = new VBox();
-        VBox listOfLabelRight = new VBox();
-        listOfLabelLeft.getChildren().addAll(reproductionEnergyLabel, minimalMutationNumberLabel, maximalMutationNumberLabel, genLengthLabel, movementDetailsLabel, animalMovingLabel, mutationVariantLabel, mapVariantLabel);
-        listOfLabelLeft.setSpacing(18);
-        listOfLabelRight.getChildren().addAll(nameLabel, mapWidthLabel, mapHeightLabel, startGrassQuantityLabel, eatingGrassEnergyLabel, grassPerDayLabel, startAnimalsQuantityLabel, startAnimalsEnergyLabel, animalFullEnergyLabel);
-        listOfLabelRight.setSpacing(18);
+        VBox listOfLabelLeft = new VBox(18);
+        VBox listOfLabelRight = new VBox(18);
+        listOfLabelLeft.getChildren().addAll(reproductionEnergylabel, minimalMutationNumberlabel, maximalMutationNumberlabel, genLengthlabel, movementDetailsLabel, animalMovingLabel, mutationVariantLabel, mapVariantLabel);
+        listOfLabelRight.getChildren().addAll(namelabel, mapWidthlabel, mapHeightlabel, startGrassQuantitylabel, eatingGrassEnergylabel, grassPerDaylabel, startAnimalsQuantitylabel, startAnimalsEnergylabel, animalFullEnergylabel);
 
-        HBox inputList = new HBox();
+
+        HBox inputList = new HBox(10);
         inputList.getChildren().addAll(listOfLabelRight, listTextFieldRight, listOfLabelLeft, listTextFieldLeft);
-        inputList.setSpacing(10);
         inputList.setAlignment(Pos.TOP_CENTER);
 
-        VBox confirm = new VBox();
-        confirm.getChildren().addAll(getParameter);
+
+        VBox confirm = new VBox(getParameter);
         VBox.setVgrow(getParameter, Priority.ALWAYS);
         VBox.setMargin(getParameter, new Insets(60, 0, 200, 0));
+        confirm.setAlignment(Pos.TOP_CENTER);
+
         borderPane.setCenter(inputList);
         borderPane.setBottom(confirm);
-        confirm.setAlignment(Pos.TOP_CENTER);
         borderPane.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         getParameter.setOnAction(action -> {
