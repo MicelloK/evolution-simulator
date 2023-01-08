@@ -79,7 +79,7 @@ Now you can choose one of them and press the confirm button 👍 !
 
 <p align="center">
   <a href="" rel="noopener">
-    <img src='PhotosToReadme/animals.jpg' alt="Project logo">
+    <img width=200px height=100px src='PhotosToReadme/animals.jpg' alt="Project logo">
   </a>
 </p>
 
@@ -92,7 +92,7 @@ We also need to know how much energy the animal has.
 
 <p align="center">
   <a href="" rel="noopener">
-    <img src='PhotosToReadme/animalsenegry.jpg' alt="Project logo">
+    <img width=200px height=100px src='PhotosToReadme/animalsenegry.jpg' alt="Project logo">
   </a>
 </p>
 
@@ -124,21 +124,14 @@ After you're finished, press exit.  ✍️
 
 You can also view charts related to the simulation by clicking on the information frame on the right side of the map.
 
-<style>
-  .container {
-    display: flex;
-    justify-content: center;
-  }
-  .image {
-    object-fit: cover;
-    margin-right: 20px;
-  }
-</style>
 
-<div class="container">
-  <img src="PhotosToReadme/statistc.jpg" class="image">
-  <img src="PhotosToReadme/charts.jpg" class="image">
-</div>
+
+
+<p align="center">
+  <a href="" rel="noopener">
+    <img width=600px height=400px src='PhotosToReadme/charts.jpg' alt="Project logo">
+  </a>
+</p>
 
 
 ## ⛏️ How to use? <a name = “built_using”></a>
@@ -146,32 +139,25 @@ You can also view charts related to the simulation by clicking on the informatio
 Have fun creating and observing how the universe behaves! Enjoy!
 This is our animals and grass!
 
-<style>
-  .container {
-    display: flex;
-  }
-  .image {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    margin-right: 20px;
-  }
-</style>
 
-<div class="container">
-  <img src="src/main/resources/kot.png" class="image">
-  <img src="src/main/resources/malpa.png" class="image">
-  <img src="src/main/resources/pies.png" class="image">
-</div>
+<p align = "center">
+  <div class="container">
+    <img width=200px height=200px src="src/main/resources/kot.png" class="image">
+    <img width=200px height=200px src="src/main/resources/malpa.png" class="image">
+    <img width=200px height=200px src="src/main/resources/pies.png" class="image">
+  </div>
+</p>
 
-<div class="container">
-  <img src="src/main/resources/pig.png" class="image">
-  <img src="src/main/resources/tygrys.png" class="image">
-  <img src="src/main/resources/trawa.png" class="image">
-</div>
+<p align = "center">
+  <div class="container">
+    <img width=200px height=200px src="src/main/resources/pig.png" class="image">
+    <img width=200px height=200px src="src/main/resources/tygrys.png" class= "image">
+    <img width=200px height=200px src="src/main/resources/trawa.png" class="image">
+  </div>
+</p>
 
 
 ## ✍️ Authors <a name = “authors”></a>
 
-- [Natalia Luberda](https://github.com/NataliaLuberda):
-- [Michał_Kobiera](https://github.com/MicelloK)
+- [Natalia Luberda](https://github.com/NataliaLuberda)
+- [Michał Kobiera](https://github.com/MicelloK)
