@@ -10,24 +10,24 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class ElementInformation{
+public class ElementInformation {
     private final Stage stage;
     private final BorderPane borderPane;
     private final VBox needDate;
+    private final StartApp app;
 
-    private Animal animal;
-
-    public ElementInformation(Stage mainStage,Animal animal) {
-        this.animal = animal;
+    public ElementInformation(Stage MainStage, StartApp app) {
         this.stage = new Stage();
         this.borderPane = new BorderPane();
+        this.stage.initOwner(MainStage);
+        this.app = app;
         Scene sceneMain = new Scene(borderPane, 500, 300);
         stage.setScene(sceneMain);
-        stage.initOwner(mainStage);
+        stage.setOnCloseRequest(event -> {
+            this.stage.hide();
+            app.setFollowingAnimal(null);
+        });
         this.needDate = infoDate();
-        creativeInfo();
-        this.stage.show();
-
     }
 
     private VBox infoDate() {
@@ -51,7 +51,10 @@ public class ElementInformation{
         return listOfLabels;
     }
 
-    public void creativeInfo(){
+    public void creativeInfo(Animal animal) {
+        borderPane.setCenter(null);
+        borderPane.setBottom(null);
+        borderPane.setTop(null);
         Label tittle = new Label("Information about animal!");
         tittle.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 22pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         borderPane.setTop(tittle);
@@ -86,20 +89,22 @@ public class ElementInformation{
         live.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         dead.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
 
+        Button exitButton = new Button("EXIT");
+        exitButton.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
+        exitButton.setAlignment(Pos.CENTER);
+
+        exitButton.setOnAction(action -> {
+            this.stage.hide();
+            app.setFollowingAnimal(null);
+        });
+
         HBox inputList = new HBox();
         inputList.getChildren().addAll(needDate, listOfInformation);
         inputList.setSpacing(20);
         inputList.setAlignment(Pos.CENTER);
-        borderPane.setCenter(inputList);
-
-        Button exitButton = new Button("EXIT");
-
-        exitButton.setOnAction(actoion -> {
-            this.stage.hide();
-        });
-
-        exitButton.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
-        exitButton.setAlignment(Pos.BOTTOM_CENTER);
-        borderPane.setBottom(exitButton);
+        VBox outPut = new VBox(inputList, exitButton);
+        outPut.setAlignment(Pos.CENTER);
+        borderPane.setCenter(outPut);
+        this.stage.show();
     }
 }

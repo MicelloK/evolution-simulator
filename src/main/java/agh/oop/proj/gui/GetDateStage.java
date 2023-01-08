@@ -20,10 +20,7 @@ import java.io.FileNotFoundException;
 public class GetDateStage {
     private final Stage stage;
     private final BorderPane borderPane = new BorderPane();
-
     String labelStyle = "-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);";
-
-    private Label tittle;
 
     public GetDateStage() throws FileNotFoundException {
 
@@ -33,8 +30,7 @@ public class GetDateStage {
         stage.setScene(new Scene(borderPane, 880, 500));
         stage.show();
 
-
-        this.tittle = new Label("This is the world that evolving before our eyes! ");
+        Label tittle = new Label("This is the world that evolving before our eyes! ");
         tittle.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 22pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         borderPane.setTop(tittle);
         BorderPane.setAlignment(tittle, Pos.CENTER);
@@ -43,30 +39,7 @@ public class GetDateStage {
         initGetDate();
     }
 
-    public static boolean isInt(String s) {
-        try {
-            Integer.parseInt(s);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
-    private boolean isIntInRange(String string, int min, int max) {
-        try {
-            int number = Integer.parseInt(string);
-            if(number >= min && number <= max) {
-                return true;
-            }
-        } catch(NumberFormatException e) {
-            return false;
-        }
-        return false;
-    }
-
-
-
-    private void initGetDate(){
+    private void initGetDate() {
         TextField name = new TextField("My new configuration");
         TextField mapWidth = new TextField("20");
         TextField mapHeight = new TextField("15");
@@ -148,7 +121,6 @@ public class GetDateStage {
         inputList.setAlignment(Pos.TOP_CENTER);
 
 
-
         VBox confirm = new VBox(getParametr);
         VBox.setVgrow(getParametr, Priority.ALWAYS);
         VBox.setMargin(getParametr, new Insets(60, 0, 200, 0));
@@ -176,7 +148,6 @@ public class GetDateStage {
                 throw new RuntimeException(e);
             }
 
-
             String[] textFieldValues = new String[16];
             textFieldValues[0] = mapWidth.getText();
             textFieldValues[1] = mapHeight.getText();
@@ -194,15 +165,6 @@ public class GetDateStage {
             textFieldValues[12] = (String) animalMoving.getValue();
             textFieldValues[13] = (String) mutationVariant.getValue();
             textFieldValues[15] = (String) mapVariant.getValue();
-            for (int i = 0; i < textFieldValues.length; i++) {
-                if ((i == 0 && !isInt(textFieldValues[i])) || (0<i && i<11 && !isIntInRange(textFieldValues[i], 0, 100))) {
-                    try {
-                        throw new Exception("Pole nie może być puste i musi zawierać prawidłowe dane.");
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
 
             Settings parameter;
             try {

@@ -11,4 +11,6 @@ public interface IMapElement {
     int getImageIdx();
 
     void setObserver(IElementChangeObserver observer);
+
+    int getActiveGenome();
 }

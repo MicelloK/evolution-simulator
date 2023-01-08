@@ -1,9 +1,6 @@
 package agh.oop.proj.gui;
 
-import agh.oop.proj.Controller;
-import agh.oop.proj.Settings;
-import agh.oop.proj.SimulationEngine;
-import agh.oop.proj.Statistics;
+import agh.oop.proj.*;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -24,24 +21,22 @@ import java.io.FileNotFoundException;
 public class StartApp {
     private final Stage stage;
     private final BorderPane borderPane;
-
     private final Button startButton = new Button("Create Simulation");
-
     private final Button exitButton = new Button("EXIT");
-
     private final Button buttonEndTracking = new Button("START/STOP");
-
     private final SimulationEngine engine;
-
     private final Thread engineThread;
-
     private final CreativeMap newMap;
+    private Animal followingAnimal = null;
+    private final ElementInformation boxAboutAnimal;
+    private final StageWithCharts charts;
 
     public StartApp(Settings parameters) throws FileNotFoundException {
 
         this.stage = new Stage();
         this.borderPane = new BorderPane();
-        //ustawienia sceny
+        this.boxAboutAnimal = new ElementInformation(stage, this);
+
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         stage.setWidth(screenBounds.getWidth());
         stage.setHeight(screenBounds.getHeight());
@@ -51,7 +46,6 @@ public class StartApp {
         stage.getIcons().add(new Image(new FileInputStream("src/main/resources/world.jpg")));
         stage.setTitle("About unusual adventures with evolution");
 
-        //ustawienia borderPane i tytułu
         Label tittle = new Label("This is the world that evolving before our eyes! ");
         tittle.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 22pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);");
         borderPane.setTop(tittle);
@@ -59,19 +53,24 @@ public class StartApp {
         borderPane.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
         BorderPane.setMargin(tittle, new Insets(20, 0, 20, 0));
 
-        //rozpoczęcie tytyułu
         engine = new SimulationEngine(parameters);
-        this.newMap = new CreativeMap(engine,stage,stage.getHeight());
+        this.charts = new StageWithCharts(stage, engine);
+
+        this.newMap = new CreativeMap(engine, stage, this);
+
         new Controller(engine, this);
         this.engineThread = new Thread(() -> {
             try {
                 while (true) {
                     engine.run();
                 }
-            } catch(IllegalStateException e) {
+            } catch (IllegalStateException e) {
                 System.out.println(e.getMessage());
             }
         });
+
+        stage.setOnCloseRequest(event -> engineThread.interrupt());
+
         GridPane gridPane = newMap.getGridPane();
         gridPane.setAlignment(Pos.CENTER);
         borderPane.setCenter(gridPane);
@@ -81,6 +80,7 @@ public class StartApp {
     public void startApp() {
         startButton.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-font-size: 15 pt; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84)");
         borderPane.setCenter(startButton);
+
         startButton.setOnAction(actionEvent -> {
             engine.changeStatus();
             engineThread.start();
@@ -92,16 +92,14 @@ public class StartApp {
         HBox buttons = new HBox();
         buttons.setSpacing(300);
 
-
         HBox centerButtons = new HBox(exitButton, buttonEndTracking);
         centerButtons.setSpacing(15);
         exitButton.setOnAction(action -> {
             engineThread.interrupt();
             stage.close();
         });
-        buttonEndTracking.setOnAction(action -> {
-            engine.changeStatus();
-        });
+
+        buttonEndTracking.setOnAction(action -> engine.changeStatus());
 
         buttons.getChildren().addAll(centerButtons);
         buttons.setAlignment(Pos.CENTER);
@@ -123,7 +121,7 @@ public class StartApp {
         Label worldDays = new Label("Number Day: " + stats.getWorldDays());
         worldDays.setStyle(labelStyle);
 
-        Label numberOfAliveAnimals = new Label("Number of Alive Animals"+ stats.getNumberAnimals());
+        Label numberOfAliveAnimals = new Label("Number of Alive Animals" + stats.getNumberAnimals());
         numberOfAliveAnimals.setStyle(labelStyle);
 
         Label numberOfGrass = new Label("Number of grass: " + stats.getNumberGrass());
@@ -144,31 +142,55 @@ public class StartApp {
         Label dominantGenotype = new Label("Dominant Genotype: " + stats.getDominantGenotype());
         dominantGenotype.setStyle(labelStyle);
 
+        Label freePosition = new Label("Free position " + stats.getFreePositionQuantity());
+        freePosition.setStyle(labelStyle);
+
         VBox statistics = new VBox(15);
-        statistics.getChildren().addAll(title,worldDays, numberOfAliveAnimals, numberOfGrass, numberOfDeadAnimals, avgEnergy, avgLifeDaysDeadAnimal, avgChildren, dominantGenotype);
+        statistics.getChildren().addAll(title, worldDays, numberOfAliveAnimals, numberOfGrass, numberOfDeadAnimals, avgEnergy, avgLifeDaysDeadAnimal, avgChildren, dominantGenotype, freePosition);
         statistics.setAlignment(Pos.TOP_CENTER);
+
         title.setStyle("-fx-font-family: 'Bauhaus 93'; -fx-text-fill: #30cbc8; -fx-background-color: rgba(8,56,65,0.84);-fx-font-weight: bold;");
         title.setFont(new Font(15));
-        statistics.setStyle(String.valueOf(new Insets(0,1,1,50)));
+
+        statistics.setStyle(String.valueOf(new Insets(0, 1, 1, 50)));
         return statistics;
     }
 
+    public void updateInfo() {
+        if (followingAnimal != null) {
+            boxAboutAnimal.creativeInfo(followingAnimal);
+        }
+    }
+
     public void uploadMap() {
-        Platform.runLater(() ->{
+        Platform.runLater(() -> {
+            charts.updateCharts();
+
+            VBox stat = uploadStats();
+            stat.setAlignment(Pos.CENTER);
+            stat.setMaxHeight(stage.getHeight() / 1.5);
+            stat.setStyle("-fx-background-color: rgba(8,56,65,0.84);");
+
+            stat.setOnMouseClicked(event -> charts.chartsShow());
+
             newMap.creativeMap();
             GridPane gridPane = newMap.getGridPane();
             gridPane.setGridLinesVisible(true);
-            VBox stat = uploadStats();
-            stat.setAlignment(Pos.CENTER);
-            stat.setMaxHeight(stage.getHeight()/1.5);
-            stat.setStyle("-fx-background-color: rgba(8,56,65,0.84);");
+
             HBox hbox = new HBox(10);
             hbox.getChildren().addAll(gridPane, stat);
             hbox.setAlignment(Pos.CENTER);
-            borderPane.setCenter(hbox);
 
+            updateInfo();
+            borderPane.setCenter(hbox);
         });
     }
 
+    public int getDominantGenotype() {
+        return engine.getStats().getDominantGenotype();
+    }
 
+    public void setFollowingAnimal(Animal followingAnimal) {
+        this.followingAnimal = followingAnimal;
+    }
 }

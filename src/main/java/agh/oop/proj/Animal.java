@@ -1,4 +1,5 @@
 package agh.oop.proj;
+
 import java.util.Random;
 
 public class Animal implements IMapElement {
@@ -104,8 +105,12 @@ public class Animal implements IMapElement {
         return genotype.getActiveGenomeAnimal();
     }
 
-    public void setActiveGenome(int currGen) {
+    public void setActiveGenomeIdx(int currGen) {
         genotype.setActiveGenome(currGen);
+    }
+
+    public int getActiveGenomeIdx() {
+        return genotype.getActiveGenomeIdx();
     }
 
     @Override
@@ -137,13 +142,12 @@ public class Animal implements IMapElement {
         return imageIdx;
     }
 
-    @Override
-    public void setObserver(IElementChangeObserver observer) {
-        this.observer = observer;
-    }
-
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         observer.positionChanged(oldPosition, newPosition, this);
+    }
+
+    public void setObserver(IElementChangeObserver observer) {
+        this.observer = observer;
     }
 
     public int getHowManyGrassEat() {
